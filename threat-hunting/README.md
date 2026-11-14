@@ -13,6 +13,10 @@ Two authorized investigations inform the work. Their original evidence and detai
 | Web-server incident reconstruction | Completed investigation using seven event sources. Correlated HTTP activity with host execution, decoded request content as data, and assessed persistence, evasion attempts, and possible data transfer. Coverage gaps remained explicit. | [HTTP-to-host investigation method](investigation-method.md) |
 | Windows endpoint investigation | Executed ten scoped KQL queries against authorized historical telemetry. Produced an evidence-linked timeline, incident analysis, and a proposed containment plan. The combined focus timeline contained 233 source rows, not 233 unique attacker actions. | [Defender query catalog and execution report](module-1/README.md) |
 
+![Owned hunt completion indicator showing 18 of 18 flags and 1750 of 1750 points, completed on time](evidence/hunt-completion.png)
+
+*Actual completion indicator for the web-server investigation. Only the title and owned result are shown; no answers, telemetry or participant scoreboard are included. [Capture provenance](../docs/visual-evidence.md).*
+
 ## Investigation workflow
 
 1. Define the authorized device set, time window, hypothesis, and available event sources.

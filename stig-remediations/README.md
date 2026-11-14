@@ -4,6 +4,10 @@
 
 Ten original PowerShell implementations have authenticated **FAILED → PASSED** results against DISA Windows 11 V2R11 on the same authorized Windows VM. Actual apply, preview, repeatability, rollback and reapply checks passed for all ten. Each control has an independent read-only verifier, failure-path tests and a technical report. See the [execution report](../docs/windows-stig-validation.md) for comparison evidence, residual findings and review provenance.
 
+![Ten authenticated STIG control transitions with Windows verification and recovery results](evidence/control-results.png)
+
+*Screenshot of the original local evidence report, derived from the [sanitized assessment record](../vulnerability-management/assessment-summary.json). It summarizes observed results and is not a Tenable-console capture. [Image provenance](../docs/visual-evidence.md).*
+
 ## Implemented controls
 
 All ten entries below have authenticated failed-to-passed findings. Open a report for the expected registry state, source code, tests, impact and recovery details.

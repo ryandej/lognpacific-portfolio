@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "prepared_at_utc": "2026-11-14T04:37:25.131797+00:00",
+  "evidence_alias": "EV-PORTFOLIO-VISUALS-V22",
+  "image_count": 5,
+  "total_bytes": 514939,
+  "limits": "Screenshots supplement the linked technical records. Hash checks establish byte identity, not pixel confidentiality or evidence authenticity. No AI-generated pixels or invented results.",
+  "images": [
+    {
+      "path": "stig-remediations/evidence/control-results.png",
+      "sha256": "8422ec5a2510bce4e850963b4f84b72ebf621432c391ee7185ac531ab478ac0a",
+      "bytes": 150808,
+      "width": 1280,
+      "height": 940,
+      "kind": "rendered_evidence_summary",
+      "source_documents": [
+        "vulnerability-management/assessment-summary.json",
+        "docs/windows-stig-validation.md"
+      ],
+      "meaning": "Ten exact V2R11 controls changed from authenticated FAILED to PASSED; Windows verification and actual restore/reapply passed.",
+      "framing": "Original local report rendered from sanitized assessment data; not a Tenable console capture.",
+      "visual_review": "Reviewed for readable claims and exclusion of credentials, account/resource identifiers, internal addresses, raw telemetry, answers and other participants."
+    },
+    {
+      "path": "vulnerability-management/evidence/assessment-overview.png",
+      "sha256": "0303c339733da9b3be1b26917cb818869b00d03f818709b6b847dbc4d5d8a3c4",
+      "bytes": 87984,
+      "width": 1280,
+      "height": 800,
+      "kind": "rendered_evidence_summary",
+      "source_documents": [
+        "vulnerability-management/assessment-summary.json"
+      ],
+      "meaning": "Equivalent authenticated assessments contain 258 items each; ten failures closed, with errors and warnings retained.",
+      "framing": "Original local report rendered from sanitized assessment data; not a Tenable console capture.",
+      "visual_review": "Reviewed for readable claims and exclusion of credentials, account/resource identifiers, internal addresses, raw telemetry, answers and other participants."
+    },
+    {
+      "path": "cyber-defense/workbooks/evidence/workbook-overview.png",
+      "sha256": "231a410641e003f02e2706a9f3971c668158198db295746812a439ebedae10c9",
+      "bytes": 133460,
+      "width": 1245,
+      "height": 1326,
+      "kind": "application_capture",
+      "source_documents": [
+        "cyber-defense/workbooks/validation-results.json",
+        "cyber-defense/workbooks/authentication-investigation.workbook.json"
+      ],
+      "meaning": "Deployed workbook overview, authentication charts and candidate grid using synthetic fixtures only.",
+      "framing": "Existing workbook content temporarily isolated in a browser presentation layer to exclude portal account and resource chrome. Layout restored; query data unchanged. Event-context panel is below this captured viewport.",
+      "visual_review": "Reviewed for readable claims and exclusion of credentials, account/resource identifiers, internal addresses, raw telemetry, answers and other participants."
+    },
+    {
+      "path": "threat-hunting/evidence/hunt-completion.png",
+      "sha256": "72f603ffa605f4669e04c7d6d5d4acdefaed9e540557abc312496f0d2d57cff5",
+      "bytes": 27362,
+      "width": 1080,
+      "height": 180,
+      "kind": "application_capture",
+      "source_documents": [
+        "threat-hunting/investigation-method.md"
+      ],
+      "meaning": "Owned completed training hunt: 18 of 18 flags and 1750 of 1750 points, completed on time.",
+      "framing": "Only existing title and owned completion indicator displayed for capture; framing, font size and contrast adjusted temporarily. Original page restored. Questions, answers, topology and participant scoreboard excluded.",
+      "visual_review": "Reviewed for readable claims and exclusion of credentials, account/resource identifiers, internal addresses, raw telemetry, answers and other participants."
+    },
+    {
+      "path": "docs/evidence/endpoint-response.png",
+      "sha256": "f6d4a13e602708ffa3732a222f15d16a758d444d9f30c70b50d1a8311bf16d8f",
+      "bytes": 115325,
+      "width": 1280,
+      "height": 800,
+      "kind": "rendered_evidence_summary",
+      "source_documents": [
+        "docs/endpoint-validation.md"
+      ],
+      "meaning": "Actual owned-endpoint onboarding, collection and isolate/release validation; 70 collection operations, 284 archive entries, 30 connectivity samples.",
+      "framing": "Original local report rendered from the sanitized execution record; not a Defender console capture.",
+      "visual_review": "Reviewed for readable claims and exclusion of credentials, account/resource identifiers, internal addresses, raw telemetry, answers and other participants."
+    }
+  ]
+}

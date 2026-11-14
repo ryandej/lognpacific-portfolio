@@ -18,6 +18,17 @@ Start with the [Windows hardening results](docs/windows-stig-validation.md), the
 
 All operational results come from authorized Cyber Range work. Synthetic detection tests, historical investigations, and actual Windows configuration changes are identified separately.
 
+## Selected work in pictures
+
+<table>
+<tr>
+<td width="50%" valign="top"><a href="stig-remediations/README.md"><img src="stig-remediations/evidence/control-results.png" alt="Sanitized evidence report showing ten authenticated STIG findings changed from FAILED to PASSED"></a><br><strong>Windows hardening:</strong> ten verified control transitions, with Windows checks and recovery validation. Screenshot of the local evidence report.</td>
+<td width="50%" valign="top"><a href="cyber-defense/workbooks/README.md"><img src="cyber-defense/workbooks/evidence/workbook-overview.png" alt="Actual Azure workbook with synthetic authentication coverage, charts and candidate sequences"></a><br><strong>Sentinel workbook:</strong> actual deployed interface using explicitly synthetic events. Account and resource chrome excluded.</td>
+</tr>
+</table>
+
+Each project includes its relevant image. See the [five-image evidence index](docs/visual-evidence.md) for the assessment overview, hunt completion and endpoint response, with provenance and limitations. The complete image set is about 0.49 MiB.
+
 ## Explore the implementation
 
 | Component | What to inspect |
@@ -30,7 +41,7 @@ All operational results come from authorized Cyber Range work. Synthetic detecti
 
 ## Validation
 
-- **211 Python tests passed:** 203 shared tests and eight DISA source-alignment/static checks.
+- **221 Python tests passed:** 213 shared tests and eight DISA source-alignment/static checks.
 - **340 mocked PowerShell cases passed on each runtime:** Ubuntu PowerShell 7.6.6 and native Windows PowerShell 5.1.
 - **32 PowerShell files parsed on Windows; 33 reviewed source hashes matched.**
 - Actual Windows remediation and rollback, authenticated Tenable comparisons, and KQL service execution are recorded separately from local tests.

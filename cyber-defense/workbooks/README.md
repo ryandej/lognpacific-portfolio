@@ -6,6 +6,10 @@ An original Azure Monitor workbook for Sentinel investigation: establish telemet
 
 The default artifact contains **synthetic fixtures only**. All five panel queries executed successfully in an authorized Log Analytics service on November 14, 2026 UTC. [Validation results](validation-results.json) record query hashes and observed counts. These are real query-execution results on invented test events, not production findings.
 
+![Deployed Azure authentication workbook with synthetic coverage, authentication charts and candidate sequences](evidence/workbook-overview.png)
+
+*Actual deployed workbook, captured with portal identity chrome excluded. All events shown are synthetic. This viewport shows coverage, charts and candidates; the event-context panel is below it. [Capture provenance](../../docs/visual-evidence.md).*
+
 ## Investigation design
 
 | Panel | Operational use |

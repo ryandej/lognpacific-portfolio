@@ -146,6 +146,14 @@ source-screenshots/
 *.[wW][eE][bB][pP]
 *.[hH][eE][iI][cC]
 
+# Exact visually reviewed portfolio captures. All other source images stay ignored.
+# Byte hashes, dimensions and provenance are recorded in docs/visual-evidence.json.
+!/stig-remediations/evidence/control-results.png
+!/vulnerability-management/evidence/assessment-overview.png
+!/cyber-defense/workbooks/evidence/workbook-overview.png
+!/threat-hunting/evidence/hunt-completion.png
+!/docs/evidence/endpoint-response.png
+
 # Temporary output and local editor/system artifacts
 tmp/
 temp/

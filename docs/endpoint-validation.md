@@ -4,6 +4,10 @@
 
 This project validates the response path on an owned Windows 11 Pro 25H2 endpoint: onboard to Defender, observe central telemetry, preserve an investigation package, isolate the device, and verify recovery. The existing VM and networking were preserved. Exact device identities, onboarding material, action records and forensic contents remain in protected private storage under `EV-MDE-V17`.
 
+![Evidence summary of owned-endpoint onboarding, collection, isolation and recovery](evidence/endpoint-response.png)
+
+*Screenshot of an original local report summarizing the observed exercise below. This is not a Defender-console capture. [Image provenance](visual-evidence.md).*
+
 ## Observed results
 
 | Layer | Evidence and result |
