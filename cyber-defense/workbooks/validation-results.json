@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "executed_at_utc": [
+    "2026-11-14T00:01:23.548755+00:00",
+    "2026-11-14T00:01:28.491105+00:00",
+    "2026-11-14T01:27:34.844970+00:00"
+  ],
+  "mode": "synthetic",
+  "service": "Azure Monitor Logs / Log Analytics",
+  "live_tables_read": false,
+  "workbook_deployed": true,
+  "portal_rendering_verified": true,
+  "panels": [
+    {
+      "name": "coverage",
+      "query_sha256": "192a1609aa6b3f47a46a19fbe97508f35a2d776676f23fbd2a70841dae964fdb",
+      "rows": 1,
+      "expected_results_verified": true
+    },
+    {
+      "name": "timeline",
+      "query_sha256": "d185017031451b134cabc6ba3fbb78000a6be780652c10f4b292e728a9ce97a1",
+      "rows": 11,
+      "expected_results_verified": true
+    },
+    {
+      "name": "sources",
+      "query_sha256": "9a9d177c4930e0fedc80500ca078f61e4b16438c6f44678d929b1c32f402db64",
+      "rows": 2,
+      "expected_results_verified": true
+    },
+    {
+      "name": "sequences",
+      "query_sha256": "fad0c9cb397d59ae9f21cb5bb313d32936dc5baf25c3bff3b5698a3ed3b6fb01",
+      "rows": 2,
+      "expected_results_verified": true
+    },
+    {
+      "name": "events",
+      "query_sha256": "0d1a079225dcf5cfe1757b9d84b746cb23c18a85a5b391a29c03d459b0941e1b",
+      "rows": 12,
+      "expected_results_verified": true
+    }
+  ],
+  "coverage": {
+    "RawRows": 41,
+    "DistinctRows": 37,
+    "EligibleRows": 37,
+    "CandidateSequences": 2,
+    "UnknownActions": 0,
+    "FirstEvent": "2026-01-01T00:00:00Z",
+    "LastEvent": "2026-01-01T00:10:01Z",
+    "DuplicateRows": 4,
+    "MissingKeyRows": 0,
+    "NoTelemetry": false,
+    "Threshold": 5,
+    "Window": "00:10:00"
+  },
+  "expected_candidates": [
+    "FIXTURE-POSITIVE",
+    "FIXTURE-BOUNDARY"
+  ],
+  "limitations": [
+    "All deployed panels use synthetic events; no production detection effectiveness is established.",
+    "No analytics rule, alert or automated response is deployed.",
+    "A narrow display window can clip lookbacks; retain complete authorized context for triage.",
+    "No full JSON Schema validation or fleet performance claim."
+  ],
+  "portal_checked_at_utc": "2026-11-14T01:29:53.621Z",
+  "synthetic_source_sha256": "2b1214e5af5b5c75b80a4ace1bc199ffc09260da0fc92620673e977116596f09",
+  "native_time_picker": {
+    "fixed_end_and_positive_duration": true,
+    "full_fixture_restored_after_reload": true,
+    "empty_window_verified": true,
+    "empty_window_coverage_rows": 0,
+    "empty_window_no_telemetry": true
+  }
+}

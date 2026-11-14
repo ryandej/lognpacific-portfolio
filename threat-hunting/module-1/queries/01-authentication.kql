@@ -1,0 +1,11 @@
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+DeviceLogonEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+// Inspect ActionType values in the portal before inferring success or failure.
+| project Timestamp, DeviceId, ReportId, ActionType, LogonType, AccountDomain,
+    AccountName, AccountSid, IsLocalAdmin, RemoteIP, RemoteDeviceName, Protocol,
+    FailureReason, LogonId, InitiatingProcessFileName, InitiatingProcessCommandLine
+| order by Timestamp asc, DeviceId asc, ReportId asc

@@ -1,0 +1,12 @@
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+DeviceFileEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+// Preserve both algorithms. An empty SHA256 is not a hash match or benign verdict.
+| project Timestamp, DeviceId, ReportId, ActionType, FileName, FolderPath, SHA1, SHA256,
+    FileSize, FileOriginUrl, FileOriginIP, PreviousFileName, PreviousFolderPath,
+    InitiatingProcessFileName, InitiatingProcessCommandLine,
+    InitiatingProcessId, InitiatingProcessCreationTime
+| order by Timestamp asc, DeviceId asc, ReportId asc

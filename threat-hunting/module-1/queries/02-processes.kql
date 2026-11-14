@@ -1,0 +1,15 @@
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+DeviceProcessEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+// Triage indicators include legitimate administrative use; no maliciousness verdict.
+| where FileName in~ ("powershell.exe", "pwsh.exe", "cmd.exe", "wscript.exe", "cscript.exe",
+    "mshta.exe", "rundll32.exe", "regsvr32.exe", "certutil.exe", "schtasks.exe", "sc.exe", "net.exe", "net1.exe")
+    or ProcessCommandLine contains "-enc" or ProcessCommandLine contains "FromBase64String"
+| project Timestamp, DeviceId, ReportId, ActionType, AccountDomain, AccountName,
+    FileName, FolderPath, ProcessCommandLine, SHA1, SHA256, ProcessId, ProcessCreationTime,
+    InitiatingProcessId, InitiatingProcessCreationTime, InitiatingProcessFileName,
+    InitiatingProcessCommandLine, ProcessTokenElevation
+| order by Timestamp asc, DeviceId asc, ReportId asc

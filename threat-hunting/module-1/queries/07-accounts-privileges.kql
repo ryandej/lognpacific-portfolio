@@ -1,0 +1,15 @@
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+union withsource=SourceTable DeviceEvents, DeviceProcessEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+// Event names and AdditionalFields vary. Validate meaning against the portal schema.
+| where ActionType contains "Account" or ActionType contains "User" or ActionType contains "Group"
+    or (FileName in~ ("net.exe", "net1.exe") and ProcessCommandLine has_any ("user", "localgroup", "group"))
+    or ProcessCommandLine contains "New-LocalUser"
+    or ProcessCommandLine contains "Add-LocalGroupMember"
+| project Timestamp, DeviceId, ReportId, SourceTable, ActionType, AccountName, AccountSid,
+    FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine,
+    EventFields=parse_json(AdditionalFields)
+| order by Timestamp asc, DeviceId asc, ReportId asc

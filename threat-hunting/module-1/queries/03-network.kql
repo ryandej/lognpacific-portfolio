@@ -1,0 +1,11 @@
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+DeviceNetworkEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+| project Timestamp, DeviceId, ReportId, ActionType, RemoteIP, RemotePort, RemoteUrl,
+    RemoteIPType, LocalIP, LocalPort, Protocol, InitiatingProcessFileName,
+    InitiatingProcessCommandLine, InitiatingProcessId, InitiatingProcessCreationTime,
+    InitiatingProcessSHA1, InitiatingProcessSHA256
+| order by Timestamp asc, DeviceId asc, ReportId asc

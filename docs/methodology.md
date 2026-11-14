@@ -1,5 +1,7 @@
 # Technical methodology
 
+[Portfolio](../README.md) · [Project status](project-progress.md) · [Validation](local-validation.md)
+
 Every work item should connect an authorized engineering objective to a reproducible method, observed results, supporting evidence, and an explicit status. Reference examples establish neither the operator's results nor permission to execute their steps.
 
 ## Common workflow
@@ -9,7 +11,7 @@ Every work item should connect an authorized engineering objective to a reproduc
 3. **Implement and document.** Write original code or queries with clear inputs, prerequisites, expected behavior, failure handling, and rollback or recovery considerations. Attribute permitted adaptations.
 4. **Verify.** Observe local checks and the relevant platform results. Identify which checks were run, on what version, and with what outcome. Expected output is not an observed test result.
 5. **Preserve evidence and limitations.** Link findings to approved artifacts or private evidence references. State gaps, unsuccessful checks, uncertainty, and remaining risk.
-6. **Obtain independent review.** Have Claude review the implementation, tests, evidence, scope, attribution, and claims independently. Record the reviewed revision or file hashes, findings, and their disposition. The human operator verifies results and approves subsequent Git actions.
+6. **Record review status.** When independent review is requested, record its scope, revision or file hashes, findings, and disposition. If the operator waives another review, record that decision without claiming a review occurred. The human operator verifies results and approves subsequent Git actions. The current live-result batch has such a waiver.
 7. **Update project progress.** Record the implementation status, actual test outcomes, security-platform validation, evidence links, and independent-review outcome separately. Identify the next unresolved dependency.
 
 ## Windows 11 STIG remediation
@@ -56,9 +58,11 @@ For a proposed AI security experiment, define the threat model, data permissions
 | Tested | Specific checks were executed and their outcomes recorded. Tests may have failed; this status does not imply success or completeness. |
 | Verified | Observed evidence supports the stated technical criteria in the documented environment, including platform validation where applicable. This does not imply broader coverage or production deployment. |
 
-Track independent review separately as pending, changes requested, or reviewed, with the reviewer, artifact version, date, and findings. A review records its outcome; it is not automatically an approval or a substitute for executed tests. Claim independent validation only when the required evidence has been reviewed and relevant findings resolved. Record publication permission separately from technical status.
+Track independent review separately as pending, changes requested, or reviewed, with the reviewer, artifact version, date, and findings. Record an operator waiver separately without converting it into a reviewed result or rewriting preserved evidence. A review records its outcome; it is not automatically an approval or a substitute for executed tests. Claim independent validation only when the relevant evidence has actually been reviewed and findings resolved. Record publication permission separately from technical status.
 
 Update the [project tracker](project-progress.md) after each work item. No report should label a test passed unless that outcome was observed.
+
+The [local validation record](local-validation.md) separates Python and mocked PowerShell results, actual Windows apply/rollback observations, authenticated Tenable before/after results and synthetic KQL service execution. Historical investigation results, deployed synthetic workbook behavior, current endpoint ingestion and review status retain their own limitations. Use the [STIG evidence workflow](../stig-remediations/evidence-workflow.md) for baseline/apply/follow-up records and the [Module 1 package](../threat-hunting/module-1/README.md) for investigation provenance and reporting. Offline tools check consistency of supplied metadata; they neither authenticate evidence nor award external acceptance. Administrative decisions remain in private records.
 
 ## Shared-environment safety
 

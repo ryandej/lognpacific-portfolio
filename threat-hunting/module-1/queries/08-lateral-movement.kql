@@ -1,0 +1,14 @@
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+DeviceNetworkEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+// Candidate administrative protocols observed on scoped devices; no remote probing.
+// Ports alone do not prove protocol, direction, successful access, or lateral movement.
+| where RemotePort in (135, 139, 445, 3389, 5985, 5986)
+| project Timestamp, DeviceId, ReportId, ActionType, RemoteIP, RemotePort, Protocol,
+    LocalIP, LocalPort, InitiatingProcessAccountDomain, InitiatingProcessAccountName,
+    InitiatingProcessFileName, InitiatingProcessCommandLine,
+    InitiatingProcessId, InitiatingProcessCreationTime
+| order by Timestamp asc, DeviceId asc, ReportId asc

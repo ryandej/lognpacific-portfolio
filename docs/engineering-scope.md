@@ -1,6 +1,8 @@
 # Engineering scope
 
-This portfolio develops original work in Cyber Defense, Vulnerability Management, Threat Detection, Security Automation, and AI Security Engineering. Its objectives are reproducible implementations, observable security outcomes, and independent review. This document defines intended work; it does not establish that any system has been built or validated.
+[Portfolio](../README.md) · [Project status](project-progress.md) · [Validation](local-validation.md)
+
+This portfolio develops original work in Cyber Defense, Vulnerability Management, Threat Detection, Security Automation, and AI Security Engineering. Its objectives are reproducible implementations, observable security outcomes, and independent review. This document defines scope; actual implementation and validation status are recorded in [project progress](project-progress.md).
 
 ## Technical scope and deliverables
 
@@ -17,13 +19,16 @@ Each work item needs a defined objective, authorized scope, reproducible method,
 
 ## Artifact organization
 
-Create these locations only as real artifacts become available:
+Current artifact locations:
 
 - `stig-remediations/<rule-id>/`: remediation and verification scripts, tests, a report, and approved evidence.
 - `threat-hunting/<investigation-id>/`: original KQL, relevant test cases, a report, and approved evidence.
-- `cyber-defense/<exercise-id>/`: investigation or controlled-exercise artifacts, including response and recovery documentation when applicable.
+- `cyber-defense/`: the authentication sequence detector, synthetic reference model, response decisions and five-panel Sentinel workbook.
+- `vulnerability-management/`: the scoped program report, original policy/tabletop, evidence-derived assessment summary and consistency-checked metrics.
+- `deployment/`: a pinned Windows 11 proposal and offline, non-deploying preflight.
+- `tests/` and `tools/`: synthetic behavioral checks and read-only repository quality checks.
 
-Keep automation beside the work it supports initially. Introduce a shared component only after reuse justifies it. Decide an AI experiment's layout when its implementation scope is approved. Do not create empty work directories, speculative frameworks, CI, or tenant automation as part of this documentation work.
+The [evidence ledger](../stig-remediations/evidence-workflow.md) remains beside the STIG workflow it supports. Cross-workstream tests cover evidence, deployment and detection boundaries. Decide an AI experiment's layout when its implementation scope is approved. Do not create empty work directories, speculative frameworks, CI, or unapproved tenant automation.
 
 ## Operating constraints
 
@@ -41,13 +46,13 @@ See the [methodology](methodology.md) for evidence and verification standards.
 
 | Dependency | Evidence or decision needed before dependent work |
 |---|---|
-| Existing environment and permissions | Confirm the assigned resources, existing VM, effective roles, and allowed operations through approved access. |
+| Existing environment and permissions | One Windows VM is running on the assigned private subnet with no public IP. Bastion use is operator-confirmed; VM Run Command is observed working. Preserve this VM. Shared NSG read access was denied and not bypassed. Authenticated scanner access succeeded through bounded local prerequisites, now restored; licensing confirmation remains unresolved. See the [deployment record](../deployment/README.md). |
 | VM lifecycle | Resolve shutdown and inactivity-purge behavior; establish how the same VM and necessary evidence will be preserved. |
-| Windows and Tenable baseline | Establish the actual Windows build, active benchmark/policy revision, scan coverage, target scope, and permitted scan configuration. |
-| Telemetry availability | Confirm Defender/Sentinel interfaces, actual schemas, data retention, permitted assets, and export restrictions. |
-| Control and investigation selection | Select applicable controls and a concrete investigation objective; assess dependencies and rollback needs. |
+| Windows and Tenable baseline | Windows 11 Pro 25H2 build 26200 has authenticated V2R11 fail-to-pass results for all ten selected controls. Exact Rule IDs and comparable scan configuration were checked. Additional independent review was waived by the operator; broader residual audit findings remain outside these ten controls. See the [execution report](windows-stig-validation.md). |
+| Telemetry availability | The correct course workspace is identified; all ten queries executed against the assigned historical dataset. The owned endpoint is onboarded and a benign process event is centrally observed. Authentication coverage, broader ingestion and live detector performance remain separate checks. |
+| Control and investigation selection | Ten real failed controls were selected and tested after the authenticated baseline. Keep further controls outside scope until justified by actual findings. Module 1 has an evidence-linked private report; the linked second-endpoint lead remains qualified and no peer response or raw telemetry is included. |
 | Controlled honeypot feasibility | Decide whether the study is useful and authorize exposure, monitoring, containment, costs, and recovery before implementation. |
-| Automation scope | Identify the specific workflow, inputs, allowed actions, expected behavior, and test environment before building utilities. |
+| Runtime and automation validation | PowerShell parsing/mocked tests, real registry apply/rollback/repeatability, native script-block logging and the ten Tenable checks have observed results. Actual populated compliance exports passed extraction. Eight detector fixtures and all five workbook panels passed synthetic Log Analytics execution. All ten investigation queries also executed against actual assigned historical data. One synthetic workbook is deployed and visually validated. Owned-endpoint process ingestion is observed; fleet performance and live detection effectiveness remain unvalidated. |
 | AI experiment design | Select the question, threat model, dataset permissions, baseline, metrics, evaluation separation, and execution boundary. |
 | Evidence and disclosure | Approve private evidence storage, sanitized outputs, and reviewer/publication access without exposing shared-environment details. |
 | Verification and review | Define technical success criteria and record the exact artifact version, observed outcomes, reviewer findings, and their resolution. |

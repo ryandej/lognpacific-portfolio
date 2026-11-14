@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "region": "eastus2",
+  "image_urn": "MicrosoftWindowsDesktop:windows-11:win11-25h2-pro:26200.9974.261109",
+  "size": "Standard_D2als_v6",
+  "vcpus": 2,
+  "zone": null,
+  "os_disk_sku": "StandardSSD_LRS",
+  "os_disk_gib": 128,
+  "data_disks": 0,
+  "public_ip": false,
+  "nic_count": 1,
+  "subnet": "existing-approved-subnet",
+  "additional_nic_nsg": false,
+  "security_type": "TrustedLaunch",
+  "secure_boot": true,
+  "vtpm": true,
+  "vm_limit": 1
+}

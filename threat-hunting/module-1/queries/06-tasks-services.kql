@@ -1,0 +1,15 @@
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+DeviceProcessEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+// These are invocation candidates, not proof that a task/service was created.
+| where (FileName =~ "schtasks.exe" and ProcessCommandLine contains "/create")
+    or (FileName =~ "sc.exe" and ProcessCommandLine has "create")
+    or ProcessCommandLine contains "Register-ScheduledTask"
+    or ProcessCommandLine contains "New-Service"
+| project Timestamp, DeviceId, ReportId, AccountDomain, AccountName,
+    FileName, ProcessCommandLine, ProcessId, ProcessCreationTime,
+    InitiatingProcessFileName, InitiatingProcessCommandLine
+| order by Timestamp asc, DeviceId asc, ReportId asc

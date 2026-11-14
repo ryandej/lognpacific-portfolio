@@ -1,0 +1,10 @@
+// Populate only in an authorized private query copy. Empty defaults return no rows.
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+union withsource=SourceTable DeviceLogonEvents, DeviceProcessEvents, DeviceNetworkEvents,
+    DeviceFileEvents, DeviceRegistryEvents, DeviceEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+| summarize Rows=count(), FirstEvent=min(Timestamp), LastEvent=max(Timestamp) by SourceTable, DeviceId, ActionType
+| order by SourceTable asc, DeviceId asc, ActionType asc

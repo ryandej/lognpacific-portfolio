@@ -163,3 +163,7 @@ coverage/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Local Python test/import artifacts
+__pycache__/
+*.py[cod]

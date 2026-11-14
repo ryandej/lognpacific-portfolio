@@ -1,0 +1,13 @@
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+union withsource=SourceTable DeviceLogonEvents, DeviceProcessEvents, DeviceNetworkEvents,
+    DeviceFileEvents, DeviceRegistryEvents, DeviceEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+// Keep source and event identity; equal timestamps do not establish causality.
+| project Timestamp, DeviceId, ReportId, SourceTable, ActionType,
+    AccountDomain, AccountName, FileName, ProcessCommandLine,
+    InitiatingProcessFileName, InitiatingProcessId, InitiatingProcessCreationTime,
+    RemoteIP, RemotePort, SHA1, SHA256, RegistryKey, RegistryValueName
+| order by Timestamp asc, DeviceId asc, SourceTable asc, ReportId asc

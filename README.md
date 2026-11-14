@@ -1,45 +1,53 @@
 # LOG(N) Pacific | AI Security Engineering
 
-This portfolio presents my work as an AI Security Engineer at LOG(N) Pacific. Its technical focus is Cyber Defense, Vulnerability Management, Threat Detection, Security Automation, and original AI security engineering supported by actual implementation and evidence.
+**Ryan DeJong — cybersecurity engineering portfolio**
 
-## Engineering objectives
+Original PowerShell and Python automation, KQL investigations, and security validation developed in the LOG(N) Pacific Cyber Range. The work covers Windows hardening, vulnerability management, threat detection, and endpoint response using Tenable, Microsoft Defender for Endpoint, Microsoft Sentinel, and Azure.
 
-- Develop original Windows 11 STIG remediations in PowerShell, with reproducible local checks and before/after Tenable compliance validation.
-- Investigate authorized telemetry with Microsoft Defender, Microsoft Sentinel, and KQL; document findings, query behavior, and detection limitations.
-- Build security automation with explicit scope, predictable failure handling, meaningful tests, and auditable results.
-- Develop AI security experiments when their scope, data, and evaluation criteria are defined. Record observed performance, failure cases, and independent review.
+Start with the [Windows hardening results](docs/windows-stig-validation.md), the [Sentinel investigation workbook](cyber-defense/workbooks/README.md), or the [threat investigation portfolio](threat-hunting/README.md). Each project links its implementation, observed results, and limitations.
 
-## Project status
+## Selected projects
 
-The repository currently contains documentation and operating guidance and is private. No remediation, detection pipeline, automation, AI system, or security-control outcome is established as implemented or validated by these files. The [project tracker](docs/project-progress.md) records planned work separately from tested, verified, and independently reviewed results.
+| Project | Engineering work | Observed result |
+|---|---|---|
+| [Windows 11 STIG automation](stig-remediations/README.md) | Ten PowerShell remediations for DISA Security Technical Implementation Guide controls, with separate verification, previews, snapshots, and guarded rollback. | **10 authenticated Tenable findings changed from FAILED to PASSED** against Windows 11 V2R11. Actual repeat application, rollback, and reapply checks passed for every control. |
+| [Vulnerability management program](vulnerability-management/README.md) | A complete assessment cycle for one endpoint: asset scope, prioritization, remediation, equivalent reassessment, reporting, and a residual-work queue. | Reconciled **258 compliance items** before and after the changes. All ten selected failures closed; remaining failures, errors, and warnings stay visible. Governance exercises are labeled as simulations. |
+| [Detection engineering and Sentinel workbook](cyber-defense/README.md) | Authentication-sequence KQL, a Python reference model, reproducible fixtures, and a five-panel investigation workbook. | Eight synthetic detector cases passed in Log Analytics. The deployed workbook's charts, event context, time controls, and empty-data behavior were verified using explicitly synthetic events. |
+| [Threat hunting and incident reconstruction](threat-hunting/README.md) | HTTP-to-host investigation methods and ten scoped Defender queries covering access, execution, persistence, network activity, and timelines. | Queries executed against authorized historical telemetry; findings, a timeline, and a containment proposal were documented privately. Public artifacts preserve the methods without disclosing restricted answers or telemetry. |
+| [Endpoint telemetry and response](docs/endpoint-validation.md) | Defender onboarding, telemetry checks, investigation-package collection, and controlled isolation/recovery on the owned endpoint. | Central process telemetry observed; **70/70 collection operations succeeded**; isolation and release succeeded with observed connectivity loss and recovery. |
 
-## Technical work and documentation
+All operational results come from authorized Cyber Range work. Synthetic detection tests, historical investigations, and actual Windows configuration changes are identified separately.
 
-| Area | Intended artifacts |
+## Explore the implementation
+
+| Component | What to inspect |
 |---|---|
-| Vulnerability Management | Original remediation and verification scripts, control-specific tests, Tenable comparisons, and technical reports. |
-| Cyber Defense and Threat Detection | Original KQL, synthetic query tests where useful, investigation timelines, findings, and evidence-based response recommendations. |
-| Security Automation | Scoped utilities or reusable components added when an actual workflow warrants them, with tests and documented failure behavior. |
-| AI Security Engineering | Original implementations and reproducible evaluations using authorized or synthetic data; proposed studies are not reported as results. |
+| PowerShell engineering | [Shared registry module](stig-remediations/RegistryControl.psm1), [example remediation](stig-remediations/WN11-CC-000010/remediate.ps1), [read-only verifier](stig-remediations/WN11-CC-000010/verify.ps1), and [control report](stig-remediations/WN11-CC-000010/report.md). |
+| Tenable and evidence automation | [Scoped API client](stig-remediations/tenable_client.py), [export parser](stig-remediations/nessus_summary.py), and [before/after evidence workflow](stig-remediations/evidence-workflow.md). |
+| Detection engineering | [KQL detector](cyber-defense/auth-sequence.kql), [Python reference model](cyber-defense/auth_sequence.py), and [workbook builder](cyber-defense/workbooks/build_workbook.py). |
+| Investigation queries | [Query catalog](threat-hunting/module-1/README.md#query-index), including coverage checks and timeline reconstruction. |
+| Deployment safeguards | [Pinned VM specification and offline preflight](deployment/README.md), including duplicate-VM prevention and preservation of the existing endpoint. |
 
-Keep implementations, tests, reports, and reviewed evidence together by work item. Add directories only when artifacts exist.
+## Validation
 
-- [Engineering scope](docs/engineering-scope.md): intended deliverables, operating constraints, and unresolved dependencies.
-- [Methodology](docs/methodology.md): STIG and hunting workflows, security validation, independent review, and evidence handling.
-- [Project progress](docs/project-progress.md): implementation, test, validation, and review status.
+- **211 Python tests passed:** 203 shared tests and eight DISA source-alignment/static checks.
+- **340 mocked PowerShell cases passed on each runtime:** Ubuntu PowerShell 7.6.6 and native Windows PowerShell 5.1.
+- **32 PowerShell files parsed on Windows; 33 reviewed source hashes matched.**
+- Actual Windows remediation and rollback, authenticated Tenable comparisons, and KQL service execution are recorded separately from local tests.
 
-## Methodology and evidence
+The [validation record](docs/local-validation.md) contains versions, reproduction steps, and evidence limits. Run the local Python suite and repository checks from the repository root:
 
-Confirm authorization, establish a baseline, implement a scoped change or investigation, test it, and validate with the appropriate security platform. Reports must connect claims to observed results and state limitations. Codex supports approved development; Claude provides independent technical and security review. The human operator verifies results and approves Git activity.
+```bash
+python3 -B -m unittest discover -s tests -v
+python3 -B tools/check_repository.py
+```
 
-Local tests, platform validation, and independent review are recorded separately. Training exercises and synthetic results retain their original context. Raw evidence stays in approved private storage; only cleared, sanitized derivatives may accompany reports.
+These commands use the Python standard library and perform no live scans or Windows changes. DISA source checks additionally require the documented cached benchmark archive. Reviewed PowerShell source remains unchanged from its observed Windows execution.
 
-## Operating boundaries
+## Evidence and scope
 
-Use the same participant-owned VM throughout the project. Do not create a second VM or delete/recreate it as a routine transition. Shared service visibility does not authorize access to other participants' resources or data. Cloud operations, scans, configuration changes, and exposure exercises require explicit authorization.
+Reports connect technical claims to observed results, source hashes, and private evidence references. Ten selected STIG passes do not establish whole-system compliance; synthetic detector results do not establish production effectiveness. Original scan exports, forensic data, internal resource identifiers, credentials, and confidential source material remain outside Git.
 
-Keep credentials, sensitive tenant information, raw telemetry, confidential instructional material, and instructor solutions out of Git. `Planning/` remains local-only and ignored. Publication requires LOG(N) permission and human disclosure review; private visibility does not authorize uploading confidential material.
+AI assistance supported implementation, test design, and evidence reconciliation. The portfolio documents security engineering with human-authorized execution; it does not claim an implemented or evaluated AI security product. Independent review is recorded only for the versions and scope actually reviewed.
 
-## Separate project histories
-
-Historical NCyTE work remains in its own repository and history. Approved original LOG(N) Pacific code and methods may later inform a separate NCyTE-aligned engineering project with new validation, dates, and attribution. Do not transfer confidential range evidence or represent this work as a historical NCyTE accomplishment.
+Use the [project status](docs/project-progress.md), [methodology](docs/methodology.md), and [engineering scope](docs/engineering-scope.md) for further detail. Live operations require authorization for the specified assets and actions. The LOG(N) Pacific and historical NCyTE projects retain separate repositories, histories, attribution, and validation.

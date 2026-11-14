@@ -1,0 +1,16 @@
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+DeviceRegistryEvents
+| where Timestamp >= Start and Timestamp < End
+| where DeviceId in (DeviceScope)
+// A focused hypothesis, not exhaustive persistence coverage. Values may be sensitive.
+| where RegistryKey contains @"\CurrentVersion\Run"
+    or RegistryKey contains @"\CurrentControlSet\Services\"
+    or RegistryKey contains @"\CurrentVersion\Winlogon"
+    or RegistryKey contains @"\Image File Execution Options\"
+| project Timestamp, DeviceId, ReportId, ActionType, RegistryKey, RegistryValueName,
+    RegistryValueType, RegistryValueData, PreviousRegistryValueData,
+    InitiatingProcessFileName, InitiatingProcessCommandLine,
+    InitiatingProcessId, InitiatingProcessCreationTime
+| order by Timestamp asc, DeviceId asc, ReportId asc

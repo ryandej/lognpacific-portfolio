@@ -1,0 +1,28 @@
+// Original triage detector. Confirm LogonFailed/LogonSuccess in the deployed schema.
+// Empty scope and time defaults fail closed. No rule is deployed by this file.
+let Start = datetime(null);
+let End = datetime(null);
+let DeviceScope = dynamic([]);
+let Threshold = 5;
+let Window = 10m;
+let Scoped = materialize(
+    DeviceLogonEvents
+    | where Timestamp >= Start and Timestamp < End
+    | where DeviceId in (DeviceScope)
+    | where isnotempty(AccountName) and isnotempty(AccountDomain)
+        and isnotempty(RemoteIP) and isnotempty(LogonType) and isnotnull(ReportId)
+    | extend UserKey=tolower(AccountName), DomainKey=tolower(AccountDomain)
+    | project Timestamp, DeviceId, ReportId, ActionType, UserKey, DomainKey, RemoteIP, LogonType
+    | distinct *
+);
+let Failures = Scoped | where ActionType == "LogonFailed"
+    | project DeviceId, UserKey, DomainKey, RemoteIP, LogonType, FailureAt=Timestamp, FailureReportId=ReportId;
+let Successes = Scoped | where ActionType == "LogonSuccess"
+    | project DeviceId, UserKey, DomainKey, RemoteIP, LogonType, SuccessAt=Timestamp, SuccessReportId=ReportId;
+Successes
+| join kind=inner (Failures) on DeviceId, UserKey, DomainKey, RemoteIP, LogonType
+| where FailureAt >= SuccessAt - Window and FailureAt < SuccessAt
+| summarize FailureCount=count(), FirstFailure=min(FailureAt), LastFailure=max(FailureAt)
+    by DeviceId, UserKey, DomainKey, RemoteIP, LogonType, SuccessAt, SuccessReportId
+| where FailureCount >= Threshold
+| order by SuccessAt asc
