@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "title": "PHP2Shell: The Hartwell Breach",
+  "environment": "Authorized historical training dataset; one scenario host",
+  "investigated_on": "2026-11-13",
+  "event_window_utc": {
+    "start": "2026-10-23T04:00:00Z",
+    "end": "2026-10-23T16:00:00Z"
+  },
+  "completion": {
+    "observed_at_utc": "2026-11-13T10:50:35.966Z",
+    "flags_solved": 18,
+    "flags_available": 18,
+    "points": 1750,
+    "points_available": 1750,
+    "completed_on_time": true
+  },
+  "coverage": {
+    "total_events": 52979,
+    "sources": [
+      {
+        "source": "Apache access",
+        "events": 2895,
+        "first_event_utc": "2026-10-23T04:04:26Z",
+        "last_event_utc": "2026-10-23T15:58:39Z"
+      },
+      {
+        "source": "Enriched HTTP",
+        "events": 458,
+        "first_event_utc": "2026-10-23T07:25:15.307263Z",
+        "last_event_utc": "2026-10-23T14:19:26.777627Z"
+      },
+      {
+        "source": "Apache error",
+        "events": 93,
+        "first_event_utc": "2026-10-23T08:17:30.896729Z",
+        "last_event_utc": "2026-10-23T11:10:26.783007Z"
+      },
+      {
+        "source": "Sysmon",
+        "events": 34559,
+        "first_event_utc": "2026-10-23T05:24:31.263Z",
+        "last_event_utc": "2026-10-23T15:59:55.968Z"
+      },
+      {
+        "source": "Authentication",
+        "events": 382,
+        "first_event_utc": "2026-10-23T15:06:48.556014Z",
+        "last_event_utc": "2026-10-23T15:59:01.462381Z"
+      },
+      {
+        "source": "Linux audit",
+        "events": 9786,
+        "first_event_utc": "2026-10-23T04:00:23.384Z",
+        "last_event_utc": "2026-10-23T15:59:01.456Z"
+      },
+      {
+        "source": "Syslog",
+        "events": 4806,
+        "first_event_utc": "2026-10-23T15:06:48.071217Z",
+        "last_event_utc": "2026-10-23T15:59:55.969361Z"
+      }
+    ],
+    "meaning": "Counts are source records, not attacks. First/last events do not establish uninterrupted coverage."
+  },
+  "analysis_checks": {
+    "web_account_process_events": 71,
+    "decoded_command_records": 45,
+    "encoding_pairs_compared": 4,
+    "encoding_pairs_exactly_matched": 4,
+    "post_attempt_sysmon_events": 608,
+    "post_attempt_audit_events": 385,
+    "post_attempt_forwarder_process_events": 7,
+    "forwarder_process_events_are_subset_of_sysmon": true,
+    "lateral_movement": "Not evidenced by the scoped process and decoded-command pattern checks; not excluded globally."
+  },
+  "limitations": [
+    "Authentication and Syslog coverage started after the main command window.",
+    "Normalized destination, port and initiation fields were unavailable for the selected network records.",
+    "An apparent error-log/HTTP time offset remains unresolved; source clocks were not independently verified.",
+    "Response bodies, exact data loss, implant contents, target mount state, and later scheduled executions were not independently verified."
+  ],
+  "response_actions": "Proposed only; none performed on the scenario host.",
+  "provenance": {
+    "completion_alias": "EV-HARTWELL-COMPLETE-20261113",
+    "query_evidence_alias": "EV-HARTWELL-20261113",
+    "report_refresh_alias": "EV-HARTWELL-REPORT-REFRESH",
+    "private_evidence_files_reverified": 34,
+    "integrity_limit": "Matching saved hashes establishes retained bytes, not independent source authenticity or complete telemetry."
+  }
+}

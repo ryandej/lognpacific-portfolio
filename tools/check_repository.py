@@ -20,6 +20,8 @@ REVIEWED_IMAGE_PATHS = frozenset({
     "vulnerability-management/evidence/assessment-overview.png",
     "cyber-defense/workbooks/evidence/workbook-overview.png",
     "threat-hunting/evidence/hunt-completion.png",
+    "threat-hunting/evidence/hartwell-source-coverage.png",
+    "threat-hunting/evidence/hartwell-analysis-checks.png",
     "docs/evidence/endpoint-response.png",
 })
 MAX_IMAGE_BYTES = 256 * 1024
@@ -74,7 +76,7 @@ def check_links(path, text, root):
 
 
 def load_reviewed_images(text):
-    """Only the fixed five paths; manifest fields cannot expand readable scope."""
+    """Only the fixed reviewed paths; manifest fields cannot expand readable scope."""
     data = json.loads(text)
     images = data.get("images", [])
     if data.get("schema") != 1 or len(images) != len(REVIEWED_IMAGE_PATHS):

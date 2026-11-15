@@ -152,6 +152,8 @@ source-screenshots/
 !/vulnerability-management/evidence/assessment-overview.png
 !/cyber-defense/workbooks/evidence/workbook-overview.png
 !/threat-hunting/evidence/hunt-completion.png
+!/threat-hunting/evidence/hartwell-source-coverage.png
+!/threat-hunting/evidence/hartwell-analysis-checks.png
 !/docs/evidence/endpoint-response.png
 
 # Temporary output and local editor/system artifacts

@@ -2,8 +2,8 @@
   "schema": 1,
   "prepared_at_utc": "2026-11-14T04:37:25.131797+00:00",
   "evidence_alias": "EV-PORTFOLIO-VISUALS-V22",
-  "image_count": 5,
-  "total_bytes": 514939,
+  "image_count": 7,
+  "total_bytes": 723990,
   "limits": "Screenshots supplement the linked technical records. Hash checks establish byte identity, not pixel confidentiality or evidence authenticity. No AI-generated pixels or invented results.",
   "images": [
     {
@@ -51,20 +51,6 @@
       "visual_review": "Reviewed for readable claims and exclusion of credentials, account/resource identifiers, internal addresses, raw telemetry, answers and other participants."
     },
     {
-      "path": "threat-hunting/evidence/hunt-completion.png",
-      "sha256": "72f603ffa605f4669e04c7d6d5d4acdefaed9e540557abc312496f0d2d57cff5",
-      "bytes": 27362,
-      "width": 1080,
-      "height": 180,
-      "kind": "application_capture",
-      "source_documents": [
-        "threat-hunting/investigation-method.md"
-      ],
-      "meaning": "Owned completed training hunt: 18 of 18 flags and 1750 of 1750 points, completed on time.",
-      "framing": "Only existing title and owned completion indicator displayed for capture; framing, font size and contrast adjusted temporarily. Original page restored. Questions, answers, topology and participant scoreboard excluded.",
-      "visual_review": "Reviewed for readable claims and exclusion of credentials, account/resource identifiers, internal addresses, raw telemetry, answers and other participants."
-    },
-    {
       "path": "docs/evidence/endpoint-response.png",
       "sha256": "f6d4a13e602708ffa3732a222f15d16a758d444d9f30c70b50d1a8311bf16d8f",
       "bytes": 115325,
@@ -77,6 +63,58 @@
       "meaning": "Actual owned-endpoint onboarding, collection and isolate/release validation; 70 collection operations, 284 archive entries, 30 connectivity samples.",
       "framing": "Original local report rendered from the sanitized execution record; not a Defender console capture.",
       "visual_review": "Reviewed for readable claims and exclusion of credentials, account/resource identifiers, internal addresses, raw telemetry, answers and other participants."
+    },
+    {
+      "path": "threat-hunting/evidence/hunt-completion.png",
+      "sha256": "80e492d39536a14c8abef70e62fb21c7db1837673e8482ce32f64de5f8910891",
+      "bytes": 24450,
+      "width": 1100,
+      "height": 139,
+      "kind": "application_capture",
+      "source_documents": [
+        "threat-hunting/README.md",
+        "threat-hunting/investigation-summary.json"
+      ],
+      "meaning": "Owned completed hunt: 18 of 18 flags, 1750 of 1750 points, Completed on time; page now identifies a past hunt.",
+      "framing": "Original title and owned completion nodes temporarily framed; original text preserved, other content hidden and page restored. No scoreboard, answers or raw events.",
+      "visual_review": "Actual pixels inspected for readable claims and exclusion of credentials, account/resource identifiers, private addresses, raw telemetry, exact flag values and other participants. No AI-generated pixels; publication still requires operator approval.",
+      "evidence_alias": "EV-HARTWELL-REPORT-REFRESH"
+    },
+    {
+      "path": "threat-hunting/evidence/hartwell-source-coverage.png",
+      "sha256": "bcebd35233944832a38e670062b54102ba545025423b42e67dcfd804bcefb879",
+      "bytes": 97526,
+      "width": 1280,
+      "height": 780,
+      "kind": "rendered_evidence_summary",
+      "source_documents": [
+        "threat-hunting/README.md",
+        "threat-hunting/investigation-summary.json"
+      ],
+      "meaning": "Seven source counts total 52979 events. First/last-event spans show late Authentication and Syslog coverage without implying continuous logging.",
+      "framing": "Original local analysis view rendered from hash-verified saved KQL aggregates; not an Azure console capture. No raw events.",
+      "visual_review": "Actual pixels inspected for readable claims and exclusion of credentials, account/resource identifiers, private addresses, raw telemetry, exact flag values and other participants. No AI-generated pixels; publication still requires operator approval.",
+      "evidence_alias": "EV-HARTWELL-REPORT-REFRESH"
+    },
+    {
+      "path": "threat-hunting/evidence/hartwell-analysis-checks.png",
+      "sha256": "a719464a352f98ddc7a6dda599ebd92c7c4811db6a0bc88a01937804607a800a",
+      "bytes": 114437,
+      "width": 1280,
+      "height": 900,
+      "kind": "rendered_evidence_summary",
+      "source_documents": [
+        "threat-hunting/README.md",
+        "threat-hunting/investigation-summary.json"
+      ],
+      "meaning": "Observed monitoring continuation, four exact encoding-pair checks, and scoped review of 71 process and 45 decoded-command records, with visibility limits.",
+      "framing": "Original local analysis view rendered from hash-verified saved results; not an Azure console capture. The seven forwarder-related events are explicitly included in the Sysmon count.",
+      "visual_review": "Actual pixels inspected for readable claims and exclusion of credentials, account/resource identifiers, private addresses, raw telemetry, exact flag values and other participants. No AI-generated pixels; publication still requires operator approval.",
+      "evidence_alias": "EV-HARTWELL-REPORT-REFRESH"
     }
+  ],
+  "updated_at_utc": "2026-11-15T01:06:02.845775+00:00",
+  "additional_evidence_aliases": [
+    "EV-HARTWELL-REPORT-REFRESH"
   ]
 }

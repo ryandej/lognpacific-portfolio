@@ -1,4 +1,4 @@
-"""Disclosure-boundary regressions for the five reviewed portfolio captures."""
+"""Disclosure-boundary regressions for the reviewed portfolio captures."""
 from copy import deepcopy
 import hashlib
 import importlib.util
@@ -33,13 +33,13 @@ class VisualEvidenceTests(unittest.TestCase):
             self.assertTrue(Q.protected(Path(name)), name)
 
     def test_allowlist_is_exact_and_does_not_allow_path_variants(self):
-        self.assertEqual(len(Q.REVIEWED_IMAGE_PATHS), 5)
+        self.assertEqual(len(Q.REVIEWED_IMAGE_PATHS), 7)
         for name in Q.REVIEWED_IMAGE_PATHS:
             self.assertFalse(Q.protected(Path(name)))
             self.assertTrue(Q.protected(Path("unapproved") / name))
             self.assertTrue(Q.protected(Path("Planning/..") / name))
 
-    def test_valid_bounded_png_and_actual_five_images(self):
+    def test_valid_bounded_png_and_actual_reviewed_images(self):
         data = png()
         self.assertEqual(Q.inspect_reviewed_png(data, record(data)), [])
         records = Q.load_reviewed_images((ROOT / "docs/visual-evidence.json").read_text())
