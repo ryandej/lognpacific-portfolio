@@ -2,7 +2,7 @@
 
 [Portfolio](../README.md) · [Project status](project-progress.md) · [Validation](local-validation.md)
 
-Ten original remediation implementations produced authenticated **FAILED → PASSED** results against the same DISA Windows 11 V2R11 rules on the same authorized Windows 11 Pro 25H2 VM, build 26200. Each change also passed actual preview, repeat-application, rollback and reapply checks. The report covers the ten changes, remaining findings and review status.
+Ten original remediation implementations produced authenticated **FAILED → PASSED** results against the same DISA Windows 11 V2R11 rules on the same authorized Windows 11 Pro 25H2 VM, build 26200. Each change also passed actual preview, repeat-application, rollback and reapply checks. This report covers the ten changes, recovery checks and remaining findings.
 
 ![Ten STIG controls with failed baselines, passing follow-ups and successful Windows checks](../stig-remediations/evidence/control-results.png)
 
@@ -60,6 +60,6 @@ Private evidence aliases resolve in the authoritative private ledger:
 
 The baseline export SHA-256 is `e6a28259be7e1674c75980605c02a36c62167ecfd7a2350d9a3368620d51978a`; the follow-up is `aa30ef0544b1b22097ee371d03f7eed1552041005b4b818d7ac4422df69e2d12`. Digests confirm the identity of the retained files. Original exports, host identifiers, addresses, accounts, snapshots and raw event text are excluded from this repository.
 
-The existing internal evidence schema validates all ten records as `windows_verified` and reports observed fail-to-pass comparisons. Its captured review fields remain pending, and it withholds its stronger reviewed claim. The subsequent review waiver has a separate record. The captured fields and evidence remain unchanged. Exact native seven-digit UTC fractions remain in original records; the derived ledger truncates the seventh fractional digit to its supported microsecond precision. No source timestamp is overwritten.
+The internal evidence ledger validates the ten Windows records and records the Tenable comparisons. Its independent-review field remains pending. The original exports and Windows records remain the source for the results above. Timestamp handling and review scope are documented in the [validation record](local-validation.md).
 
 See the [local validation record](local-validation.md), [Tenable runbook](../stig-remediations/tenable-readiness.md), [evidence semantics](../stig-remediations/evidence-workflow.md) and individual reports above. Reviewed source-file headers retain their original development checkpoint; current status is recorded here and in the reports without changing the tested source hashes.

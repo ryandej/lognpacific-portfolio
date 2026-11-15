@@ -2,31 +2,31 @@
 
 Ryan DeJong · Cybersecurity portfolio
 
-PowerShell automation, vulnerability management, KQL investigations and endpoint response in the LOG(N) Pacific Cyber Range. Each project includes its source, results and screenshots.
+This repository presents a selected, public-facing collection of my security engineering work with LOG(N) Pacific. Its Cyber Range is an Azure-based environment for testing defenses and investigating threats. These projects show my PowerShell and Python automation, authenticated Tenable assessments, KQL investigations, and Microsoft Sentinel and Defender work.
 
 Start with the [Windows hardening results](docs/windows-stig-validation.md), [Sentinel workbook](cyber-defense/workbooks/README.md), or [Hartwell Breach investigation](threat-hunting/README.md).
 
-## Projects
+## Selected projects
 
-| Project | Work and results |
-|---|---|
-| [Windows 11 STIG automation](stig-remediations/README.md) | Built ten PowerShell remediations with separate verifiers and rollback. All ten selected DISA V2R11 findings changed from FAILED to PASSED in authenticated Tenable assessments. Repeated application and recovery checks also passed. |
-| [Vulnerability management](vulnerability-management/README.md) | Completed an assessment cycle on one endpoint and reconciled all 258 compliance items. Documented prioritization, the ten fixes and the remaining findings. Includes a proposed policy and a stakeholder tabletop exercise. |
-| [Sentinel investigation workbook](cyber-defense/workbooks/README.md) | Deployed five panels using saved Cyber Range investigation results: 233 timeline records across five Defender tables, activity timing and query coverage. |
-| [Authentication detection](cyber-defense/README.md) | Built a KQL detector and Python reference model for repeated failures before a successful logon. All eight generated test cases passed in Log Analytics. Live detection performance remains untested. |
-| [Threat hunting](threat-hunting/README.md) | Investigated the Hartwell Breach using seven log sources. Solved all 18 flags, earned all 1,750 points and finished on time. A separate Windows investigation includes ten queries and an incident report. |
-| [Defender endpoint response](docs/endpoint-validation.md) | Verified onboarding and central process telemetry, collected an investigation package, and tested isolation and recovery. All 70 collection operations succeeded. |
+| Project | What I did | Tools and skills |
+|---|---|---|
+| [Windows 11 STIG automation](stig-remediations/README.md) | Built ten remediations for DISA security configuration requirements. Authenticated assessments confirmed all ten fixes. Tested verification, repeat execution and rollback. | PowerShell, Tenable, Windows hardening, automated testing |
+| [Vulnerability management](vulnerability-management/README.md) | Completed an assessment cycle on one endpoint, reconciled 258 compliance results and documented the ten fixes and remaining findings. | Tenable API, Python, prioritization, compliance reporting |
+| [Sentinel investigation workbook](cyber-defense/workbooks/README.md) | Deployed five panels presenting 233 recorded investigation events, source coverage and activity timing. | Microsoft Sentinel, KQL, visualization |
+| [Authentication detection](cyber-defense/README.md) | Built a detector for repeated failed logons followed by success. Verified eight generated test cases in Log Analytics. | KQL, Python, detection logic, regression testing |
+| [Hartwell Breach investigation](threat-hunting/README.md) | Reconstructed a web-server intrusion across seven log sources, tracing execution, credential access and persistence. Completed all 18 hunt flags on time. | Threat hunting, Linux, HTTP analysis, incident reconstruction |
+| [Windows endpoint investigation](threat-hunting/module-1/README.md) | Wrote and executed ten queries covering processes, files, network activity, registry changes and accounts. Built a timeline and response proposal. | Defender telemetry, KQL, event correlation |
+| [Defender endpoint response](docs/endpoint-validation.md) | Verified onboarding and process telemetry, collected an investigation package, and tested endpoint isolation and recovery. | Microsoft Defender for Endpoint, API automation, containment |
 
 ## Work in pictures
 
-<table>
-<tr>
-<td width="50%" valign="top"><a href="stig-remediations/README.md"><img src="stig-remediations/evidence/control-results.png" alt="Ten authenticated STIG findings changed from failed to passed"></a><br><strong>Windows hardening:</strong> a local report of the saved Tenable results and Windows checks.</td>
-<td width="50%" valign="top"><a href="cyber-defense/workbooks/README.md"><img src="cyber-defense/workbooks/evidence/workbook-overview.png" alt="Sentinel workbook showing recorded Windows investigation results"></a><br><strong>Sentinel workbook:</strong> source counts and activity from the Windows investigation.</td>
-</tr>
-</table>
+[![Ten STIG findings changed from failed to passed](stig-remediations/evidence/control-results.png)](docs/windows-stig-validation.md)
 
-The [screenshot index](docs/visual-evidence.md) explains where each image came from. Private names, credentials, raw logs and challenge answers stay out of the repository.
+*Windows hardening results, summarized from the saved Tenable assessments and Windows checks.*
+
+[![Microsoft Sentinel workbook showing recorded Windows investigation results](cyber-defense/workbooks/evidence/workbook-overview.png)](cyber-defense/workbooks/README.md)
+
+*Microsoft Sentinel workbook displaying the recorded investigation. [Image sources](docs/visual-evidence.md).*
 
 ## Source code
 
@@ -40,7 +40,7 @@ The [screenshot index](docs/visual-evidence.md) explains where each image came f
 
 ## Validation
 
-The PowerShell harness passed 340 cases on both Ubuntu PowerShell 7.6.6 and Windows PowerShell 5.1. Windows parsed all 32 PowerShell files, and all 33 transferred source hashes matched. The ten remediations were then tested on Windows and assessed through Tenable.
+The PowerShell test harness passed 340 cases on both Ubuntu and Windows. The ten remediations also passed Windows execution, rollback and authenticated Tenable checks.
 
 The [validation record](docs/local-validation.md) lists the Python test results, versions and remaining checks. Run the local tests from the repository root:
 
@@ -51,10 +51,4 @@ python3 -B tools/check_repository.py
 
 These commands use the Python standard library. The separate DISA checks require the cached benchmark archive described in the validation record.
 
-## Scope
-
-The work used authorized Cyber Range systems and data. The audit still has 107 failures, 65 errors and eight warnings beyond the ten remediated controls. Detector fixtures and governance exercises are labeled where used.
-
-AI assistance supported code development, testing and evidence review. Execution was authorized by the operator. AI security systems remain a future area of work. Review records identify the versions examined.
-
-See [project status](docs/project-progress.md), [methodology](docs/methodology.md) and [engineering scope](docs/engineering-scope.md). Raw evidence remains in private storage. LOG(N) Pacific and NCyTE have separate repositories and histories; reuse needs attribution, permission and validation.
+See the [portfolio guide](docs/engineering-scope.md), [project status](docs/project-progress.md) and [methodology](docs/methodology.md) for more detail.

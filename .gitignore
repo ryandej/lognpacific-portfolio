@@ -151,6 +151,7 @@ source-screenshots/
 !/stig-remediations/evidence/control-results.png
 !/vulnerability-management/evidence/assessment-overview.png
 !/cyber-defense/workbooks/evidence/workbook-overview.png
+!/cyber-defense/evidence/detection-tests.png
 !/threat-hunting/evidence/hunt-completion.png
 !/threat-hunting/evidence/hartwell-source-coverage.png
 !/threat-hunting/evidence/hartwell-analysis-checks.png

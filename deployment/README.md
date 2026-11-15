@@ -1,10 +1,12 @@
-# Single Windows 11 VM: deployment readiness
+# Azure VM specification and offline preflight
 
 [Portfolio](../README.md) · [Specification](windows11-spec.json) · [Offline preflight](preflight.py)
 
-This package contains the original VM specification and an offline preflight. The November 13, 2026 UTC inventory found one running Windows VM with the expected size, Standard SSD, assigned subnet and no public IP or NIC NSG. Run Command works; the operator confirmed Bastion desktop access. Preserve this VM. The preflight performs no deployment.
+I prepared a Windows 11 VM specification and a Python preflight that checks deployment prerequisites without creating resources. It checks assignment, image, compute quota, permissions and management readiness. If the VM already exists, it requires preservation of that same VM.
 
-The deployed image configuration uses `version: latest`, with Azure reporting `exactVersion: 26200.9974.261109`. Its resolved version matches the proposal, but the creation input was not pinned. Record that provenance difference; do not change or recreate the VM to conceal it. Trusted Launch, Secure Boot and vTPM are observed enabled. Disk capacity was absent from the VM response. The proposed 128 GiB size still needs verification. Shared subnet NSG inspection was denied by RBAC and was not bypassed. Later authorized baseline and follow-up scans demonstrated scanner connectivity with the approved temporary Windows prerequisites; this does not establish visibility into the shared NSG rules. See the [assessment record](../docs/windows-stig-validation.md).
+The November 13, 2026 UTC inventory confirmed one running Windows VM with the expected size, Standard SSD, assigned subnet and no public IP or NIC NSG. Run Command and Bastion access were verified. The specification and offline checks remain available for review and authorized reuse.
+
+The deployed image configuration uses `version: latest`, with Azure reporting `exactVersion: 26200.9974.261109`. Its resolved version matches the proposal, but the creation input was not pinned. The resolved image matches the specification; future deployments should use the explicit pin. Trusted Launch, Secure Boot and vTPM are observed enabled. Disk capacity was absent from the VM response. The proposed 128 GiB size still needs verification. Shared subnet NSG inspection was denied by RBAC and was not bypassed. Later authorized baseline and follow-up scans demonstrated scanner connectivity with the approved temporary Windows prerequisites; this does not establish visibility into the shared NSG rules. See the [assessment record](../docs/windows-stig-validation.md).
 
 ## Proposed configuration
 
@@ -55,7 +57,7 @@ Privately confirm the subscription ID against the assignment; a display-name mat
 
 At the assigned group and exact subnet scopes, confirm the effective permissions needed for VM, managed-disk, NIC and deployment writes and `Microsoft.Network/virtualNetworks/subnets/join/action`. A role name or successful read does not prove these actions are permitted. Consider inherited denies, role conditions, locks, provider registration, regional quota and applicable policy. Only inspect these permitted scopes; ask the administrator to resolve any missing visibility. Subnet-join permission was already established in the previous investigation; recheck only if access or assignments change.
 
-Preserve the now-working Bastion and Run Command paths and record their private recovery procedures. The historical limited Bastion inventory did not locate a host; the subsequent successful desktop connection supersedes the connectivity uncertainty without authorizing inspection of its hosting subscription. Do not inspect another subscription or peer VNet without authorization. Public RDP is not a fallback.
+Preserve the now-working Bastion and Run Command paths and record their private recovery procedures. Successful desktop access confirmed the available management path. Do not inspect another subscription or peer VNet without authorization. Public RDP is not a fallback.
 
 Resolve conflicting shutdown schedules/timezones and the inactivity-purge policy with the administrator, including what activity resets the timer and how approved evidence and same VM identity survive interruptions. Portal viewing must not be assumed to prevent purge.
 

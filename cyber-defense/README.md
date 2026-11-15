@@ -15,9 +15,9 @@ The package includes the query, a Python reference model and eight generated tes
 | Service tests | Eight cases passed, covering the threshold, time boundaries, duplicates and source mismatches. |
 | Workbook tests | Five query panels passed. Rendered charts, time controls and empty results were checked in Azure. |
 
-![Windows investigation workbook using saved Cyber Range query results](workbooks/evidence/workbook-overview.png)
+![Eight authentication detector cases with matching expected and observed results](evidence/detection-tests.png)
 
-*Related work: the [Windows investigation workbook](workbooks/README.md) uses recorded Cyber Range activity. The authentication detector has its own [test workbook](workbooks/authentication-investigation.workbook.json).*
+*Observed Log Analytics results from the generated test cases. [Result data and source hashes](detection-validation.json) · [Test workbook](workbooks/authentication-investigation.workbook.json).*
 
 ## Detector logic
 

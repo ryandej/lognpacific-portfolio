@@ -2,7 +2,7 @@
 
 [Portfolio](../README.md) · [Validation](local-validation.md)
 
-Eight images show the main projects. Each report explains its source and results. File sizes and SHA-256 hashes are listed in the [image manifest](visual-evidence.json).
+Nine images show the selected projects. Each report explains its source and results. File sizes and SHA-256 hashes are listed in the [image manifest](visual-evidence.json).
 
 | Image | Source |
 |---|---|
@@ -14,7 +14,8 @@ Eight images show the main projects. Each report explains its source and results
 | [Hartwell analysis](../threat-hunting/evidence/hartwell-analysis-checks.png) | Local review of monitoring continuity, four encoding checks, 71 process records and 45 decoded commands. It includes the available network evidence limits. |
 | [Endpoint response](evidence/endpoint-response.png) | Local report of observed onboarding, collection, isolation and recovery. [Execution record](endpoint-validation.md). |
 | [Windows investigation](../threat-hunting/module-1/evidence/endpoint-investigation.png) | Local report of ten executed queries, 233 timeline records, five event sources and activity timing. [Summary](../threat-hunting/module-1/investigation-summary.json). |
+| [Authentication detector tests](../cyber-defense/evidence/detection-tests.png) | Local summary of eight generated cases executed in Log Analytics. Expected and observed matches agree for every case. [Results and source hashes](../cyber-defense/detection-validation.json). |
 
-The local reports use retained evidence. Private identifiers, credentials, command lines and challenge answers are excluded. Original captures and source records remain in private storage under `EV-PORTFOLIO-VISUALS-V22`, `EV-HARTWELL-REPORT-REFRESH`, `EV-TRACKER-PROJECT-REFRESH-20261115` and `EV-WORKBOOK-RECORDED-V27`.
+The local reports use retained evidence. Private identifiers, credentials, command lines and challenge answers are excluded. Original captures and source records remain in private storage under `EV-PORTFOLIO-VISUALS-V22`, `EV-HARTWELL-REPORT-REFRESH`, `EV-TRACKER-PROJECT-REFRESH-20261115` and `EV-WORKBOOK-RECORDED-V27`. The November 15 presentation refresh is recorded under `EV-PORTFOLIO-PRESENTATION-20261115`; it preserves the original results.
 
-Repository checks allow only the eight listed image paths and their reviewed hashes. They check PNG structure, metadata, dimensions and size. Each replacement also needs a visual privacy check. Other images and attachments remain ignored.
+Repository checks allow only the nine listed image paths and their reviewed hashes. They check PNG structure, metadata, dimensions and size. Each replacement also needs a visual privacy check. Other images and attachments remain ignored.

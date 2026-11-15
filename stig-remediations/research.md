@@ -16,23 +16,23 @@ Research date: November 12, 2026. Source: DISA Windows 11 V2R11, dated September
 
 ## Shortlist
 
-All entries use an HKLM DWORD registry check. Exact registry paths, vulnerability identifiers, rule revisions, values, and prepared-control policy guidance are in [catalog.json](catalog.json). Prepared reports include the corresponding official identifiers.
+All entries use an HKLM DWORD registry check. Exact registry paths, vulnerability identifiers, rule revisions, values, and implemented-control policy guidance are in [catalog.json](catalog.json). Each implemented control links to its execution report and official identifiers.
 
 | Control / finding | Required value | Disposition | Selection rationale / dependency |
 |---|---|---|---|
 | `WN11-CC-000005` / `V-253350` | `NoLockScreenCamera = 1` | Deferred | Deferred: confirm a physical or redirected camera; DISA marks camera-free systems not applicable. |
-| `WN11-CC-000010` / `V-253352` | `NoLockScreenSlideshow = 1` | [Prepared](WN11-CC-000010/report.md) | Restricts lock-screen slideshow presentation. |
+| `WN11-CC-000010` / `V-253352` | `NoLockScreenSlideshow = 1` | [Verified](WN11-CC-000010/report.md) | Restricts lock-screen slideshow presentation. |
 | `WN11-CC-000035` / `V-253356` | `NoNameReleaseOnDemand = 1` | Deferred | Deferred: confirm NetBIOS/WINS dependencies and policy-template ownership. |
-| `WN11-CC-000100` / `V-253374` | `DisableWebPnPDownload = 1` | [Prepared](WN11-CC-000100/report.md) | Prevents HTTP print-driver downloads; confirm no required printer setup depends on them. |
-| `WN11-CC-000110` / `V-253376` | `DisableHTTPPrinting = 1` | [Prepared](WN11-CC-000110/report.md) | Prevents HTTP printing; confirm no required lab workflow uses it. |
-| `WN11-CC-000180` / `V-253386` | `NoAutoplayfornonVolume = 1` | [Prepared](WN11-CC-000180/report.md) | Disables automatic actions for non-volume devices. |
-| `WN11-CC-000185` / `V-253387` | `NoAutorun = 1` | [Prepared](WN11-CC-000185/report.md) | Prevents AutoRun commands from executing automatically. |
-| `WN11-CC-000190` / `V-253388` | `NoDriveTypeAutoRun = 255` | [Prepared](WN11-CC-000190/report.md) | Disables AutoPlay across all drive types; the required decimal value is 255. |
-| `WN11-CC-000295` / `V-253407` | `DisableEnclosureDownload = 1` | [Prepared](WN11-CC-000295/report.md) | Prevents automatic RSS enclosure downloads. |
+| `WN11-CC-000100` / `V-253374` | `DisableWebPnPDownload = 1` | [Verified](WN11-CC-000100/report.md) | Prevents HTTP print-driver downloads; confirm no required printer setup depends on them. |
+| `WN11-CC-000110` / `V-253376` | `DisableHTTPPrinting = 1` | [Verified](WN11-CC-000110/report.md) | Prevents HTTP printing; confirm no required lab workflow uses it. |
+| `WN11-CC-000180` / `V-253386` | `NoAutoplayfornonVolume = 1` | [Verified](WN11-CC-000180/report.md) | Disables automatic actions for non-volume devices. |
+| `WN11-CC-000185` / `V-253387` | `NoAutorun = 1` | [Verified](WN11-CC-000185/report.md) | Prevents AutoRun commands from executing automatically. |
+| `WN11-CC-000190` / `V-253388` | `NoDriveTypeAutoRun = 255` | [Verified](WN11-CC-000190/report.md) | Disables AutoPlay across all drive types; the required decimal value is 255. |
+| `WN11-CC-000295` / `V-253407` | `DisableEnclosureDownload = 1` | [Verified](WN11-CC-000295/report.md) | Prevents automatic RSS enclosure downloads. |
 | `WN11-CC-000305` / `V-253409` | `AllowIndexingEncryptedStoresOrItems = 0` | Deferred | Deferred: DISA distinguishes GPO and Intune paths; the management channel is unknown. |
-| `WN11-CC-000310` / `V-253410` | `EnableUserControl = 0` | [Prepared](WN11-CC-000310/report.md) | Removes user control of privileged Windows Installer options. |
-| `WN11-CC-000315` / `V-253411` | `AlwaysInstallElevated = 0` | [Prepared](WN11-CC-000315/report.md) | Disables the machine-side AlwaysInstallElevated policy. |
-| `WN11-CC-000326` / `V-253414` | `EnableScriptBlockLogging = 1` | [Prepared](WN11-CC-000326/report.md) | Enables Windows PowerShell script-block logging. |
+| `WN11-CC-000310` / `V-253410` | `EnableUserControl = 0` | [Verified](WN11-CC-000310/report.md) | Removes user control of privileged Windows Installer options. |
+| `WN11-CC-000315` / `V-253411` | `AlwaysInstallElevated = 0` | [Verified](WN11-CC-000315/report.md) | Disables the machine-side AlwaysInstallElevated policy. |
+| `WN11-CC-000326` / `V-253414` | `EnableScriptBlockLogging = 1` | [Verified](WN11-CC-000326/report.md) | Enables Windows PowerShell script-block logging. |
 | `WN11-CC-000330` / `V-253416` | `AllowBasic = 0` | Deferred | Deferred: establish WinRM authentication dependencies before disabling Basic. |
 
 ## Selection and enforcement limits

@@ -34,11 +34,9 @@ Correlate events using their source identifiers, timestamps and process context.
 
 Build a timeline and report with query hashes, evidence references, findings and open questions. Proposed containment needs a separate approval and recovery plan. Keep instructor answers and gated solutions out of source, fixtures and reports.
 
-## Security automation and AI experiments
+## Security automation
 
 Build automation around a concrete task. Define permitted inputs, actions, error paths and repeat behavior. Test scope rejection and partial failures before allowing live operations.
-
-For an AI experiment, define the threat model, data permissions, baseline and evaluation criteria. Keep held-out answers separate from development. Record the model version, settings, inputs and measured outcomes. Review the implementation and its claims before publication.
 
 ## Status and evidence standards
 
@@ -51,7 +49,7 @@ For an AI experiment, define the threat model, data permissions, baseline and ev
 | Tested | Specified checks ran and their outcomes were recorded. Inspect the result to see whether they passed. |
 | Verified | Observed evidence meets the stated criteria in the tested environment. |
 
-Record independent review as pending, changes requested or reviewed, with the version, reviewer, date and findings. An operator waiver has its own record. Publication approval and external acceptance also need separate records.
+Record independent review with the version, reviewer, date and findings. Keep review decisions, publication approval and external acceptance in their own records.
 
 The [validation record](local-validation.md) lists local tests, Windows execution, Tenable assessments and KQL results. Evidence tools check the supplied metadata; the original source records still need review.
 
@@ -72,5 +70,3 @@ Store raw evidence in approved private storage. Use stable evidence aliases and 
 `Planning/` is ignored and requires explicit access authorization. Screenshots and attachments are also ignored by default. To publish a sanitized image, inspect its content and metadata, record its source, then add only the approved exact path to the allowlist. Review text and data files for disclosure as well.
 
 `.gitignore` reduces accidental staging. It cannot protect material that was force-added or already tracked. Review the proposed changes before any authorized commit, push or public release.
-
-Later NCyTE reuse requires approved original material, attribution and validation in that separate project.

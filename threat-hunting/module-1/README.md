@@ -2,37 +2,46 @@
 
 [Portfolio](../../README.md) · [Investigations](../README.md) · [Query index](#query-index) · [Execution results](#observed-execution-and-limits)
 
-I used ten original KQL queries to investigate a Windows endpoint in a historical Cyber Range dataset. The work covered authentication, processes, network connections, file changes, persistence and possible movement to other devices. It produced a timeline, an incident report and a proposed containment plan.
+I investigated suspicious activity on a Windows endpoint using historical Cyber Range telemetry. I wrote and executed ten KQL queries to trace processes, network connections, file changes, registry activity and account changes. The investigation produced a 233-record timeline, an incident report and a containment proposal.
 
-All ten queries ran successfully. The main timeline contained **233 records** from five Defender event tables. Account creation and a registry change had supporting event records. Task and service commands were also present, but the resulting installed state was not confirmed. No response actions were performed on the investigated hosts.
+## Findings
+
+I first checked which event sources covered the incident window. The initial 90-minute window contained process and host activity but missed earlier authentication events. A separate query within the authorized wider window supplied that context.
+
+I then used process ancestry and related host events to assess what had happened. Account creation and a registry write had corroborating events. Commands to create a task and service were present; the available results did not confirm whether either mechanism was installed. A shared alert linked another endpoint, leaving a lead for further investigation.
+
+| Evidence | Finding | Follow-up |
+|---|---|---|
+| Account events | Account creation was supported by a host event. | Review the account's purpose and related group changes. |
+| Registry events | A registry value write corroborated part of the observed activity. | Check the setting and any subsequent execution before concluding that persistence worked. |
+| Task and service commands | Creation commands appeared in process telemetry. | Confirm the resulting task or service state. |
+| Shared alert | The alert associated another endpoint with the incident. | Establish that endpoint's role before concluding lateral movement. |
+| Network query | The scoped lateral-movement query returned no matches. | Review the available coverage and alert lead; the result alone cannot close that branch. |
+
+The containment proposal prioritizes evidence preservation, confirmation of the affected identities, and scoped endpoint containment with a recovery path. No response action was performed on the investigated hosts.
 
 ![Windows investigation showing query results, source counts and event timing](evidence/endpoint-investigation.png)
 
-*Screenshot of a local report built from saved query results. It shows the 90-minute focus window. Names, addresses, commands and private answers are omitted. [Summary data](investigation-summary.json) · [Image provenance](../../docs/visual-evidence.md).*
+*Local summary of saved investigation results. [Source data](investigation-summary.json) · [Image details](../../docs/visual-evidence.md).*
 
-## Work completed
+## Timeline and coverage
 
-| Work | Result |
-|---|---|
-| Query development | Ten reusable queries with explicit device and time limits. |
-| Investigation | All ten queries executed against the assigned historical data. Saved queries and responses were checked against their recorded hashes. |
-| Timeline | 233 records: 100 general device events, 57 registry events, 43 process events, 27 file events and six network events. Several records can relate to one action. |
-| Incident report | Findings connected to their source events, with attempted actions separated from confirmed changes. |
-| Containment plan | Proposed steps to preserve evidence, contain the affected endpoint and recover safely. The plan was not executed on course hosts. |
+The combined timeline contains 100 general device events, 57 registry events, 43 process events, 27 file events and six network events. Several records can describe the same action.
 
-The narrow window missed earlier authentication activity. A separate query within the authorized wider window supplied that context. A shared alert also linked another endpoint; that association alone did not establish lateral movement.
+| Elapsed time in the focus window | Records |
+|---|---:|
+| First 15 minutes | 57 |
+| Minutes 15–30 | 93 |
+| Minutes 30–45 | 83 |
+| Minutes 45–90 | 0 |
+
+Activity clustered in the first 45 minutes. The [Sentinel workbook](../../cyber-defense/workbooks/README.md) presents these counts alongside source, event-type and query coverage.
 
 ## Scope and execution
 
-Use Microsoft Defender Advanced Hunting with authorized Defender for Endpoint telemetry. On November 13, 2026 UTC, all ten queries executed successfully in the authorized Log Analytics workspace with their original null bounds and empty device scopes, returning zero rows. That initial check validated schema binding and empty-scope behavior in the selected workspace. The investigation followed with the approved scope.
+The queries use Defender event tables and were executed in the authorized Azure Log Analytics workspace. Each source query starts with null UTC bounds and an empty device list. An initial service check confirmed that all ten bound successfully and returned no rows with that empty scope.
 
-Every query starts with null UTC bounds and an empty `DeviceScope`, producing no matching rows by default. In a private query copy, set an explicit half-open window `[Start, End)` and the approved **DeviceId** list. Never remove the scope filter to discover other participants' devices. Obtain any scope expansion before pivoting. Results, commands, registry data, account names, URLs and addresses remain private.
-
-1. Record authorization, hypothesis, device scope, UTC window, retention and onboarding status. Distinguish synthetic data, course telemetry and authorized live observations.
-2. Run [coverage](queries/00-coverage.kql) first. Compare returned table/action counts and observed time ranges with the authorized incident window. A missing table is a prerequisite failure; an empty table is not proof that an action did not occur. Confirm action meanings in the portal's schema reference.
-3. Follow the relevant queries below. Save query SHA-256, private parameter values, execution time, service result status, row counts and truncation/warnings in the evidence manifest. Do not treat a partial result as complete. Split large windows into nonoverlapping intervals and document gaps and any aggregation.
-4. Correlate by device and process creation time plus process ID; PID alone can be reused. Distinguish file hashes by algorithm and do not equate missing hashes. Use parent-process fields when tracing ancestry and child-process fields when examining execution. Equal timestamps or shared names alone do not establish causation.
-5. Construct the evidence-linked timeline and incident scope, test benign explanations, record unresolved branches, and obtain independent review. Scope boundaries and retention constrain any statement about unaffected devices.
+For reuse, set the approved device IDs and a half-open UTC window in a private copy. Run the coverage query first. Keep device and time filters intact, record query hashes and response limits, and correlate process IDs with their creation times. Preserve raw event details privately. [Investigation method](../investigation-method.md).
 
 ## Query index
 
@@ -49,34 +58,13 @@ Every query starts with null UTC bounds and an empty `DeviceScope`, producing no
 | [08 Potential lateral movement](queries/08-lateral-movement.kql) | Did scoped devices contact administrative-service ports? Ports alone do not establish movement or authorize inspection of destinations. |
 | [09 Timeline](queries/09-timeline.kql) | How do recorded events align across sources? Retain source table, device, timestamp and ReportId; inspect full source rows for details. |
 
-For task and service and account outcomes, corroborate the process candidates with scoped `DeviceEvents` action types discovered by query 00 and, when separately authorized, read-only host state or Windows auditing. Do not invent action names or assume a generic `AdditionalFields` key exists. This package deliberately contains no confidential scenario answers, expected flags, or predetermined incident timeline.
-
-## Incident report structure
-
-The private investigation uses this structure; future investigations must derive their own findings:
-
-1. Objective, context, authorized scope, hypothesis and UTC window.
-2. Data availability: onboarding, tables, retention, missing events, clock uncertainty, query limits and export completeness.
-3. Reproducibility: repository revision/file hashes, query names and parameters held privately, execution records, evidence aliases and provenance/digests.
-4. Findings: each claim, observed source event, actor versus target, attempted versus confirmed action, confidence, alternative explanation and remaining check.
-5. Timeline: UTC timestamp, asset alias, source, event identity, observed behavior, evidence alias and confidence. Keep causal inference separate from timestamp order.
-6. Scope: affected assets/accounts supported by evidence, permitted scope boundaries, unknowns and reasoned potential impact.
-7. Response proposal: owner, authorization needed, evidence to preserve, least disruptive action, management risks, rollback and same VM recovery. Identify affected accounts, supported network indicators and each observed persistence artifact from actual evidence. Clearly mark actions proposed versus actually executed; explain the selected detection point and separate containment planning from an executed response.
-8. Validation/review: synthetic tests, service execution results, independent review, limitations, disclosure decision and next investigation steps.
-
-The [authentication detector](../../cyber-defense/README.md) has separate generated tests and validation records. The [workbook](../../cyber-defense/workbooks/README.md) presents this investigation's saved counts.
-
 ## Observed execution and limits
 
-The earlier Graph request returned 403 and remains an access limitation for that API. The authenticated course workspace selector subsequently identified the correct data destination. Existing authorized Log Analytics access retrieved the assigned endpoint's historical records; no permission bypass or broad device inventory was used.
+All ten queries ran successfully against the assigned historical data. The retained query and response hashes were verified. The final responses used for the public summary were complete; an earlier capped response remains excluded from exhaustive conclusions.
 
-All ten reviewed queries executed with fixed device identity and the source-prescribed focus window. The combined timeline returned 233 source records. Several records can describe one action. The source's separate, wider UTC scaffold was needed to recover initial-access events outside the narrow focus window. Keep both intervals and their purpose in the private report.
+Task and service installation outcomes remain unconfirmed. The alert-linked endpoint was reviewed only through its device name, alert IDs and timestamps; its raw telemetry and host state were outside the investigation scope. These limits remain in the incident report.
 
-The investigation documents ten observed values or command artifacts and one explicitly qualified alert-linked endpoint lead. A shared alert linked multiple endpoints, so association alone does not prove a unique second compromise or lateral movement. Only names, alert identifiers and timestamps were collected for that approved scope extension; no peer's raw telemetry or host state was inspected. Task and service creation commands remain distinct from confirmed installed state. Account creation and a registry write have corroborating event evidence. No response was executed on course hosts.
-
-Private evidence alias `EV-MODULE1-V17` preserves query and result hashes, UTC receipts, collection limits, captured values, D1 containment and D2 incident analysis. One earlier collection hit its row cap and is not treated as exhaustive. A later source extraction crossed into an instructor section of a mixed document; the exception is disclosed privately and prevents an unqualified blind-review claim. No instructor text is reproduced here or used as evidence for the findings. The reports cite previously collected telemetry and retain uncertainty even where the exercise may expect a specific answer.
-
-For future execution, confirm workspace identity, retention, assigned device and current schema. Do not remove scope filters or substitute another workspace without authorization. Record schema checks, generated tests, investigation results, ingestion checks and review decisions separately. The [web-server investigation](../investigation-method.md) has a separate dataset and evidence record.
+The private record `EV-MODULE1-V17` retains the executed queries, result hashes, timestamps, incident analysis and containment proposal. [Validation and source context](../../docs/local-validation.md#review-and-disclosure-checks).
 
 ## Public technical references
 

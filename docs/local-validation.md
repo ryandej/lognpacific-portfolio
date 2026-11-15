@@ -45,7 +45,7 @@ Actual Tenable responses exposed two parser assumptions. Compliance rows could o
 
 The API also returned an opaque export ID. The client now validates it as a bounded path segment and preserves the receipt to prevent duplicate export requests. Tenable disabled fast discovery when ping was disabled; the configuration check stopped launch until that change was reconciled and tested. These details and the guard conditions are in the [Tenable runbook](../stig-remediations/tenable-readiness.md).
 
-Original Windows timestamps retain seven fractional digits. The derived ledger uses microseconds and documents the precision conversion. Its review fields remain pending; the later operator waiver has a separate record. All ten records pass the existing schema checks as `windows_verified`.
+Original Windows timestamps retain seven fractional digits. The derived ledger uses microseconds. All ten records pass its metadata checks as `windows_verified`; authenticated Tenable comparisons are documented in the [Windows results](windows-stig-validation.md). The schema's independent-review gate remains pending.
 
 The original authentication workbook needed an explicit chart category axis and both outcome series. Its time parameter needed a positive duration with a fixed end. Those corrections passed service and portal checks. The current portfolio workbook uses recorded investigation counts and has no time picker.
 
@@ -67,14 +67,18 @@ Repeat the relevant tests when source, runtime or new failures justify it. Prese
 
 ## Review and disclosure checks
 
-The operator reported Claude approval of the earlier engineering package. Later execution and documentation have separate records, and an additional review was waived. A prepared review packet remains available. Review status applies to the version and scope examined.
+Earlier code reviews covered the development package. Live execution, later tooling and documentation have their own validation records. Review conclusions apply to the version and scope examined.
 
-[check_repository.py](../tools/check_repository.py) checks Git-visible candidates, local documentation links, selected disclosure patterns, KQL scope defaults and ignore protections. It allows eight image paths with matching hashes, bounded dimensions and valid PNG structure. Human visual review checks the image content. Free-form secrets, new credential formats, Git history and staged blobs need separate review.
+The Windows investigation used course references and previously collected telemetry. A later source extraction included an instructor section. Findings cite the collected events; this was not a blind assessment.
+
+[check_repository.py](../tools/check_repository.py) checks Git-visible candidates, local documentation links, selected disclosure patterns, KQL scope defaults and ignore protections. It allows nine image paths with matching hashes, bounded dimensions and valid PNG structure. Human visual review checks the image content. Free-form secrets, new credential formats, Git history and staged blobs need separate review.
 
 The retained screenshots show actual application views or local reports built from saved evidence. They exclude private names, addresses, credentials, raw command lines and challenge answers. [Image sources and hashes](visual-evidence.md).
 
 ## Current local results
 
-On November 15, 2026 UTC, all 222 shared Python tests and all eight DISA source checks passed. The shared suite includes nine checks for the recorded investigation workbook and 18 for the authentication test workbook. All five recorded-data queries also passed in Log Analytics.
+On November 15, 2026 UTC, all 222 shared Python tests and all eight DISA source checks passed. The shared suite includes nine checks for the recorded investigation workbook and 18 for the authentication test workbook. Retained service records also document five passing recorded-data queries in Log Analytics.
 
-The repository check covered 107 text files and eight reviewed images with zero findings. The reviewed PowerShell scripts, shared module and KQL files were unchanged. No Windows tests or vulnerability assessments were repeated for this update.
+The presentation update passed the same 222 Python tests and eight DISA source checks. The repository check covered 108 text files and nine reviewed images with zero findings. Both workbook builders still match their saved artifacts. All 44 PowerShell, KQL and control-catalog files remain unchanged from the published source.
+
+The detector's eight recorded service results were checked against the retained query, response and summary hashes before preparing its new image. The six existing local evidence summaries were refreshed without changing their results. The original Azure workbook and hunt-completion captures were preserved. No Windows tests or vulnerability assessments were repeated for this update.

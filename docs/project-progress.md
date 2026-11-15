@@ -2,7 +2,7 @@
 
 [Portfolio](../README.md) · [Validation](local-validation.md) · [STIG results](windows-stig-validation.md)
 
-Updated November 15, 2026 UTC. This page records completed work and the checks still outstanding.
+Updated November 15, 2026 UTC. This page records the selected projects presented in this portfolio and their remaining technical checks.
 
 ## Engineering work
 
@@ -18,8 +18,6 @@ Updated November 15, 2026 UTC. This page records completed work and the checks s
 | Hartwell Breach | All 18 flags, all 1,750 points, completed on time. [Report and screenshots](../threat-hunting/README.md). | Exact answers and restricted telemetry remain private. |
 | Sentinel workbook | Five panels now display recorded Windows investigation results. Five aggregate queries passed in Log Analytics and the existing workbook was updated with matching readback. | New investigations need a fresh collection. [Workbook](../cyber-defense/workbooks/README.md). |
 | Vulnerability program | One-endpoint assessment report, proposed policy, tabletop and remaining-work queue. All ten closures reconcile to the original evidence. | Policy adoption and wider deployment have not occurred. |
-| Review | Earlier Claude reviews reported no blocking defects. The operator waived an additional review of later execution. | Record any future review by version and scope. |
-| AI security systems | Future scope identified. | Implementation and evaluation. |
 
 ## Ten remediated controls
 
@@ -42,6 +40,6 @@ Four researched candidates remain deferred. [Research](../stig-remediations/rese
 
 ## Remaining work
 
-The complete audit still contains 107 failures, 65 errors and eight warnings. Further remediation needs its own scope and approval. Preserve the existing VM and the original evidence. Lifecycle and licensing questions remain in the private project records.
+The complete audit still contains 107 failures, 65 errors and eight warnings. Further remediation needs its own scope and approval. The [program report](../vulnerability-management/README.md#residual-work-and-next-cycle) describes the remaining assessment work.
 
-Local tests, Windows observations, Tenable findings and review decisions each have their own records. Publication and later reuse require approval. Administrative records stay private.
+The [validation record](local-validation.md) links the tests and platform checks supporting these results.

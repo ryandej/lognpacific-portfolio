@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "service": "Azure Log Analytics",
+  "captured_at_utc": "2026-11-13T12:43:06.987758Z",
+  "data": "Generated authentication test events",
+  "live_tables_read": false,
+  "query_sha256": "4dc8a7badf7488b15a1f56ca1967d7e6d5dec60e1f54343ed0b60a99daaa1e55",
+  "response_sha256": "b65e0cade78a1d49ba30f7d47aa6b5211b0eb9d6d456e815581a637c9afdf85d",
+  "passed": 8,
+  "failed": 0,
+  "cases": [
+    {
+      "case": "BELOW",
+      "expected_matches": 0,
+      "observed_matches": 0,
+      "passed": true
+    },
+    {
+      "case": "BOUNDARY",
+      "expected_matches": 1,
+      "observed_matches": 1,
+      "passed": true
+    },
+    {
+      "case": "DUPLICATES",
+      "expected_matches": 0,
+      "observed_matches": 0,
+      "passed": true
+    },
+    {
+      "case": "LATE",
+      "expected_matches": 0,
+      "observed_matches": 0,
+      "passed": true
+    },
+    {
+      "case": "OUTSIDE-WINDOW",
+      "expected_matches": 0,
+      "observed_matches": 0,
+      "passed": true
+    },
+    {
+      "case": "POSITIVE",
+      "expected_matches": 1,
+      "observed_matches": 1,
+      "passed": true
+    },
+    {
+      "case": "SOURCE",
+      "expected_matches": 0,
+      "observed_matches": 0,
+      "passed": true
+    },
+    {
+      "case": "UNSCOPED",
+      "expected_matches": 0,
+      "observed_matches": 0,
+      "passed": true
+    }
+  ],
+  "evidence_alias": "EV-KQL-SYNTHETIC-RUNTIME-20261113"
+}

@@ -4,11 +4,11 @@
 - Repository: ryandej/lognpacific-portfolio
 - Workspace: /mnt/seagate-STKP6000400/lognpacific-portfolio
 - Purpose: Develop and document an AI security engineering and cyber defense portfolio for LOG(N) Pacific, with original implementations and evidence-backed results.
-- A separate NCyTE project may later adapt approved original code and methods with its own history, validation, and attribution.
+- Reuse in other projects requires approved original material, separate history, validation, and attribution.
 
 ## Workspace boundaries
 - Work only within this repository unless explicitly authorized.
-- Do not access or modify NCyTE, AI301, or unrelated project directories.
+- Do not access or modify unrelated project directories.
 - The local Planning/ directory contains internal source materials.
 - Do not inspect, modify, stage, or publish Planning/ without explicit approval.
 - Do not modify global agent configuration or other active sessions.

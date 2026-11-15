@@ -10,11 +10,11 @@ I investigated a compromised Linux web server running WordPress, following the a
 
 I connected HTTP requests to filesystem events, new web endpoints and web-server child processes. I also checked the outcome of monitoring-stop attempts and looked for movement to other systems.
 
-**Result:** Solved all 18 flags, earned all 1,750 points and finished within the competition window. The findings are documented below.
+**Outcome:** Reconstructed the intrusion from reconnaissance to persistence, corroborated webshell execution, and checked whether monitoring continued after the attacker tried to stop it. The completed hunt earned all 1,750 points across 18 flags and finished on time.
 
 ![Actual Hartwell hunt page showing the title, 1750 of 1750 points, 18 of 18 flags solved, and Completed on time](evidence/hunt-completion.png)
 
-*Screenshot from the completed hunt. The page now labels the competition as a past hunt; my result still shows “Completed on time.” Only the original title and my completion indicator are shown. [Screenshot provenance](../docs/visual-evidence.md).*
+*The completed hunt shows all flags solved and completion on time. [Screenshot source](../docs/visual-evidence.md).*
 
 ## Scope and tools
 
