@@ -2,59 +2,49 @@
 
 [Portfolio](../README.md) · [Project status](project-progress.md) · [Validation](local-validation.md)
 
-This portfolio develops original work in Cyber Defense, Vulnerability Management, Threat Detection, Security Automation, and AI Security Engineering. Its objectives are reproducible implementations, observable security outcomes, and independent review. This document defines scope; actual implementation and validation status are recorded in [project progress](project-progress.md).
+This portfolio covers Windows hardening, vulnerability management, threat investigation, detection engineering and security automation. Work items need a defined scope, reproducible source and observed results.
 
-## Technical scope and deliverables
+## Deliverables
 
-| Area | Intended deliverables | Validation needed |
+| Area | Deliverables | Validation |
 |---|---|---|
-| Windows 11 STIG remediation | Original PowerShell remediation, read-only verification, meaningful tests, rollback guidance, and a report per selected control. | Applicable benchmark and baseline, observed local tests, authorized before/after Tenable audits, side-effect checks, and independent review. |
-| Vulnerability Management | Finding analysis, justified remediation decisions, before/after comparisons, and documented residual findings. | Relevant scan coverage and configuration, actual platform results, version consistency, and evidence for each claimed change. |
-| Threat Detection | Original Defender or Sentinel KQL, query tests, investigation timelines, supported findings, and detection limitations. | Authorized asset/time scope, available tables and retention, positive/negative cases where useful, observed query results, and independent review. |
-| Cyber Defense | Scoped investigations, response recommendations, and potentially a controlled honeypot study. | Evidence provenance, tested detection logic, distinction between attempted and successful activity, and separately approved containment/recovery if performed. |
-| Security Automation | Scripts or utilities for an identified defensive workflow, with explicit inputs, bounded actions, error handling, and tests. | Reproducible execution, relevant failure paths, repeat-run behavior, and evidence that the automation achieves its stated objective. |
-| AI Security Engineering | Proposed original implementations and evaluations, such as a read-only analysis experiment assessing evidence grounding or resistance to instructions embedded in event data. | Defined threat model, approved or synthetic dataset, baseline, metrics, held-out evaluation cases, actual trial results, limitations, and independent review. No AI implementation is currently established here. |
+| Windows STIGs | PowerShell remediations, separate verifiers, recovery, tests and control reports. | Applicable benchmark, failing baseline, Windows checks and comparable Tenable follow-up. |
+| Vulnerability management | Assessment scope, prioritization, remediation plan, results and remaining findings. | Authentication, coverage, exact revisions and retained exports. |
+| Threat detection | KQL, a reference model, test cases and investigation workbooks. | Query execution, data coverage, positive and negative cases, false positives and limitations. |
+| Cyber Defense | Investigations, incident timelines and response plans. | Source events, collection limits and evidence of any authorized response. |
+| Security automation | Tools for scoped collection, parsing, comparison and testing. | Repeatable execution, safe failure handling and tests of input boundaries. |
+| AI security engineering | Future experiments with a defined threat model and evaluation. | Approved data, baseline, held-out cases, measured results and review. |
 
-Each work item needs a defined objective, authorized scope, reproducible method, test outcomes, relevant platform validation, evidence references, and a review record. Capture failures and unresolved findings as well as successful checks. A lab result supports only the environment and conditions actually tested.
+## Repository layout
 
-## Artifact organization
+- `stig-remediations/`: ten control packages, shared PowerShell, Tenable tools and evidence workflow.
+- `threat-hunting/`: the Hartwell report and Windows investigation queries.
+- `cyber-defense/`: authentication detector, reference model and workbooks.
+- `vulnerability-management/`: assessment report, policy proposal, tabletop and metrics.
+- `deployment/`: pinned VM specification and offline preflight.
+- `tests/` and `tools/`: regression tests and repository checks.
 
-Current artifact locations:
-
-- `stig-remediations/<rule-id>/`: remediation and verification scripts, tests, a report, and approved evidence.
-- `threat-hunting/<investigation-id>/`: original KQL, relevant test cases, a report, and approved evidence.
-- `cyber-defense/`: the authentication sequence detector, synthetic reference model, response decisions and five-panel Sentinel workbook.
-- `vulnerability-management/`: the scoped program report, original policy/tabletop, evidence-derived assessment summary and consistency-checked metrics.
-- `deployment/`: a pinned Windows 11 proposal and offline, non-deploying preflight.
-- `tests/` and `tools/`: synthetic behavioral checks and read-only repository quality checks.
-
-The [evidence ledger](../stig-remediations/evidence-workflow.md) remains beside the STIG workflow it supports. Cross-workstream tests cover evidence, deployment and detection boundaries. Decide an AI experiment's layout when its implementation scope is approved. Do not create empty work directories, speculative frameworks, CI, or unapproved tenant automation.
+Add directories when they hold useful work. Keep confidential source material, raw evidence and administrative records in approved private storage.
 
 ## Operating constraints
 
-- Work only in this repository and the explicitly authorized range scope. Preserve the same participant-owned VM and confirm any existing VM before considering deployment. No second VM or routine deletion/recreation.
-- Verify actual roles, data access, assigned resources, and applicable terms. Architecture descriptions and dashboard visibility are not proof of operational authorization.
-- Obtain approval before cloud operations, scans, configuration changes, installations, role changes, exposure, containment, or recovery. A honeypot study requires a defined exposure window, monitoring, and a same-VM recovery plan before execution.
-- Preserve management access, endpoint protection, scanning capability, and telemetry while testing changes. Resolve conflicts between hardening and later exercises before altering controls.
-- Keep secrets, raw logs, sensitive resource information, confidential source documents, and third-party data out of Git. Export and publication require explicit permission and disclosure review.
-- Treat AI experiments as scoped engineering work. Use authorized data, prevent evaluation-answer leakage, and do not give an experimental system unapproved access or authority.
-- Keep NCyTE and other project directories and histories separate. Later reuse requires approved original material, attribution, and validation in the new context.
+Use the same owned VM throughout the project. Preserve management access, Defender, telemetry and scanning capability. Shared infrastructure and other participants' devices require separate scope.
 
-See the [methodology](methodology.md) for evidence and verification standards.
+Obtain approval for cloud changes, scans, installations, identity changes, exposure and response actions. Check effective permissions before proceeding. An exposed honeypot would need a separate plan covering monitoring, duration, containment and recovery.
 
-## Unresolved engineering dependencies
+Keep credentials, raw logs, resource identifiers and confidential course material out of Git. Review each proposed publication. NCyTE remains a separate project with its own history, attribution and validation.
 
-| Dependency | Evidence or decision needed before dependent work |
+## Dependencies
+
+| Area | Current position |
 |---|---|
-| Existing environment and permissions | One Windows VM is running on the assigned private subnet with no public IP. Bastion use is operator-confirmed; VM Run Command is observed working. Preserve this VM. Shared NSG read access was denied and not bypassed. Authenticated scanner access succeeded through bounded local prerequisites, now restored; licensing confirmation remains unresolved. See the [deployment record](../deployment/README.md). |
-| VM lifecycle | Resolve shutdown and inactivity-purge behavior; establish how the same VM and necessary evidence will be preserved. |
-| Windows and Tenable baseline | Windows 11 Pro 25H2 build 26200 has authenticated V2R11 fail-to-pass results for all ten selected controls. Exact Rule IDs and comparable scan configuration were checked. Additional independent review was waived by the operator; broader residual audit findings remain outside these ten controls. See the [execution report](windows-stig-validation.md). |
-| Telemetry availability | The correct course workspace is identified; all ten queries executed against the assigned historical dataset. The owned endpoint is onboarded and a benign process event is centrally observed. Authentication coverage, broader ingestion and live detector performance remain separate checks. |
-| Control and investigation selection | Ten real failed controls were selected and tested after the authenticated baseline. Keep further controls outside scope until justified by actual findings. Module 1 has an evidence-linked private report; the linked second-endpoint lead remains qualified and no peer response or raw telemetry is included. |
-| Controlled honeypot feasibility | Decide whether the study is useful and authorize exposure, monitoring, containment, costs, and recovery before implementation. |
-| Runtime and automation validation | PowerShell parsing/mocked tests, real registry apply/rollback/repeatability, native script-block logging and the ten Tenable checks have observed results. Actual populated compliance exports passed extraction. Eight detector fixtures and all five workbook panels passed synthetic Log Analytics execution. All ten investigation queries also executed against actual assigned historical data. One synthetic workbook is deployed and visually validated. Owned-endpoint process ingestion is observed; fleet performance and live detection effectiveness remain unvalidated. |
-| AI experiment design | Select the question, threat model, dataset permissions, baseline, metrics, evaluation separation, and execution boundary. |
-| Evidence and disclosure | Approve private evidence storage, sanitized outputs, and reviewer/publication access without exposing shared-environment details. |
-| Verification and review | Define technical success criteria and record the exact artifact version, observed outcomes, reviewer findings, and their resolution. |
+| VM and access | One Windows 11 VM on the assigned subnet, no public IP. Bastion and Run Command work. Shared NSG inspection was denied. Preserve the VM. |
+| Assessment | Authenticated baseline and follow-up completed for the ten controls. Temporary scanning prerequisites were restored; another assessment needs an approved window. |
+| Lifecycle | Shutdown, inactivity-purge and client-licensing questions remain with the range administrator. |
+| Telemetry | Historical investigation queries succeeded. The owned endpoint is onboarded and a process event was observed centrally. Broader ingestion and live detector performance need testing. |
+| Workbooks | The current workbook displays saved investigation counts. Authentication fixtures remain available for regression tests. |
+| Further controls | Select from actual findings after reviewing applicability and dependencies. |
+| AI experiments | No AI security system has been implemented or evaluated. Select a question and evaluation plan before development. |
+| Review and publication | Record the reviewed version, findings and publication permission. Preserve operator waivers separately. |
 
-Update these dependencies as evidence becomes available. Record implementation and review status in [project progress](project-progress.md), without including confidential correspondence or source material.
+See [methodology](methodology.md) for the execution and evidence workflow.

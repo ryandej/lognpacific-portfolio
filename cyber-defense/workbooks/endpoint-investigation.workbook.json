@@ -1,0 +1,105 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "name": "introduction",
+      "content": {
+        "json": "# Windows endpoint investigation\n\nRecorded results from the Cyber Range investigation reviewed November 14, 2026. Ten KQL queries produced a 233-record timeline. Private identifiers are omitted. The charts use elapsed minutes from the start of the investigation window."
+      }
+    },
+    {
+      "type": 3,
+      "name": "overview",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Investigation overview",
+        "query": "print TimelineRecords=233, Sources=5, Queries=10, FocusMinutes=90",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "size": 0,
+        "visualization": "table",
+        "crossComponentResources": []
+      }
+    },
+    {
+      "type": 3,
+      "name": "sources",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Records by source",
+        "query": "datatable(Source:string, Records:long) [\n\"DeviceEvents\", 100,\n\"DeviceFileEvents\", 27,\n\"DeviceNetworkEvents\", 6,\n\"DeviceProcessEvents\", 43,\n\"DeviceRegistryEvents\", 57\n]\n| order by Records desc, Source asc",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "size": 0,
+        "visualization": "categoricalbar",
+        "crossComponentResources": [],
+        "chartSettings": {
+          "xAxis": "Source",
+          "yAxis": [
+            "Records"
+          ],
+          "showLegend": false
+        }
+      }
+    },
+    {
+      "type": 3,
+      "name": "timeline",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Activity through the 90-minute window",
+        "query": "datatable(StartMinute:long, Interval:string, Records:long) [\n0, \"0\\u201315 min\", 57,\n15, \"15\\u201330 min\", 93,\n30, \"30\\u201345 min\", 83,\n45, \"45\\u201360 min\", 0,\n60, \"60\\u201375 min\", 0,\n75, \"75\\u201390 min\", 0\n]\n| order by StartMinute asc\n| project Interval, Records",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "size": 0,
+        "visualization": "categoricalbar",
+        "crossComponentResources": [],
+        "chartSettings": {
+          "xAxis": "Interval",
+          "yAxis": [
+            "Records"
+          ],
+          "showLegend": false
+        }
+      }
+    },
+    {
+      "type": 3,
+      "name": "actions",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Recorded activity",
+        "query": "datatable(Source:string, Action:string, Records:long) [\n\"DeviceEvents\", \"ClrUnbackedModuleLoaded\", 2,\n\"DeviceEvents\", \"CreateRemoteThreadApiCall\", 69,\n\"DeviceEvents\", \"DpapiAccessed\", 14,\n\"DeviceEvents\", \"NamedPipeEvent\", 4,\n\"DeviceEvents\", \"OtherAlertRelatedActivity\", 1,\n\"DeviceEvents\", \"ProcessCreatedUsingWmiQuery\", 5,\n\"DeviceEvents\", \"UserAccountAddedToLocalGroup\", 2,\n\"DeviceEvents\", \"UserAccountCreated\", 1,\n\"DeviceEvents\", \"UserAccountModified\", 1,\n\"DeviceEvents\", \"UserAccountPasswordResetAttempt\", 1,\n\"DeviceFileEvents\", \"FileCreated\", 22,\n\"DeviceFileEvents\", \"FileModified\", 5,\n\"DeviceNetworkEvents\", \"ConnectionAcknowledged\", 3,\n\"DeviceNetworkEvents\", \"ConnectionSuccess\", 3,\n\"DeviceProcessEvents\", \"ProcessCreated\", 43,\n\"DeviceRegistryEvents\", \"RegistryKeyCreated\", 25,\n\"DeviceRegistryEvents\", \"RegistryKeyDeleted\", 25,\n\"DeviceRegistryEvents\", \"RegistryValueDeleted\", 1,\n\"DeviceRegistryEvents\", \"RegistryValueSet\", 6\n]\n| order by Records desc, Source asc, Action asc",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "size": 0,
+        "visualization": "table",
+        "crossComponentResources": []
+      }
+    },
+    {
+      "type": 3,
+      "name": "queries",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Query results",
+        "query": "datatable(Query:string, ReturnedRows:long) [\n\"00-coverage\", 19,\n\"01-authentication\", 0,\n\"02-processes\", 19,\n\"03-network\", 6,\n\"04-files\", 27,\n\"05-registry-persistence\", 3,\n\"06-tasks-services\", 2,\n\"07-accounts-privileges\", 9,\n\"08-lateral-movement\", 0,\n\"09-timeline\", 233\n]\n| order by Query asc",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "size": 0,
+        "visualization": "table",
+        "crossComponentResources": []
+      }
+    },
+    {
+      "type": 1,
+      "name": "findings",
+      "content": {
+        "json": "## Investigation notes\n\nAccount creation and a registry write had supporting events. Task and service commands still need confirmation of the resulting state. An alert linked another endpoint; further evidence is needed to establish movement.\n\nQuery results can overlap. Earlier authentication activity was recovered in a separate, wider query. These panels display saved counts and remain unchanged when new telemetry arrives."
+      }
+    }
+  ],
+  "fallbackResourceIds": [],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}

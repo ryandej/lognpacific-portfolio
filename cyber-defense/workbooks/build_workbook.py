@@ -18,7 +18,7 @@ FIXTURE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(FIXTURE)
 SCHEMA = "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
 PANELS = {
-    "coverage": ("Coverage and data quality — inspect before interpreting detections", "table", '''print
+    "coverage": ("Event coverage", "table", '''print
     RawRows=toscalar(Raw | count),
     DistinctRows=toscalar(Deduplicated | count),
     EligibleRows=toscalar(Scoped | count),
@@ -28,19 +28,19 @@ PANELS = {
     LastEvent=toscalar(Raw | summarize max(Timestamp))
 | extend DuplicateRows=RawRows-DistinctRows, MissingKeyRows=DistinctRows-EligibleRows,
     NoTelemetry=(RawRows == 0), Threshold=Threshold, Window=Window'''),
-    "timeline": ("Eligible failures and successes by minute (deduplicated)", "timechart", '''Scoped
+    "timeline": ("Logons by minute", "timechart", '''Scoped
 | summarize Failures=countif(ActionType == "LogonFailed"), Successes=countif(ActionType == "LogonSuccess") by bin(Timestamp, 1m)
 | order by Timestamp asc'''),
-    "sources": ("Authentication sources — volume is not evidence of compromise", "categoricalbar", '''Scoped
+    "sources": ("Logons by source", "categoricalbar", '''Scoped
 | summarize Failures=countif(ActionType == "LogonFailed"), Successes=countif(ActionType == "LogonSuccess") by RemoteIP, LogonType
 | order by Failures desc, RemoteIP asc
 | project SourceLabel=strcat(RemoteIP, " | ", LogonType), Failures, Successes'''),
-    "sequences": ("Failure-to-success candidates — same identity, source and logon type", "table", '''Candidates
+    "sequences": ("Matching logon sequences", "table", '''Candidates
 | extend LookbackClipped=(SuccessAt - Window < Start), Evidence="Correlated logons; analyst decision required"
 | project SuccessAt, DeviceId, DomainKey, UserKey, RemoteIP, LogonType, FailureCount,
     FirstFailure, LastFailure, SuccessReportId, LookbackClipped, Evidence
 | order by SuccessAt asc'''),
-    "events": ("Candidate context — original event identifiers within each lookback", "table", '''Candidates
+    "events": ("Events in each sequence", "table", '''Candidates
 | project DeviceId, UserKey, DomainKey, RemoteIP, LogonType, SuccessAt, SuccessReportId
 | join kind=inner (Scoped | project DeviceId, UserKey, DomainKey, RemoteIP, LogonType,
     EventAt=Timestamp, EventReportId=ReportId, ActionType) on DeviceId, UserKey, DomainKey, RemoteIP, LogonType
@@ -125,14 +125,13 @@ let Deduplicated = Raw | extend AccountName=tolower(AccountName), AccountDomain=
 def build(mode="synthetic", device_id=None, start=None, end=None, workspace=None):
     devices, begin, finish = scope(mode, device_id, start, end, workspace)
     prefix = query_prefix(mode, devices, begin, finish)
-    banner = ("SYNTHETIC FIXTURES ONLY — no observed attack or production telemetry. "
-              if mode == "synthetic" else "LIVE QUERY CONFIGURATION — actual findings depend on observed execution. ")
-    note = (banner + "Fixed authorized scope: " + str(len(devices)) + " device ID(s), " + stamp(begin) + " to " + stamp(finish)
-            + ". The time picker can narrow this window; it cannot expand it. Empty coverage is inconclusive. "
-            "Five distinct failed logons in the ten minutes before a success are an investigation lead, not proof of compromise.")
+    banner = ("Generated test events. "
+              if mode == "synthetic" else "Scoped DeviceLogonEvents query. ")
+    note = (banner + "Scope: " + str(len(devices)) + " device IDs, " + stamp(begin) + " to " + stamp(finish)
+            + ". Review sequences with five failures in the ten minutes before a successful logon.")
     items = [{"type": 1, "name": "scope-and-meaning", "content": {"json": "# Authentication sequence investigation\n\n" + note}},
              {"type": 9, "name": "time-scope", "content": {"version": "KqlParameterItem/1.0", "style": "above", "parameters": [
-                 {"id": "approved-time", "version": "KqlParameterItem/1.0", "name": "TimeRange", "label": "Display window (inside fixed scope)",
+                 {"id": "approved-time", "version": "KqlParameterItem/1.0", "name": "TimeRange", "label": "Display window",
                   # Native custom ranges serialize as a positive duration with a
                   # fixed endTime. Zero duration leaves the UI parameter unset.
                   "type": 4, "isRequired": True, "value": {"durationMs": int((finish - begin).total_seconds() * 1000), "endTime": stamp(finish)},
@@ -146,16 +145,15 @@ def build(mode="synthetic", device_id=None, start=None, end=None, workspace=None
             # leaving only Successes visible. Bind the category and both measures.
             content["chartSettings"] = {"xAxis": "SourceLabel", "yAxis": ["Failures", "Successes"], "showLegend": True}
         items.append({"type": 3, "name": name, "content": content})
-    items.append({"type": 1, "name": "analyst-decisions", "content": {"json": "## Investigation and limitations\n\n"
-        "1. Inspect coverage, duplicates, missing keys, unknown actions and clipped lookbacks first.\n"
-        "2. Validate source/event identities, successful-logon meaning and benign explanations (stale credentials, operator retries or automation).\n"
-        "3. Correlate process and network context only within separately authorized asset/time scope. Retain exact query hashes and private evidence.\n"
-        "4. Record a supported triage decision before proposing response; this workbook creates no alerts and changes no systems.\n\n"
-        "The detector groups by device, domain, account, source IP and logon type. Distributed or rotating-source attempts may evade it. "
-        "Missing fields and missing ingestion reduce coverage. Event identifiers and timestamps support investigation but do not prove authenticity. "
-        "The context grid may repeat an event for overlapping candidate windows; count sequences separately from distinct events. "
-        "Selecting a narrower display interval can clip a lookback further than the fixed Start marker indicates. "
-        "Retain the full ten-minute authorized lookback when adjudicating a sequence."}})
+    items.append({"type": 1, "name": "analyst-decisions", "content": {"json": "## Review a match\n\n"
+        "1. Check coverage, duplicates, missing fields and the available lookback.\n"
+        "2. Check the account, source and logon outcome. Consider stale credentials, retries and automation.\n"
+        "3. Review related process and network events within the approved scope. Save query and event references.\n"
+        "4. Record the finding and request approval for any response. This workbook runs queries only.\n\n"
+        "The detector groups by device, domain, account, source IP and logon type. Distributed attempts may evade it. "
+        "Missing fields and ingestion gaps reduce coverage. Confirm the source of the records. "
+        "Overlapping sequences can repeat events in the context grid. "
+        "Use the full ten-minute lookback. A shorter display interval can omit earlier failures."}})
     return {"version": "Notebook/1.0", "items": items, "fallbackResourceIds": [workspace] if workspace else [], "$schema": SCHEMA}
 
 

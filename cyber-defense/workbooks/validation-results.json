@@ -61,7 +61,7 @@
     "FIXTURE-BOUNDARY"
   ],
   "limitations": [
-    "All deployed panels use synthetic events; no production detection effectiveness is established.",
+    "The November 14 authentication tests used generated events. Live detection performance remains untested.",
     "No analytics rule, alert or automated response is deployed.",
     "A narrow display window can clip lookbacks; retain complete authorized context for triage.",
     "No full JSON Schema validation or fleet performance claim."
@@ -74,5 +74,55 @@
     "empty_window_verified": true,
     "empty_window_coverage_rows": 0,
     "empty_window_no_telemetry": true
+  },
+  "record_name": "Original authentication test workbook",
+  "recorded_investigation": {
+    "artifact": "endpoint-investigation.workbook.json",
+    "mode": "recorded-investigation",
+    "captured_at_utc": "2026-11-15T04:53:00.582442+00:00",
+    "data": "Saved historical Cyber Range investigation counts",
+    "source_sha256": "0c8e566b4570a11f93b4c919b56fcecee6ae5b8066477d0ef18f87b0b6dd489b",
+    "panels": [
+      {
+        "panel": "overview",
+        "query_sha256": "d12791bf2417b476d4accb40f02288d865e442fff6cf8d4649382bff18795f55",
+        "response_sha256": "51b37d187b94cdff3ffec9d296a1c02cddf58285a085d954915b135b0b1c6b36",
+        "rows": 1,
+        "passed": true
+      },
+      {
+        "panel": "sources",
+        "query_sha256": "63d56814a3e7bf6a7bded690392dc79fbf8c7ee170bab1c06d4a4991f56fd584",
+        "response_sha256": "507a2627c69057f62a22b4b46bfd555414737e30892795c427bfb6dacb817f94",
+        "rows": 5,
+        "passed": true
+      },
+      {
+        "panel": "timeline",
+        "query_sha256": "851df2947290a28f8ffb102dba385bec3545d3d27c5bec3ac1c2c87e345658d5",
+        "response_sha256": "ce277ebe63ec32f351ab92618697aed57263d9efa5b2a502e426aa3fd7a7c272",
+        "rows": 6,
+        "passed": true
+      },
+      {
+        "panel": "actions",
+        "query_sha256": "a1e87e481224e9704fe95ecd4b62b16f6a3935449eff4996233b08476e80efe3",
+        "response_sha256": "e2f49bf6d1163fc181286bc145c725179ed424baf910ebb78e60c60ccacc3e4f",
+        "rows": 19,
+        "passed": true
+      },
+      {
+        "panel": "queries",
+        "query_sha256": "ebf98392615ce8fb018793d6c174e39c3e1553270adee4184baa10ca54d3e67a",
+        "response_sha256": "f0fa4a6acb5833188ad63c7e7fdc8fab0ca156d1fe48d4afdc7f1bb6d25ef760",
+        "rows": 10,
+        "passed": true
+      }
+    ],
+    "workbook_deployed": true,
+    "saved_source_matches": true,
+    "portal_rendering_verified": true,
+    "new_telemetry_collected": false,
+    "evidence_alias": "EV-WORKBOOK-RECORDED-V27"
   }
 }

@@ -1,51 +1,47 @@
-# Engineering results and validation status
+# Project status
 
 [Portfolio](../README.md) · [Validation](local-validation.md) · [STIG results](windows-stig-validation.md)
 
-**Engineering work:** November 13–14, 2026 UTC. **Documentation updated:** November 15, 2026 UTC. This page records what was built, what was tested and what still needs validation.
+Updated November 15, 2026 UTC. This page records completed work and the checks still outstanding.
 
-Ten Windows 11 STIG implementations have authenticated fail-to-pass evidence and completed apply, rollback and repeatability checks. The [technical validation report](windows-stig-validation.md) records scope, timing, residual findings and cleanup. The table below separates implemented work, observed results and remaining technical validation.
+## Engineering work
 
-## Engineering deliverables
-
-| Work | Observed status | Remaining validation |
+| Work | Completed | Still to check |
 |---|---|---|
-| STIG implementations | Ten actual V2R11 failures remediated; ten follow-up passes. WhatIf, repeat application, real rollback, repeat restore and reapply passed for each. All 33 reviewed source hashes unchanged. | Broader feature behavior and persistence across reboot/policy refresh not established; these limits do not negate the observed ten-rule results. |
-| Local and Windows tests | 221 Python tests passed: 213 shared tests and eight DISA static checks. The 340 mocked PowerShell cases passed in PowerShell 7.6.6 and native Windows 5.1.26100.9818; 32 Windows files parsed. | Mocked tests and actual Windows changes have separate execution records. |
-| Evidence tooling | Actual API compliance-host binding and three-fragment single-host exports reconciled with fail-closed checks; 45 client, 39 parser and 24 diagnostic tests included above. Private comparison ledger validates all ten. | Additional independent review waived, not performed. Disclosure permission remains separate. No audit-content digest supplied by the service. |
-| VM and scan readiness | Same existing VM, exact private target and designated scanner. Authenticated SMB/registry assessment succeeded in two bounded prerequisite windows. Original scan settings restored; temporary ingress removed; Remote Registry restored; Defender and management services healthy. | Future assessments require authorized prerequisite windows. Preserve same VM and resolve lifecycle/licensing policy questions. |
-| Endpoint operations | Defender onboarding verified locally and centrally; benign process ingestion observed. All 70 investigation-package collection operations succeeded. A connection test confirmed loss of access during isolation and recovery after release. | Other event types and network paths were not fully tested. Supported offboarding requires an administrator-issued package. See [endpoint validation](endpoint-validation.md). |
-| Historical endpoint investigation | All ten scoped queries executed against the assigned historical dataset. Private captured values, timeline, containment proposal and report are evidence-linked. | Shared-alert second-endpoint association remains a lead, not proof of movement. Task/service command outcomes and source-handling exception are documented. No response was executed against the historical investigation endpoints. |
-| Authentication sequence | Python reference tests passed; eight generated synthetic cases passed in an authorized Log Analytics service using the actual detector body. | Required columns observed in the authorized Log Analytics schema; own-VM authentication coverage was zero in the checked interval. Real event semantics, false-positive analysis and review remain; no deployed detection or response. |
-| Hartwell Breach investigation | Completed on time with all 18 flags and all 1,750 points. The [case report](../threat-hunting/README.md) includes the findings and three screenshots. | Raw telemetry, exact answers and participant details remain private. |
-| Sentinel workbook | One approved five-panel synthetic workbook deployed; exact readback, native time control, both chart outcomes and empty-window behavior verified. 18 focused workbook tests passed. | Live detection effectiveness, performance and full JSON Schema validation remain unestablished. |
-| Vulnerability program | One-asset lifecycle report, original policy/tabletop, reverified assessment summary and six metric tests. All ten closures reconciled to original evidence. | Governance is simulated; no organization-wide adoption or separate Windows Server/software exercise claimed. |
-| Independent review | Operator reports prior Claude engineering reviews found no blocking defects; a current review packet is prepared. | An additional review of the later execution batch was waived. Neither that waiver nor a prepared packet constitutes a new independent review. |
-| AI engineering | Scope proposed. | No implemented/evaluated AI security system claimed. |
+| Windows STIGs | Ten V2R11 findings changed from FAILED to PASSED. Preview, apply, repeat, rollback and reapply passed for each. The 33 reviewed source hashes match. | Broader feature behavior and persistence after reboot or policy refresh. |
+| PowerShell tests | 340 mocked cases passed on Ubuntu and Windows; 32 files parsed on Windows. | Repeat only when the tested source or runtime changes. |
+| Tenable tools | The scoped API client and parser processed the actual baseline and follow-up. Each export contained 258 compliance items and 16 diagnostics. | Audit-content digest was unavailable. Further formats need tests before support is added. |
+| Assessment recovery | Original scan settings restored, temporary ingress removed and Remote Registry restored. Defender and management services remained healthy. | A future scan needs an authorized prerequisite window. |
+| Defender response | Onboarding, central process telemetry, investigation collection, isolation and release verified on the owned VM. All 70 collection operations succeeded. | Ingestion of other event types and other network paths. [Details](endpoint-validation.md). |
+| Windows investigation | Ten scoped queries executed on historical telemetry. The timeline has 233 records; an incident report and containment proposal are complete. | Task and service installation outcomes. The alert-linked endpoint needs further evidence before concluding movement. |
+| Authentication detector | Python model checks and eight generated KQL cases passed in Log Analytics. | Live authentication coverage, false positives and alert deployment. |
+| Hartwell Breach | All 18 flags, all 1,750 points, completed on time. [Report and screenshots](../threat-hunting/README.md). | Exact answers and restricted telemetry remain private. |
+| Sentinel workbook | Five panels now display recorded Windows investigation results. Five aggregate queries passed in Log Analytics and the existing workbook was updated with matching readback. | New investigations need a fresh collection. [Workbook](../cyber-defense/workbooks/README.md). |
+| Vulnerability program | One-endpoint assessment report, proposed policy, tabletop and remaining-work queue. All ten closures reconcile to the original evidence. | Policy adoption and wider deployment have not occurred. |
+| Review | Earlier Claude reviews reported no blocking defects. The operator waived an additional review of later execution. | Record any future review by version and scope. |
+| AI security systems | Future scope identified. | Implementation and evaluation. |
 
-## Ten implemented controls
+## Ten remediated controls
 
-All values are DWORDs. The November 12 missing-value observations remain preserved under `EV-WIN-INTEGRATION-20261112`; actual authenticated evidence on November 13 now establishes the baseline and follow-up below.
+All expected values are DWORDs. The authenticated baseline and follow-up ran on November 13, 2026 UTC. Every control also passed Windows verification and recovery checks.
 
-| Control | Required value | Tenable baseline | Final Windows verification | Tenable follow-up | Real rollback / repeat / previews |
-|---|---|---|---|---|---|
-| [WN11-CC-000010](../stig-remediations/WN11-CC-000010/report.md) | `NoLockScreenSlideshow = 1` | FAILED | RegistryMatch | PASSED | Passed |
-| [WN11-CC-000100](../stig-remediations/WN11-CC-000100/report.md) | `DisableWebPnPDownload = 1` | FAILED | RegistryMatch | PASSED | Passed |
-| [WN11-CC-000110](../stig-remediations/WN11-CC-000110/report.md) | `DisableHTTPPrinting = 1` | FAILED | RegistryMatch | PASSED | Passed |
-| [WN11-CC-000180](../stig-remediations/WN11-CC-000180/report.md) | `NoAutoplayfornonVolume = 1` | FAILED | RegistryMatch | PASSED | Passed |
-| [WN11-CC-000185](../stig-remediations/WN11-CC-000185/report.md) | `NoAutorun = 1` | FAILED | RegistryMatch | PASSED | Passed |
-| [WN11-CC-000190](../stig-remediations/WN11-CC-000190/report.md) | `NoDriveTypeAutoRun = 255` | FAILED | RegistryMatch | PASSED | Passed |
-| [WN11-CC-000295](../stig-remediations/WN11-CC-000295/report.md) | `DisableEnclosureDownload = 1` | FAILED | RegistryMatch | PASSED | Passed |
-| [WN11-CC-000310](../stig-remediations/WN11-CC-000310/report.md) | `EnableUserControl = 0` | FAILED | RegistryMatch | PASSED | Passed |
-| [WN11-CC-000315](../stig-remediations/WN11-CC-000315/report.md) | `AlwaysInstallElevated = 0` | FAILED | RegistryMatch | PASSED | Passed |
-| [WN11-CC-000326](../stig-remediations/WN11-CC-000326/report.md) | `EnableScriptBlockLogging = 1` | FAILED | RegistryMatch | PASSED | Passed |
+| Control | Expected value | Tenable baseline | Tenable follow-up |
+|---|---|---|---|
+| [WN11-CC-000010](../stig-remediations/WN11-CC-000010/report.md) | `NoLockScreenSlideshow = 1` | FAILED | PASSED |
+| [WN11-CC-000100](../stig-remediations/WN11-CC-000100/report.md) | `DisableWebPnPDownload = 1` | FAILED | PASSED |
+| [WN11-CC-000110](../stig-remediations/WN11-CC-000110/report.md) | `DisableHTTPPrinting = 1` | FAILED | PASSED |
+| [WN11-CC-000180](../stig-remediations/WN11-CC-000180/report.md) | `NoAutoplayfornonVolume = 1` | FAILED | PASSED |
+| [WN11-CC-000185](../stig-remediations/WN11-CC-000185/report.md) | `NoAutorun = 1` | FAILED | PASSED |
+| [WN11-CC-000190](../stig-remediations/WN11-CC-000190/report.md) | `NoDriveTypeAutoRun = 255` | FAILED | PASSED |
+| [WN11-CC-000295](../stig-remediations/WN11-CC-000295/report.md) | `DisableEnclosureDownload = 1` | FAILED | PASSED |
+| [WN11-CC-000310](../stig-remediations/WN11-CC-000310/report.md) | `EnableUserControl = 0` | FAILED | PASSED |
+| [WN11-CC-000315](../stig-remediations/WN11-CC-000315/report.md) | `AlwaysInstallElevated = 0` | FAILED | PASSED |
+| [WN11-CC-000326](../stig-remediations/WN11-CC-000326/report.md) | `EnableScriptBlockLogging = 1` | FAILED | PASSED |
 
-Four additional researched candidates remain deferred; see [research](../stig-remediations/research.md). Never weaken a passing setting to create a finding.
+Four researched candidates remain deferred. [Research](../stig-remediations/research.md).
 
-## Scope and remaining validation
+## Remaining work
 
-1. The release includes original code and sanitized technical reports. Raw evidence and confidential source material stay in private storage; later disclosure or reuse requires permission.
-2. Keep validation layers separate. The endpoint investigation used authorized historical telemetry through Log Analytics; its earlier Graph 403 remains an API-specific limit. The owned VM is now onboarded to Defender with observed benign process telemetry. The synthetic workbook is deployed, but no live detector, honeypot, additional control or AI security system is implied.
-3. Preserve the existing VM and private evidence. Lifecycle and licensing questions remain recorded; do not create a replacement VM.
+The complete audit still contains 107 failures, 65 errors and eight warnings. Further remediation needs its own scope and approval. Preserve the existing VM and the original evidence. Lifecycle and licensing questions remain in the private project records.
 
-The audit still includes 107 other failures, 65 errors and 8 warnings; this work does not claim whole-machine compliance. Public release and later NCyTE reuse require permission, appropriate disclosure review, attribution and validation. Administrative participation and acceptance records remain private.
+Local tests, Windows observations, Tenable findings and review decisions each have their own records. Publication and later reuse require approval. Administrative records stay private.

@@ -1,73 +1,70 @@
-# Authentication sequence investigation
+# Authentication sequence detection
 
 [Portfolio](../README.md) · [Sentinel workbook](workbooks/README.md) · [Investigation queries](../threat-hunting/module-1/README.md)
 
-I built a KQL detector for repeated failed logons followed by a successful logon. It looks for at least five failures in the preceding ten minutes, tied to the same device, account, domain, source IP and logon type.
+I built a KQL detector for repeated failed logons followed by a successful logon. It looks for at least five failures in the preceding ten minutes on the same device, account, domain, source IP and logon type.
 
-The project includes the KQL query, a Python reference model, eight synthetic test cases and a Sentinel workbook for reviewing matches. **All eight cases passed in Azure Log Analytics.** The detector has been tested with synthetic events. It has not been deployed as an alert rule or validated against a live attack.
+The package includes the query, a Python reference model and eight generated test cases. All eight passed in Azure Log Analytics. Live attack detection and false positive rates remain untested. No alert rule or automated response has been deployed.
 
 ## Work completed
 
 | Component | Result |
 |---|---|
-| KQL detector | Preserves the account, source and time context for each candidate sequence. |
-| Python model | Checks the expected behavior independently of the KQL implementation. |
-| Service tests | Eight cases passed, including the threshold, time boundaries, duplicates and source mismatches. |
-| Investigation workbook | Displays event coverage, authentication trends, source counts, candidate sequences and the underlying events. |
+| KQL detector | Correlates failed and successful logons while retaining the event identifiers. |
+| Python model | Checks expected behavior independently of the KQL implementation. |
+| Service tests | Eight cases passed, covering the threshold, time boundaries, duplicates and source mismatches. |
+| Workbook tests | Five query panels passed. Rendered charts, time controls and empty results were checked in Azure. |
 
-![Deployed Sentinel workbook used to review synthetic authentication sequences](workbooks/evidence/workbook-overview.png)
+![Windows investigation workbook using saved Cyber Range query results](workbooks/evidence/workbook-overview.png)
 
-*The deployed workbook displays synthetic test events. Its charts and candidate table use the detector developed here. [Workbook report](workbooks/README.md).*
+*Related work: the [Windows investigation workbook](workbooks/README.md) uses recorded Cyber Range activity. The authentication detector has its own [test workbook](workbooks/authentication-investigation.workbook.json).*
 
-## Implemented logic
+## Detector logic
 
-[auth-sequence.kql](auth-sequence.kql) correlates at least five distinct failed events in the ten minutes before a success. It normalizes account/domain case, excludes missing correlation keys, preserves source and logon type, and deduplicates identical projected events. The lower time bound is inclusive; failures at or after the success are excluded. The join is explicitly `kind=inner`, retaining all matching success/failure pairs before aggregation. [Microsoft inner-join semantics](https://learn.microsoft.com/en-us/kusto/query/join-inner?view=microsoft-fabric).
+[auth-sequence.kql](auth-sequence.kql) normalizes account and domain case, excludes missing keys and removes identical projected events. The ten-minute lower bound is inclusive. Failures at or after the successful logon are excluded. An explicit `kind=inner` join retains the matching pairs before aggregation. [Microsoft join reference](https://learn.microsoft.com/en-us/kusto/query/join-inner?view=microsoft-fabric).
 
-Null time bounds and an empty approved-device list prevent useful execution until scoped. Confirm `LogonFailed` and `LogonSuccess` against actual telemetry. The required table columns were observed in the authorized Log Analytics schema; the owned VM had no authentication events in the checked interval. Run only in an authorized context; no detection rule or automated response is deployed. For a success near `Start`, the preceding lookback is incomplete unless the authorized window includes the needed ten minutes. Do not silently query outside the approved interval.
+The query starts with null times and an empty device list. Set the authorized device and UTC window in a private copy. Include ten minutes of prior events when investigating a success near the window start. Confirm the table schema and the meaning of `LogonFailed` and `LogonSuccess` in the destination workspace.
 
-[auth_sequence.py](auth_sequence.py) is an independent, in-memory Python reference model. Tests cover the positive sequence, threshold, missing success, wrong identity/source/device/type, normalization, missing keys, duplicate events, reused ReportId, ordering, time boundaries and empty scope. Fixture identifiers are synthetic. Model tests establish the chosen temporal semantics; they **do not** parse or execute KQL or validate Defender schema and ingestion.
-
-Run the shared local suite from the repository root:
+[auth_sequence.py](auth_sequence.py) checks the same timing rules in memory. Its tests cover identity, source, device, logon type, normalization, missing keys, duplicate events, reused ReportId, ordering and empty scope.
 
 ```bash
 python3 -B -m unittest discover -s tests -v
 ```
 
-## Interpretation and validation
+## Service validation
 
-Correlation requires the same source IP and logon type, as well as the same device, domain and account. Failures split across source IPs or logon types are counted separately. Distributed or source-rotating brute-force activity may therefore evade this detector even when the combined number of attempts exceeds its threshold. This is a focused investigation lead, not comprehensive authentication-attack detection coverage.
-
-An alert candidate may reflect mistyped credentials, stale service credentials, user retries, shared/NAT sources or approved automation. It may also miss local activity with no source address, missing telemetry, and attacks with fewer failures. Reused names, renames and SID changes need further identity checks. The same event identity with conflicting payloads needs source reconciliation; deduplication is not authenticity validation.
-
-[kql_fixture.py](kql_fixture.py) renders an executable synthetic regression query using the **actual detector body**, replacing only its live source and scope parameters. It includes eight labeled positive/negative cases, an unscoped device, exact/beyond lookback boundaries and duplicate events. The generated query compares expected versus actual row counts and returns a `Passed` column. Render locally without submitting anything:
+[kql_fixture.py](kql_fixture.py) renders a query using the detector body and eight generated cases. It replaces the live source and scope parameters with test inputs, then compares expected and returned match counts.
 
 ```bash
 python3 -B cyber-defense/kql_fixture.py
 ```
 
-On November 13, 2026 UTC, all **eight synthetic cases passed** in an explicitly authorized Log Analytics service with no query errors. The submitted query used only synthetic datatables and the actual detector body; it read no live source tables. Evidence alias `EV-KQL-SYNTHETIC-RUNTIME-20261113` preserves the query, response and digests privately; query SHA-256: `4dc8a7badf7488b15a1f56ca1967d7e6d5dec60e1f54343ed0b60a99daaa1e55`. Positive and boundary cases returned one match each; below-threshold, duplicate, late, outside-window, source-mismatch and unscoped cases returned none.
+All eight cases passed on November 13, 2026 UTC. The positive and exact-boundary cases each returned one match. Below-threshold, duplicate, late, outside-window, source-mismatch and unscoped cases returned none. The query read only its test datatables.
 
-This establishes the tested KQL semantics in Log Analytics, not live ingestion, production coverage or an observed attack. Subsequent metadata-only checks confirmed the required columns in the authorized Log Analytics workspace; this is distinct from Defender portal access. Execute the actual live-table query only in a separately authorized, bounded telemetry window, recording coverage, warnings, false positives and analyst decisions. No detection rule or response was deployed. Do not turn a hypothesis into a production threshold without a baseline and review.
+Private record `EV-KQL-SYNTHETIC-RUNTIME-20261113` retains the query and response. Query SHA-256: `4dc8a7badf7488b15a1f56ca1967d7e6d5dec60e1f54343ed0b60a99daaa1e55`.
 
-Use the [Defender investigation queries and report structure](../threat-hunting/module-1/README.md) to reconstruct the logon, process, network, file and persistence context. Retain event provenance and distinguish correlation from causation. A successful authentication after failures is an investigation lead, not proof of credential theft or lateral movement.
+The required columns were also observed in the authorized Log Analytics schema. A bounded query found no authentication events for the owned VM. A separate investigation used historical course telemetry. Live authentication coverage needs a further check before deploying this detector.
 
-## Safe response decision record
+## Detection limits
 
-| Decision | Required evidence and boundary |
+Failures from different source IPs or logon types are counted separately. Distributed or source-rotating brute force can evade the threshold. Missing source addresses, incomplete ingestion and fewer than five failures can also cause missed activity.
+
+Mistyped passwords, stale service credentials, retries, shared addresses and approved automation can produce matches. Check the account identity, event details and process context before deciding on a response. Renamed accounts, changed SIDs and conflicting events with the same identifier need additional review.
+
+## Response decisions
+
+| Action | Check first |
 |---|---|
-| Continue investigation | Confirm device/account ownership, authorized scope, source data coverage and benign explanations. Preserve minimal evidence with query hashes and UTC capture times. |
-| Propose account containment | Identify the affected account and owner, supported malicious activity, dependencies and approval authority. Credential reset/revocation is not automated here. |
-| Propose endpoint containment | Identify the precise owned VM, incident severity, management/scanner impact, approved access path and recovery plan. Do not isolate shared assets or modify rules from this package. |
-| Validate recovery | After separately authorized response, observe the same VM's identity, security controls, access and required telemetry. A quieter event stream alone does not prove recovery. |
+| Continue investigation | Confirm device ownership, data coverage and plausible benign causes. Save the query and event references. |
+| Propose account containment | Confirm the affected identity, malicious activity, dependencies and approval authority. |
+| Propose endpoint containment | Confirm the exact owned endpoint, severity, management access and release plan. |
+| Validate recovery | Check endpoint identity, security controls, access and telemetry after the authorized response. |
 
-Any later study involving an exposed service requires separate scope, exposure, monitoring, response and same-VM recovery approval. This package performs analysis only; it does not expose RDP, disable security controls, generate attack traffic, or install a telemetry agent.
-
-## Investigation workbook
-
-The [Sentinel workbook](workbooks/README.md) adds five operational panels around this detector: coverage, trends, sources, candidate sequences and event context. All five generated synthetic queries passed service execution and expected-result checks. Its default artifact contains no live workspace or device identifiers. One approved synthetic workbook is deployed and visually validated, including full-range and empty-window behavior. No live detector or automated response is claimed.
+Containment and credential changes require separate approval. This package runs queries and local tests.
 
 ## Related work
 
-- [Windows endpoint investigation](../threat-hunting/module-1/README.md): ten queries applied to historical telemetry, with a timeline and incident report.
-- [Defender endpoint response](../docs/endpoint-validation.md): onboarding, investigation collection, isolation and recovery on the owned Windows VM.
-- [Hartwell Breach investigation](../threat-hunting/README.md): the completed web-server hunt, with findings and screenshots.
+- [Windows investigation](../threat-hunting/module-1/README.md): ten queries, a timeline and an incident report from historical telemetry.
+- [Sentinel workbook](workbooks/README.md): source counts, activity timing and recorded investigation results.
+- [Defender response](../docs/endpoint-validation.md): onboarding, collection, isolation and recovery on the owned VM.
+- [Hartwell Breach](../threat-hunting/README.md): the completed web-server hunt.

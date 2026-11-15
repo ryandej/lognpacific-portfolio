@@ -2,85 +2,75 @@
 
 [Portfolio](../README.md) · [Project status](project-progress.md) · [Validation](local-validation.md)
 
-Every work item should connect an authorized engineering objective to a reproducible method, observed results, supporting evidence, and an explicit status. Reference examples establish neither the operator's results nor permission to execute their steps.
+Start with a scoped question or finding. Record what changed, how it was checked and where the evidence is stored.
 
 ## Common workflow
 
-1. **Confirm authorization and scope.** Identify the objective, permitted asset and data, allowed actions, reviewer, and evidence restrictions. Verify actual access and applicable terms before operating in the range. Record permission privately and use a non-sensitive reference in the report.
-2. **Establish a baseline.** Record relevant software and policy versions, UTC time, initial state, and data coverage. Define the success criteria and capture only the evidence needed for the claim.
-3. **Implement and document.** Write original code or queries with clear inputs, prerequisites, expected behavior, failure handling, and rollback or recovery considerations. Attribute permitted adaptations.
-4. **Verify.** Observe local checks and the relevant platform results. Identify which checks were run, on what version, and with what outcome. Expected output is not an observed test result.
-5. **Preserve evidence and limitations.** Link findings to approved artifacts or private evidence references. State gaps, unsuccessful checks, uncertainty, and remaining risk.
-6. **Record review status.** When independent review is requested, record its scope, revision or file hashes, findings, and disposition. If the operator waives another review, record that decision without claiming a review occurred. The human operator verifies results and approves subsequent Git actions. The current live-result batch has such a waiver.
-7. **Update project progress.** Record the implementation status, actual test outcomes, security-platform validation, evidence links, and independent-review outcome separately. Identify the next unresolved dependency.
+1. Confirm the permitted asset, data, actions and execution window. Save the authorization privately.
+2. Capture the baseline, software versions, UTC time and available data. Define success before making changes.
+3. Implement with clear inputs, prerequisite checks, error handling and recovery. Attribute any permitted adaptation.
+4. Run the relevant tests and platform checks. Record failures and incomplete results.
+5. Preserve the source, results and hashes. Write a short report with the remaining limits.
+6. Record review by version and scope. Keep publication approval separate.
+7. Update the project status and private evidence ledger.
 
-## Windows 11 STIG remediation
+## STIG remediation
 
-Use one work item per distinct control. Its report should include the STIG/rule identifier, control purpose, benchmark revision, official reference, Windows build, PowerShell version, pseudonymous asset, prerequisites, and evidence references.
+Confirm the Windows edition, benchmark revision, exact rule and policy owner. Select an applicable failed control from the authenticated assessment. Leave already-passing settings intact.
 
-1. Confirm the control is applicable and its change will not disrupt management access, Defender, Tenable, telemetry, or later exercises. Define rollback before changing state.
-2. Record local configuration and the authorized Tenable baseline audit result. Capture the actual policy/benchmark version, finding status, and UTC time. Keep raw scan identifiers and target details in private evidence. An empty or incomplete scan does not prove compliance.
-3. Document the manual remediation and observed local and Tenable validation. If an approved test includes reverting a change and rescanning, do so only when explicitly authorized and safe. Otherwise agree on an alternative test method with the operator and reviewer. Do not weaken an already-passing control merely to manufacture a failure.
-4. Implement original `remediate.ps1` code with appropriate preconditions, error handling, repeat-run behavior, and rollback guidance. Keep secrets and actual tenant or asset identifiers out of source. Preserve prior configuration privately when needed for rollback.
-5. Provide read-only `verify.ps1` checks and meaningful tests beside the script. Test relevant success/failure paths and idempotence. Local tests must not change the coordination workstation; configuration-changing execution belongs on the authorized VM. Record any pending reboot or policy refresh.
-6. Run the authorized follow-up Tenable audit and compare the same applicable control and benchmark. Record the observed result even when it fails or remains unassessed. Passing unit tests or local checks does not establish a Tenable pass.
-7. Write a concise finding, change, and result report. Include side effects, limitations, independent-review findings, sanitized evidence references, disclosure status, and the corresponding project-progress item.
+Each package includes remediation, a read-only verifier, tests and recovery instructions. Run the parser and mocked tests first. On the approved Windows VM, capture the original state and inspect the preview. Apply only the authorized changes with private snapshots.
 
-Reference materials may use different STIG revisions. Record the version actually used rather than silently equating results across revisions. Copied templates and their example results do not constitute an implementation or validation.
+Record `Status`, `Changed` and the exit code together. Verify the stored value, repeat behavior, relevant feature effects and recovery. Schedule any sign-in, policy refresh or reboot separately.
 
-## Threat-hunting investigations
+Use a comparable authenticated Tenable assessment for the follow-up. Retain the exact control result, audit revision, coverage and authentication evidence. Document revision differences before comparing results. The [evidence workflow](../stig-remediations/evidence-workflow.md) defines the record format.
 
-Identify whether an investigation uses training data, synthetic fixtures, or authorized live telemetry. Keep that context explicit in findings and any claims about detection coverage.
+## Threat hunting
 
-1. State the hypothesis or initiating alert, authorized scope, UTC window, and query platform: Defender Advanced Hunting or Sentinel/Log Analytics. Confirm actual tables, retention, permissions, and relevant data coverage.
-2. Write original KQL with explicit time and permitted-asset restrictions. Use placeholders or parameters for sensitive identifiers; resolve them only in the authorized execution context. Do not assume a query or schema works unchanged across platforms.
-3. Validate relevant query logic, join keys, timestamp handling, and false-positive cases. Use clearly labeled synthetic positive and negative cases when useful. Record their expected and observed results separately from live execution.
-4. Execute only within approved scope and retain the minimum permitted evidence. A query error, unavailable data, and zero matching records are different results. None alone establishes that compromise did not occur.
-5. Build an evidence-linked timeline and describe supported findings, alternatives, and confidence. Distinguish attempted activity from successful actions, and proposed containment from executed containment. Map behaviors only when supported by evidence.
-6. Review the queries, findings, and disclosure boundaries independently. Record the tested environment, execution evidence, review findings, and limitations in the report and progress index. A saved query or proposed rule does not establish a deployed or validated detection pipeline.
+State whether the source is generated test data, historical training telemetry or current operational data. Record the hypothesis, device, UTC window, platform, schema and retention.
 
-Do not copy instructor answers, gated hints, or expected solutions into reports, tests, or AI evaluation inputs. Validate example query semantics and timelines independently.
+Begin with coverage checks. Keep device and time filters in every query. A query error, an empty result and a partial response need different follow-up. Preserve warnings and collection limits.
+
+Correlate events using their source identifiers, timestamps and process context. Test plausible benign explanations. Describe attempted actions and confirmed outcomes precisely. Request scope expansion before investigating another endpoint.
+
+Build a timeline and report with query hashes, evidence references, findings and open questions. Proposed containment needs a separate approval and recovery plan. Keep instructor answers and gated solutions out of source, fixtures and reports.
 
 ## Security automation and AI experiments
 
-Select a concrete objective before building automation. Define inputs, allowed actions, preconditions, error handling, and meaningful tests. Keep operations bounded to the authorized environment; do not introduce tenant access or scheduled actions without approval.
+Build automation around a concrete task. Define permitted inputs, actions, error paths and repeat behavior. Test scope rejection and partial failures before allowing live operations.
 
-For a proposed AI security experiment, define the threat model, data permissions, baseline, evaluation criteria, and failure cases before implementation. Use authorized or synthetic data, keep held-out evaluation answers separate from system development and model inputs, and record the implementation/model version, settings, inputs, and actual trial outcomes needed to reproduce the assessment. Require independent review of both the experiment and its claims. A design, prompt, or successful example alone does not establish a reliable system or security improvement.
+For an AI experiment, define the threat model, data permissions, baseline and evaluation criteria. Keep held-out answers separate from development. Record the model version, settings, inputs and measured outcomes. Review the implementation and its claims before publication.
 
 ## Status and evidence standards
 
 | Status | Meaning |
 |---|---|
-| Unverified | Implementation or supporting evidence has not been established. This does not assert that no work occurred. |
-| Proposed | A candidate engineering activity whose scope, feasibility, or selection is unresolved. |
-| Planned | Intended work is identified; detailed scope, execution, and evidence remain outstanding. Planning does not authorize execution. |
-| In progress | Authorized development or investigation has begun, with remaining steps recorded. |
-| Tested | Specific checks were executed and their outcomes recorded. Tests may have failed; this status does not imply success or completeness. |
-| Verified | Observed evidence supports the stated technical criteria in the documented environment, including platform validation where applicable. This does not imply broader coverage or production deployment. |
+| Unverified | Supporting evidence has not been established. |
+| Proposed | Scope, feasibility or selection remains open. |
+| Planned | Work is identified; execution and evidence are pending. |
+| In progress | Authorized work has begun. |
+| Tested | Specified checks ran and their outcomes were recorded. Inspect the result to see whether they passed. |
+| Verified | Observed evidence meets the stated criteria in the tested environment. |
 
-Track independent review separately as pending, changes requested, or reviewed, with the reviewer, artifact version, date, and findings. Record an operator waiver separately without converting it into a reviewed result or rewriting preserved evidence. A review records its outcome; it is not automatically an approval or a substitute for executed tests. Claim independent validation only when the relevant evidence has actually been reviewed and findings resolved. Record publication permission separately from technical status.
+Record independent review as pending, changes requested or reviewed, with the version, reviewer, date and findings. An operator waiver has its own record. Publication approval and external acceptance also need separate records.
 
-Update the [project tracker](project-progress.md) after each work item. No report should label a test passed unless that outcome was observed.
-
-The [local validation record](local-validation.md) separates Python and mocked PowerShell results, actual Windows apply/rollback observations, authenticated Tenable before/after results and synthetic KQL service execution. Historical investigation results, deployed synthetic workbook behavior, current endpoint ingestion and review status retain their own limitations. Use the [STIG evidence workflow](../stig-remediations/evidence-workflow.md) for baseline/apply/follow-up records and the [Module 1 package](../threat-hunting/module-1/README.md) for investigation provenance and reporting. Offline tools check consistency of supplied metadata; they neither authenticate evidence nor award external acceptance. Administrative decisions remain in private records.
+The [validation record](local-validation.md) lists local tests, Windows execution, Tenable assessments and KQL results. Evidence tools check the supplied metadata; the original source records still need review.
 
 ## Shared-environment safety
 
-- Use the same participant-owned VM throughout. Never create a second VM, delete/recreate the VM, or reset the resource group as an ordinary transition between labs. Verify whether an existing VM is present before considering any deployment.
-- Verify the assigned resource scope and effective permissions. Shared visibility is not authorization to scan peers, export their records, isolate their endpoints, or modify shared resources.
-- Obtain explicit approval for cloud operations, scans, configuration changes, installations, role changes, exposure, containment, and recovery. A read-only operation in a cloud service still requires authorized scope. Do not automate tenant access through this repository without separate approval.
-- Prefer the current approved management-access method and preserve security controls. Do not adopt legacy public-access or firewall-disablement instructions as a default baseline.
-- Before any honeypot study, approve its engineering objective, scope, exposure window, monitoring, containment, and same-VM recovery plan. Separately authorize exposure and containment. Document the resulting investigation and recovery with evidence.
-- Confirm shutdown and inactivity-purge behavior; existing descriptions conflict. Do not assume portal viewing preserves the VM. Keep necessary authorized evidence outside the VM, in an approved store, so a purge does not erase the record.
+Preserve the same VM. Confirm its identity before each operation and keep management recovery available. Do not replace it or create another VM as a routine lab step.
 
-## Confidentiality and publication review
+Operate only on approved assets. Shared visibility does not grant permission to scan, isolate or change another participant's system. Stop on denied access.
 
-Keep raw evidence in a separately approved, access-controlled store outside this repository. Do not create that store or export data without authorization. Use stable, non-sensitive evidence references and UTC timestamps; record capture provenance privately. Repository artifacts may contain original code, reports, synthetic fixtures, and separately approved sanitized derivatives.
+Cloud operations, scans, security changes, installations and response need authorization. Keep Windows Firewall and endpoint protection enabled. An exposure exercise needs a defined window, monitoring and recovery plan.
 
-Never place credentials, MFA material, sensitive tenant/resource identifiers, raw telemetry or scan exports, peer information, confidential course documents, instructor solutions, or personal administrative records in Git. `Planning/` remains local-only and ignored; do not inspect or alter its contents without explicit authorization. Do not send confidential evidence to external tools or models without permission.
+Confirm shutdown and inactivity-purge behavior. Keep authorized evidence outside the VM so loss of the VM cannot erase the record.
 
-Screenshots, Office documents, PDFs, and common attachment formats are ignored by default. For an approved sanitized artifact, review its content, background details, metadata, and provenance. Obtain LOG(N) disclosure permission and human approval, then add an exact-path `.gitignore` exception under the relevant work item's evidence directory. Use a path whose parent directories are not ignored; do not whitelist a whole evidence directory or force-add raw/private material. This review process applies to text and data files too, even when their extensions are not ignored.
+## Confidentiality and publication
 
-Private GitHub visibility does not authorize an upload. `.gitignore` reduces accidental staging but does not inspect file contents, prevent forced staging, or protect files already tracked. Human disclosure review must precede any authorized staging, commit, push, or public release.
+Store raw evidence in approved private storage. Use stable evidence aliases and UTC timestamps in reports. Keep credentials, tenant identifiers, raw telemetry, course documents, answer keys and administrative records out of Git.
 
-Later reuse in a separate NCyTE-aligned project requires approved original material, attribution to its LOG(N) origin, separate history, and new validation. Never move confidential evidence or relabel LOG(N) Pacific work as historical NCyTE work.
+`Planning/` is ignored and requires explicit access authorization. Screenshots and attachments are also ignored by default. To publish a sanitized image, inspect its content and metadata, record its source, then add only the approved exact path to the allowlist. Review text and data files for disclosure as well.
+
+`.gitignore` reduces accidental staging. It cannot protect material that was force-added or already tracked. Review the proposed changes before any authorized commit, push or public release.
+
+Later NCyTE reuse requires approved original material, attribution and validation in that separate project.

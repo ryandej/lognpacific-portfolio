@@ -6,7 +6,7 @@ Ten original PowerShell implementations have authenticated **FAILED → PASSED**
 
 ![Ten authenticated STIG control transitions with Windows verification and recovery results](evidence/control-results.png)
 
-*Screenshot of the original local evidence report, derived from the [sanitized assessment record](../vulnerability-management/assessment-summary.json). It summarizes observed results and is not a Tenable-console capture. [Image provenance](../docs/visual-evidence.md).*
+*Screenshot of the original local evidence report, derived from the [sanitized assessment record](../vulnerability-management/assessment-summary.json). It summarizes the saved results. [Image provenance](../docs/visual-evidence.md).*
 
 ## Implemented controls
 
@@ -30,7 +30,7 @@ Four additional researched controls remain deferred for applicability or policy 
 ## Package organization
 
 - Each control folder contains `remediate.ps1`, a separate read-only `verify.ps1`, `control.Tests.ps1`, and a technical `report.md`.
-- `RegistryControl.psm1` implements the shared single-value read/change/snapshot/restore logic. Ten controls reuse the same safety behavior instead of maintaining ten diverging copies.
+- `RegistryControl.psm1` implements the shared single-value read/change/snapshot/restore logic. All ten controls share these checks.
 - `tests/Invoke-UnitTests.ps1` uses the PowerShell parser and in-memory substitutes for host, registry, and snapshot operations. It needs PowerShell 5.1 or later, without Pester or other dependencies.
 - `tests/test_static.py` checks the catalog and control-specific expectations against the pinned DISA XML, documentation links, and artifact visibility. Python checks do not establish PowerShell syntax or runtime correctness.
 
@@ -39,7 +39,7 @@ Four additional researched controls remain deferred for applicability or policy 
 1. Obtain explicit authorization for the existing participant-owned Windows 11 VM and the specific operation. Do not run remediation on the coordination workstation or another host, and do not create another VM.
 2. Establish the Tenable baseline and compare the actual benchmark and rule revision. Scripts accept only the reviewed `V2R11` basis; if the active audit differs, compare and review the control before changing the implementation or using it.
 3. Confirm applicability and dependencies in the control report. An already-passing setting should remain passing; never weaken it merely to manufacture a demonstration.
-4. Determine the GPO/MDM policy owner and obtain permission for a local registry change. `-PolicyAuthorityConfirmed` records a caller assertion, not automatic discovery of authorization or policy ownership. Do not use local changes to bypass central policy.
+4. Determine the GPO/MDM policy owner and obtain permission for a local registry change. `-PolicyAuthorityConfirmed` records the caller's confirmation. Establish the policy owner before setting it. Do not use local changes to bypass central policy.
 5. Review and run the safe unit tests in an authorized environment with an existing PowerShell runtime. The current parser and mocked behavior have passed in both approved runtimes; actual state changes and rollback have separately passed for the ten controls in the documented environment. Respect script-signing and execution-policy requirements; this package does not bypass them.
 6. Use a 64-bit PowerShell process. Remediation requires elevation and a supported Windows 11 Pro/Enterprise/Education-family edition. Verification requires readable local state and does not require elevation. The exact target name must match the local computer; no remote targets are supported.
 7. Before an actual change, prepare an approved, access-controlled local snapshot directory outside the checkout. The script requires an absolute local `.json` path, rejects network paths and paths inside this checkout, and never creates the directory. Apply-only `-WhatIf` permits a directory that does not exist yet while retaining path/scope and host checks; it does not prove the directory is writable. Restore, including `-Restore -WhatIf`, requires the original snapshot and its existing directory. The operator must verify storage permissions and any directory links; snapshots contain local host identity and must remain private.
@@ -49,7 +49,7 @@ Four additional researched controls remain deferred for applicability or policy 
 The commands below are reusable examples for an explicitly authorized VM session. Actual execution evidence is recorded separately in each control report. Replace the target and private storage path deliberately; do not dot-source the entry-point scripts.
 
 ```powershell
-# Read only: the result concerns the stored registry value, not full compliance.
+# Read the stored registry value.
 & .\stig-remediations\WN11-CC-000010\verify.ps1 `
     -TargetComputerName 'REPLACE-WITH-APPROVED-VM-NAME'
 $LASTEXITCODE
@@ -72,10 +72,10 @@ Exit 0 alone must never be counted as an applied remediation. The existing exit-
 | `Changed` | `true` | Write and immediate registry recheck succeeded; effective-policy and Tenable verification still required. |
 | `AlreadyMatches` | `false` | Stored value already matches; no new remediation or snapshot occurred. |
 | `NotApplied` | `false` | Preview or declined confirmation; no change occurred. |
-| `Restored` | `true` | Recorded prior value/absence restored; this is rollback, not hardening. |
+| `Restored` | `true` | Recorded prior value or absence restored. |
 | `AlreadyRestored` | `false` | Stored state already matches the recovery record; no change occurred. |
 
-Record the exit code and result fields together. An error (exit 2) after a write may leave changed state; inspect the retained snapshot and actual registry state rather than assuming that nothing happened.
+Record the exit code and result fields together. An error (exit 2) after a write may leave changed state; inspect the retained snapshot and current registry state before retrying.
 
 Registry writes do not edit GPO/MDM policy, guarantee effective behavior, or demonstrate persistence. See `WN11-CC-000063` in [research](research.md). Schedule any needed policy refresh, new session, or reboot separately; there is no universal reboot assumption for these policies. For script-block logging, check a new Windows PowerShell session and approved event evidence, without exposing sensitive script content.
 
@@ -87,7 +87,7 @@ For authorized rollback, invoke that control's remediation with the original par
 
 Rollback refuses unexpected current-state drift. A second rollback is a no-op when the original value state is already restored. Snapshots are retained after restoration or failure. Treat them as trusted private recovery records: the format validates scope and types but is not cryptographically authenticated. Review the original baseline before approving rollback.
 
-Registry changes are not transactional. A failure after a write may leave the changed value in place; the script reports an error and retains the snapshot. There is no automatic rollback. Inspect actual state and choose recovery with the operator. The preparation recheck narrows a race window but cannot prevent an external policy writer from changing state concurrently.
+Registry changes are not transactional. A failure after a write may leave the changed value in place; the script reports an error and retains the snapshot. There is no automatic rollback. Inspect actual state and choose recovery with the operator. An external policy writer can still change state between the recheck and write.
 
 ## Safe local validation
 
@@ -106,4 +106,4 @@ Where an authorized existing PowerShell runtime is available, the non-mutating p
 
 The harness replaces all environmental I/O before invoking logic and uses only synthetic in-memory state. It does not execute remediation entry points. It cannot validate real Windows registry API behavior, policy application, ACLs, or Tenable results. Those require separately approved VM checks and scans. No tools are installed by either test runner.
 
-Use the [evidence workflow and offline ledger](evidence-workflow.md) to record the actual benchmark, baseline, apply result, Windows verification, follow-up and independent review. The ledger is an internal schema, not an unverified Tenable export parser. [Local reproduction](../docs/local-validation.md) records observed Linux/Windows results and the existing portable-runtime procedure. A separate [offline export extractor and diagnosis runbook](tenable-readiness.md) has processed the actual authenticated baseline and follow-up without changing ledger semantics. Reviewed source headers retain their original development status; current execution status is recorded in the reports so the tested source hashes remain unchanged.
+Use the [evidence workflow and offline ledger](evidence-workflow.md) to record the actual benchmark, baseline, apply result, Windows verification, follow-up and independent review. The ledger has its own internal schema. [Local reproduction](../docs/local-validation.md) records observed Linux and Windows results and the existing portable-runtime procedure. A separate [offline export extractor and diagnosis runbook](tenable-readiness.md) has processed the actual authenticated baseline and follow-up without changing ledger semantics. Reviewed source headers retain their original development status; current execution status is recorded in the reports so the tested source hashes remain unchanged.

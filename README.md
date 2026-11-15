@@ -1,64 +1,60 @@
 # LOG(N) Pacific | AI Security Engineering
 
-**Ryan DeJong — cybersecurity engineering portfolio**
+Ryan DeJong · Cybersecurity portfolio
 
-Original PowerShell and Python automation, KQL investigations, and security validation developed in the LOG(N) Pacific Cyber Range. The work covers Windows hardening, vulnerability management, threat detection, and endpoint response using Tenable, Microsoft Defender for Endpoint, Microsoft Sentinel, and Azure.
+PowerShell automation, vulnerability management, KQL investigations and endpoint response in the LOG(N) Pacific Cyber Range. Each project includes its source, results and screenshots.
 
-Start with the [Windows hardening results](docs/windows-stig-validation.md), the [Sentinel investigation workbook](cyber-defense/workbooks/README.md), or the [threat investigation portfolio](threat-hunting/README.md). Each project links its implementation, observed results, and limitations.
+Start with the [Windows hardening results](docs/windows-stig-validation.md), [Sentinel workbook](cyber-defense/workbooks/README.md), or [Hartwell Breach investigation](threat-hunting/README.md).
 
-## Selected projects
+## Projects
 
-| Project | Engineering work | Observed result |
-|---|---|---|
-| [Windows 11 STIG automation](stig-remediations/README.md) | Ten PowerShell remediations for DISA Security Technical Implementation Guide controls, with separate verification, previews, snapshots, and guarded rollback. | **10 authenticated Tenable findings changed from FAILED to PASSED** against Windows 11 V2R11. Actual repeat application, rollback, and reapply checks passed for every control. |
-| [Vulnerability management program](vulnerability-management/README.md) | A complete assessment cycle for one endpoint: asset scope, prioritization, remediation, equivalent reassessment, reporting, and a residual-work queue. | Reconciled **258 compliance items** before and after the changes. All ten selected failures closed; remaining failures, errors, and warnings stay visible. Governance exercises are labeled as simulations. |
-| [Detection engineering and Sentinel workbook](cyber-defense/README.md) | Authentication-sequence KQL, a Python reference model, reproducible fixtures, and a five-panel investigation workbook. | Eight synthetic detector cases passed in Log Analytics. The deployed workbook's charts, event context, time controls, and empty-data behavior were verified using explicitly synthetic events. |
-| [Threat hunting and incident reconstruction](threat-hunting/README.md) | The Hartwell Breach case report: web-to-host correlation, command analysis, monitoring checks, screenshots, and a proposed response. A separate Windows investigation includes ten scoped Defender queries. | Solved **all 18 flags**, earned **all 1,750 points** and finished on time. The report explains findings from seven log sources. Private indicators and exact challenge answers are withheld. |
-| [Endpoint telemetry and response](docs/endpoint-validation.md) | Defender onboarding, telemetry checks, investigation-package collection, and controlled isolation and recovery on the owned endpoint. | Central process telemetry observed; **all 70 collection operations succeeded**. A connection test confirmed loss of access during isolation and recovery after release. |
+| Project | Work and results |
+|---|---|
+| [Windows 11 STIG automation](stig-remediations/README.md) | Built ten PowerShell remediations with separate verifiers and rollback. All ten selected DISA V2R11 findings changed from FAILED to PASSED in authenticated Tenable assessments. Repeated application and recovery checks also passed. |
+| [Vulnerability management](vulnerability-management/README.md) | Completed an assessment cycle on one endpoint and reconciled all 258 compliance items. Documented prioritization, the ten fixes and the remaining findings. Includes a proposed policy and a stakeholder tabletop exercise. |
+| [Sentinel investigation workbook](cyber-defense/workbooks/README.md) | Deployed five panels using saved Cyber Range investigation results: 233 timeline records across five Defender tables, activity timing and query coverage. |
+| [Authentication detection](cyber-defense/README.md) | Built a KQL detector and Python reference model for repeated failures before a successful logon. All eight generated test cases passed in Log Analytics. Live detection performance remains untested. |
+| [Threat hunting](threat-hunting/README.md) | Investigated the Hartwell Breach using seven log sources. Solved all 18 flags, earned all 1,750 points and finished on time. A separate Windows investigation includes ten queries and an incident report. |
+| [Defender endpoint response](docs/endpoint-validation.md) | Verified onboarding and central process telemetry, collected an investigation package, and tested isolation and recovery. All 70 collection operations succeeded. |
 
-All operational results come from authorized Cyber Range work. Synthetic detection tests, historical investigations, and actual Windows configuration changes are identified separately.
-
-## Selected work in pictures
+## Work in pictures
 
 <table>
 <tr>
-<td width="50%" valign="top"><a href="stig-remediations/README.md"><img src="stig-remediations/evidence/control-results.png" alt="Sanitized evidence report showing ten authenticated STIG findings changed from FAILED to PASSED"></a><br><strong>Windows hardening:</strong> ten verified control transitions, with Windows checks and recovery validation. Screenshot of the local evidence report.</td>
-<td width="50%" valign="top"><a href="cyber-defense/workbooks/README.md"><img src="cyber-defense/workbooks/evidence/workbook-overview.png" alt="Actual Azure workbook with synthetic authentication coverage, charts and candidate sequences"></a><br><strong>Sentinel workbook:</strong> actual deployed interface using explicitly synthetic events. Account and resource chrome excluded.</td>
+<td width="50%" valign="top"><a href="stig-remediations/README.md"><img src="stig-remediations/evidence/control-results.png" alt="Ten authenticated STIG findings changed from failed to passed"></a><br><strong>Windows hardening:</strong> a local report of the saved Tenable results and Windows checks.</td>
+<td width="50%" valign="top"><a href="cyber-defense/workbooks/README.md"><img src="cyber-defense/workbooks/evidence/workbook-overview.png" alt="Sentinel workbook showing recorded Windows investigation results"></a><br><strong>Sentinel workbook:</strong> source counts and activity from the Windows investigation.</td>
 </tr>
 </table>
 
-Each project includes its relevant images. The [visual evidence index](docs/visual-evidence.md) covers the assessment results, workbook, Hartwell hunt, Windows investigation and endpoint response. The eight images total about 0.79 MiB.
+The [screenshot index](docs/visual-evidence.md) explains where each image came from. Private names, credentials, raw logs and challenge answers stay out of the repository.
 
-## Explore the implementation
+## Source code
 
-| Component | What to inspect |
+| Area | Source |
 |---|---|
-| PowerShell engineering | [Shared registry module](stig-remediations/RegistryControl.psm1), [example remediation](stig-remediations/WN11-CC-000010/remediate.ps1), [read-only verifier](stig-remediations/WN11-CC-000010/verify.ps1), and [control report](stig-remediations/WN11-CC-000010/report.md). |
-| Tenable and evidence automation | [Scoped API client](stig-remediations/tenable_client.py), [export parser](stig-remediations/nessus_summary.py), and [before/after evidence workflow](stig-remediations/evidence-workflow.md). |
-| Detection engineering | [KQL detector](cyber-defense/auth-sequence.kql), [Python reference model](cyber-defense/auth_sequence.py), and [workbook builder](cyber-defense/workbooks/build_workbook.py). |
-| Investigation queries | [Query catalog](threat-hunting/module-1/README.md#query-index), including coverage checks and timeline reconstruction. |
-| Deployment safeguards | [Pinned VM specification and offline preflight](deployment/README.md), including duplicate-VM prevention and preservation of the existing endpoint. |
+| PowerShell | [Shared registry module](stig-remediations/RegistryControl.psm1), [example remediation](stig-remediations/WN11-CC-000010/remediate.ps1), [verifier](stig-remediations/WN11-CC-000010/verify.ps1), [report](stig-remediations/WN11-CC-000010/report.md). |
+| Tenable automation | [Scoped API client](stig-remediations/tenable_client.py), [export parser](stig-remediations/nessus_summary.py), [evidence workflow](stig-remediations/evidence-workflow.md). |
+| Detection and workbooks | [KQL detector](cyber-defense/auth-sequence.kql), [Python model](cyber-defense/auth_sequence.py), [investigation workbook builder](cyber-defense/workbooks/build_investigation.py). |
+| Investigations | [Ten-query catalog](threat-hunting/module-1/README.md#query-index). |
+| Deployment checks | [VM specification and offline preflight](deployment/README.md). |
 
 ## Validation
 
-- **221 Python tests passed:** 213 shared tests and eight DISA source-alignment/static checks.
-- **340 mocked PowerShell cases passed on each runtime:** Ubuntu PowerShell 7.6.6 and native Windows PowerShell 5.1.
-- **32 PowerShell files parsed on Windows; 33 reviewed source hashes matched.**
-- Actual Windows remediation and rollback, authenticated Tenable comparisons, and KQL service execution are recorded separately from local tests.
+The PowerShell harness passed 340 cases on both Ubuntu PowerShell 7.6.6 and Windows PowerShell 5.1. Windows parsed all 32 PowerShell files, and all 33 transferred source hashes matched. The ten remediations were then tested on Windows and assessed through Tenable.
 
-The [validation record](docs/local-validation.md) contains versions, reproduction steps, and evidence limits. Run the local Python suite and repository checks from the repository root:
+The [validation record](docs/local-validation.md) lists the Python test results, versions and remaining checks. Run the local tests from the repository root:
 
 ```bash
 python3 -B -m unittest discover -s tests -v
 python3 -B tools/check_repository.py
 ```
 
-These commands use the Python standard library and perform no live scans or Windows changes. DISA source checks additionally require the documented cached benchmark archive. Reviewed PowerShell source remains unchanged from its observed Windows execution.
+These commands use the Python standard library. The separate DISA checks require the cached benchmark archive described in the validation record.
 
-## Evidence and scope
+## Scope
 
-Reports connect technical claims to observed results, source hashes, and private evidence references. Ten selected STIG passes do not establish whole-system compliance; synthetic detector results do not establish production effectiveness. Original scan exports, forensic data, internal resource identifiers, credentials, and confidential source material remain outside Git.
+The work used authorized Cyber Range systems and data. The audit still has 107 failures, 65 errors and eight warnings beyond the ten remediated controls. Detector fixtures and governance exercises are labeled where used.
 
-AI assistance supported implementation, test design, and evidence reconciliation. The portfolio documents security engineering with human-authorized execution; it does not claim an implemented or evaluated AI security product. Independent review is recorded only for the versions and scope actually reviewed.
+AI assistance supported code development, testing and evidence review. Execution was authorized by the operator. AI security systems remain a future area of work. Review records identify the versions examined.
 
-Use the [project status](docs/project-progress.md), [methodology](docs/methodology.md), and [engineering scope](docs/engineering-scope.md) for further detail. Live operations require authorization for the specified assets and actions. The LOG(N) Pacific and historical NCyTE projects retain separate repositories, histories, attribution, and validation.
+See [project status](docs/project-progress.md), [methodology](docs/methodology.md) and [engineering scope](docs/engineering-scope.md). Raw evidence remains in private storage. LOG(N) Pacific and NCyTE have separate repositories and histories; reuse needs attribution, permission and validation.

@@ -1,6 +1,6 @@
 # Windows and Tenable evidence workflow
 
-The ten controls are candidates. Neither a prepared script nor an audit item in a reference document establishes a failing baseline, a successful change, or external acceptance. Start from the actual authorized VM and the actual scan policy.
+All ten controls now have authenticated baseline failures and follow-up passes. The [execution report](../docs/windows-stig-validation.md) records those results. Use this workflow to preserve the evidence for each assessment and change.
 
 ## Before scanning
 
@@ -8,13 +8,13 @@ Obtain the assigned scanner, permission to scan this VM's private IP, the permit
 
 Tenable documents that credentialed Windows checks require access to the relevant files and registry, commonly administrative access. Confirm the approved authentication method, required SMB/RPC/WMI access, administrative shares and Remote Registry behavior for the selected scanner and policy. Do not disable UAC, Defender or the firewall, change authentication filtering, or open broad inbound rules as a shortcut. Any required configuration change needs separate approval. [Tenable Windows credentialed checks](https://docs.tenable.com/nessus/Content/CredentialedChecksOnWindows.htm).
 
-Record private evidence of successful authentication and completed compliance checks, not merely a completed network scan. Capture the audit filename/version, source and digest, selected policy, scanner/plugin versions, target identity, Windows edition/build, UTC window, result completeness and any errors. The `.audit` format's `version:"2"` is a format version, **not DISA V2R11**. [Tenable Windows audit-file reference](https://docs.tenable.com/nessus/compliance-checks-reference/Content/WindowsConfigurationAuditComplianceFileReference.htm).
+Record successful authentication and completed compliance checks. Capture the audit filename/version, source and digest, selected policy, scanner/plugin versions, target identity, Windows edition/build, UTC window, result completeness and any errors. The `.audit` field `version:"2"` identifies the file format. Record the DISA benchmark revision separately. [Tenable Windows audit-file reference](https://docs.tenable.com/nessus/compliance-checks-reference/Content/WindowsConfigurationAuditComplianceFileReference.htm).
 
 Compare the actual audit's benchmark and each rule against [catalog.json](catalog.json). The implementations are pinned to DISA V2R11. Older source examples do not establish the live policy revision. If the selected audit is another revision, retain its actual identifiers, stop the candidate's validation claim, and review the check/fix differences. Do not rename a result to make it match.
 
 ## Offline ledger and mapping
 
-[evidence.py](evidence.py) uses Python's standard library. It does not parse Tenable CSV, XML or `.nessus` exports. No specific export layout has been verified in our environment. A separate [documented-format extractor](tenable-readiness.md#offline-export-extraction) can assist with exact mappings, but has only synthetic test coverage and never populates this ledger automatically. A human must reconcile the minimum metadata against authorized private results and independently check the transcription. Preserve original exports outside Git.
+[evidence.py](evidence.py) validates an internal record format. The separate [export parser](tenable-readiness.md#offline-export-extraction) processed the actual authenticated baseline and follow-up: each contained 274 items across three fragments for the same host, including all ten control results. It also rejected the original empty export. Reconcile the extracted fields with the private source records before entering them in the ledger. Preserve the original exports outside Git.
 
 Run from the repository root. Commands print to stdout and do not create files. If saving output, use a separately approved private store; do not put populated live ledgers in tracked paths.
 
@@ -47,7 +47,7 @@ The `init` output is the complete field template. Unknown fields are rejected to
 
 Evidence aliases are resolvable references in a **private manifest**: map each to the approved store location, original capture, operator, tool/version, authorization reference and digest. Do not place those locations or identities in public reports. `disclosure_reviewed` covers the proposed metadata/derivative; it does not authorize publishing raw attachments. Hashes identify bytes but cannot prove authenticity, correct scope or truth. The tool does not open attachments or verify supplied digests against them.
 
-Record each scan's actual rule revision independently. A different revision can be recorded but cannot receive a compatible comparison or final validation claim. All observation times must be UTC with `Z`; capture time must not predate the observation. Timestamps and metadata are operator assertions, not cryptographically attested events.
+Record each scan's actual rule revision independently. A different revision can be recorded but cannot receive a compatible comparison or final validation claim. All observation times must be UTC with `Z`; capture time must not predate the observation. Timestamps and metadata rely on the supplied source records; they lack cryptographic attestation.
 
 ## Per-control execution and comparison
 
@@ -58,6 +58,6 @@ Record each scan's actual rule revision independently. A different revision can 
 5. Run the authorized follow-up against the same VM and policy. Require successful credentialed checks and the exact control result. Record the actual outcome, even when it fails. Retain baseline and follow-up separately.
 6. Obtain independent review of the live evidence and limitations. Append the generated comparison to the control's technical report only after disclosure review. Include policy effect, side effects, recovery readiness and deviations that the compact ledger cannot represent.
 
-The comparison distinguishes fail-to-pass, already-passing, still-failing, regressed (pass-to-fail), unassessed and not-comparable. `windows_verified` represents only the technical observation supported by the recorded Windows registry/apply checks. It does not establish independent-review completion, disclosure approval, Tenable compliance, or formal program credit. Those require separate evidence and decisions; the schema and technical validation gates do not change this distinction. `tenable_verified` additionally requires compatible completed baseline/follow-up, passing follow-up, ordered evidence, independent result review and disclosure review. It is not an acceptance decision by an external reviewer or program.
+The comparison identifies fail-to-pass, already-passing, still-failing, regressed, unassessed and incompatible results. `windows_verified` records the Windows registry and apply observations. Independent review, disclosure approval, Tenable compliance and formal credit each require their own evidence. `tenable_verified` requires compatible completed assessments, a passing follow-up, ordered evidence, independent result review and disclosure review. External acceptance remains a separate decision.
 
-`validate` exits 0 for internally consistent metadata, **even if validation gates remain missing**; inspect `missing`. `--require-verified` exits 1 if any of the ten candidates has missing gates. Exit 2 means invalid input. Reports print evidence aliases and stage outcomes, never raw results. This tool checks consistency, not automatic sanitization: human review remains mandatory.
+`validate` exits 0 for internally consistent metadata, **even if validation gates remain missing**; inspect `missing`. `--require-verified` exits 1 if any of the ten candidates has missing gates. Exit 2 means invalid input. Reports print evidence aliases and stage outcomes, never raw results. Review the output for sensitive information before sharing; the tool checks metadata consistency.

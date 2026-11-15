@@ -2,7 +2,7 @@
 
 [Portfolio](../../README.md) · [Control index](../README.md#implemented-controls) · [Remediation](remediate.ps1) · [Verifier](verify.ps1) · [Tests](control.Tests.ps1)
 
-**Status:** Authenticated Tenable V2R11 baseline **FAILED**, authorized remediation applied, native Windows verification **RegistryMatch**, and equivalent authenticated follow-up **PASSED** on November 13, 2026 UTC. Actual preview, repeatability, rollback and reapply checks passed. See [consolidated validation](../../docs/windows-stig-validation.md) for the comparison method, residual findings and review status.
+Tenable changed this V2R11 control from FAILED to PASSED on November 13, 2026 UTC. Windows verification matched the expected value. Preview, repeated application, rollback and reapply checks passed. [Full validation record](../../docs/windows-stig-validation.md).
 
 ![Authenticated Tenable before-and-after results including WN11-CC-000010](../evidence/control-results.png)
 
@@ -22,7 +22,7 @@
 
 Restricts lock-screen slideshow presentation. Verify expected lock-screen behavior after the next sign-in; no remote-access policy is changed.
 
-[Remediation](remediate.ps1) and the separate [read-only verifier](verify.ps1) use the original [shared registry module](../RegistryControl.psm1). [Control-specific tests](control.Tests.ps1) bind this exact rule and expected state to the native in-memory harness, including failure, idempotence, WhatIf, and rollback cases. All 34 control-specific mocked cases passed on Windows PowerShell 5.1.26100.9818; this does not test real registry writes or policy effects.
+[Remediation](remediate.ps1) and the separate [read-only verifier](verify.ps1) use the original [shared registry module](../RegistryControl.psm1). [Control-specific tests](control.Tests.ps1) bind this exact rule and expected state to the native in-memory harness, including failure, idempotence, WhatIf, and rollback cases. All 34 mocked cases for this control passed on Windows PowerShell 5.1.26100.9818. The Windows execution results are recorded below.
 
 ## Required validation
 
@@ -31,16 +31,16 @@ Restricts lock-screen slideshow presentation. Verify expected lock-screen behavi
 3. Observe local verification, repeat-run behavior, and the relevant feature. Coordinate any policy refresh, new session, or reboot separately; none runs automatically.
 4. Obtain an authorized Tenable follow-up with matching revision and adequate coverage. Record actual outcomes, side effects, and independent-review findings.
 
-Direct registry changes do not persist policy into GPO/MDM or satisfy the separate policy-management requirement. A registry match alone does not establish effective behavior or Tenable compliance.
+Central enforcement requires Group Policy or approved MDM. Policy refresh can overwrite a local registry change. Feature behavior and Tenable results need separate checks.
 
 ## Recovery and evidence
 
 With separate authorization, use `remediate.ps1 -Restore` and the original private snapshot; see [recovery details](../README.md#snapshots-and-recovery). Restore the prior DWORD or remove only a previously absent value. Empty keys remain. Wrong-host/control snapshots, malformed values, or unexpected drift are rejected. Failures retain the snapshot and require inspection; recovery is not automatic.
 
-The original absence was captured in a private snapshot and actually restored during rollback validation, then the control was reapplied using a separate snapshot. Both snapshots remain private. The final expected value remains applied; additional independent review was waived, and publication permission remains separate. Keep raw exports, credentials, and tenant details out of Git.
+Rollback restored the original absence. Reapplication used a new snapshot and left the expected value in place. Both snapshots remain private. The operator waived an additional review; publication still requires approval.
 
 
-## Observed execution — November 13, 2026 UTC
+## Observed execution on November 13, 2026 UTC
 
 Asset alias `ASSET-A`: Windows 11 Pro 25H2 build 26200, native 64-bit Windows PowerShell 5.1.26100.9818. Baseline ended at **12:22:13 UTC**; final apply at **12:35:09.322460Z** and verification at **12:35:09.373707Z**; follow-up ended at **12:45:15 UTC**. Derived ledger times use microsecond precision; original native timestamps retain all seven fractional digits privately.
 
@@ -56,6 +56,6 @@ Asset alias `ASSET-A`: Windows 11 Pro 25H2 build 26200, native 64-bit Windows Po
 
 Evidence aliases: `EV-TENABLE-BASELINE-20261113`, `EV-STIG-WINDOWS-APPLY-20261113`, `EV-TENABLE-FOLLOWUP-20261113`, and `EV-STIG-COMPARISON-20261113`. Private manifests bind the individual records and two snapshots to this control. The remediation source SHA-256 is `6c7cd7afb122a5ce73330cde7fa673593e289932f7a11a8d939bd5f21399db44`; the verifier is `db9aea59f4b6a4bcaf46519087977d65d1d1e08b945890f9738260a624e33825`. The shared module SHA-256 is `0aa1837c62cad66f3546e59f6af59436f5c2e5ef96c163b3d5073b1c35dd977d`. All reviewed source files remained unchanged.
 
-Registry and Tenable observations establish the stated check in this environment. Every related user-interface, device, printer or installer behavior was not separately exercised. Policy-refresh/reboot persistence and centrally managed GPO/MDM behavior remain untested.
+The stored value and Tenable check passed. Broader feature behavior, reboot persistence, policy refresh and central policy enforcement remain untested.
 
-The complete audit contains unrelated failures, errors and warnings; see the [residual findings and evidence](../../docs/windows-stig-validation.md#residual-findings-and-evidence). This individual pass does not establish whole-system compliance or external acceptance.
+The remaining audit findings are listed in [residual findings and evidence](../../docs/windows-stig-validation.md#residual-findings-and-evidence). External acceptance is recorded separately.

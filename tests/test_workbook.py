@@ -26,7 +26,7 @@ class WorkbookTests(unittest.TestCase):
 
     def test_default_uses_no_live_table_or_workspace(self):
         d = W.build()
-        self.assertIn("SYNTHETIC FIXTURES ONLY", json.dumps(d))
+        self.assertIn("Generated test events", json.dumps(d))
         self.assertEqual(d["fallbackResourceIds"], [])
         for x in d["items"]:
             if x["type"] != 3:
@@ -80,7 +80,7 @@ class WorkbookTests(unittest.TestCase):
 
     def test_valid_live_is_explicit_and_single_device(self):
         d = W.build(mode="live", device_id="a" * 40, start="2026-01-01T00:00:00Z", end="2026-01-01T01:00:00Z", workspace=WORKSPACE)
-        self.assertNotIn("SYNTHETIC FIXTURES ONLY", json.dumps(d))
+        self.assertNotIn("Generated test events", json.dumps(d))
         self.assertEqual(d["fallbackResourceIds"], [WORKSPACE])
         for x in d["items"]:
             if x["type"] == 3:

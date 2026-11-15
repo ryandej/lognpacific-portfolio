@@ -2,7 +2,7 @@
 
 [Portfolio](../../README.md) · [Control index](../README.md#implemented-controls) · [Remediation](remediate.ps1) · [Verifier](verify.ps1) · [Tests](control.Tests.ps1)
 
-**Status:** Authenticated Tenable V2R11 baseline **FAILED**, authorized remediation applied, native Windows verification **RegistryMatch**, and equivalent authenticated follow-up **PASSED** on November 13, 2026 UTC. Actual preview, repeatability, rollback and reapply checks passed. See [consolidated validation](../../docs/windows-stig-validation.md) for the comparison method, residual findings and review status.
+Tenable changed this V2R11 control from FAILED to PASSED on November 13, 2026 UTC. Windows verification matched the expected value. Preview, repeated application, rollback and reapply checks passed. [Full validation record](../../docs/windows-stig-validation.md).
 
 ![Authenticated Tenable before-and-after results including WN11-CC-000326](../evidence/control-results.png)
 
@@ -22,7 +22,7 @@
 
 Enables Windows PowerShell script-block logging. Logging may capture sensitive script content and increase log volume. Confirm retention and disclosure rules; do not publish raw event logs. This does not establish PowerShell 7 logging coverage.
 
-[Remediation](remediate.ps1) and the separate [read-only verifier](verify.ps1) use the original [shared registry module](../RegistryControl.psm1). [Control-specific tests](control.Tests.ps1) bind this exact rule and expected state to the native in-memory harness, including failure, idempotence, WhatIf, and rollback cases. All 34 control-specific mocked cases passed on Windows PowerShell 5.1.26100.9818; this does not test real registry writes or policy effects.
+[Remediation](remediate.ps1) and the separate [read-only verifier](verify.ps1) use the original [shared registry module](../RegistryControl.psm1). [Control-specific tests](control.Tests.ps1) bind this exact rule and expected state to the native in-memory harness, including failure, idempotence, WhatIf, and rollback cases. All 34 mocked cases for this control passed on Windows PowerShell 5.1.26100.9818. The Windows execution results are recorded below.
 
 ## Required validation
 
@@ -31,16 +31,16 @@ Enables Windows PowerShell script-block logging. Logging may capture sensitive s
 3. Observe local verification, repeat-run behavior, and the relevant feature. Coordinate any policy refresh, new session, or reboot separately; none runs automatically. For logging, use a new Windows PowerShell session and harmless script, with separately approved event inspection.
 4. Obtain an authorized Tenable follow-up with matching revision and adequate coverage. Record actual outcomes, side effects, and independent-review findings.
 
-Direct registry changes do not persist policy into GPO/MDM or satisfy the separate policy-management requirement. A registry match alone does not establish effective behavior or Tenable compliance.
+Central enforcement requires Group Policy or approved MDM. Policy refresh can overwrite a local registry change. Feature behavior and Tenable results need separate checks.
 
 ## Recovery and evidence
 
 With separate authorization, use `remediate.ps1 -Restore` and the original private snapshot; see [recovery details](../README.md#snapshots-and-recovery). Restore the prior DWORD or remove only a previously absent value. Empty keys remain. Wrong-host/control snapshots, malformed values, or unexpected drift are rejected. Failures retain the snapshot and require inspection; recovery is not automatic.
 
-The original absence was captured in a private snapshot and actually restored during rollback validation, then the control was reapplied using a separate snapshot. Both snapshots remain private. The final expected value remains applied; additional independent review was waived, and publication permission remains separate. Keep raw exports, credentials, and tenant details out of Git.
+Rollback restored the original absence. Reapplication used a new snapshot and left the expected value in place. Both snapshots remain private. The operator waived an additional review; publication still requires approval.
 
 
-## Observed execution — November 13, 2026 UTC
+## Observed execution on November 13, 2026 UTC
 
 Asset alias `ASSET-A`: Windows 11 Pro 25H2 build 26200, native 64-bit Windows PowerShell 5.1.26100.9818. Baseline ended at **12:22:13 UTC**; final apply at **12:35:15.871490Z** and verification at **12:35:15.920878Z**; follow-up ended at **12:45:15 UTC**. Derived ledger times use microsecond precision; original native timestamps retain all seven fractional digits privately.
 
@@ -56,6 +56,6 @@ Asset alias `ASSET-A`: Windows 11 Pro 25H2 build 26200, native 64-bit Windows Po
 
 Evidence aliases: `EV-TENABLE-BASELINE-20261113`, `EV-STIG-WINDOWS-APPLY-20261113`, `EV-TENABLE-FOLLOWUP-20261113`, and `EV-STIG-COMPARISON-20261113`. Private manifests bind the individual records and two snapshots to this control. The remediation source SHA-256 is `e14cf715b397a8a02943098500a89e09a2d4c96082972717675d1614d1746818`; the verifier is `c9be80a33b2e5d918ef0b5c30a7698d3f6865f888a239ff2ac9cebe2a68871ac`. The shared module SHA-256 is `0aa1837c62cad66f3546e59f6af59436f5c2e5ef96c163b3d5073b1c35dd977d`. All reviewed source files remained unchanged.
 
-A new native Windows PowerShell child process ran a harmless marker. Immediate event queries were negative; a later bounded read found one matching event 4104 for that exact process, marker and time window. This supports effective native script-block logging. It does not establish PowerShell 7 logging coverage, complete log retention, or persistence across reboot/policy refresh. Raw script-block content remains private.
+A new native Windows PowerShell child process ran a harmless marker. Immediate event queries were negative; a later bounded read found one matching event 4104 for that exact process, marker and time window. This supports effective native script-block logging. It does not establish PowerShell 7 logging coverage, complete log retention, or persistence across reboot or policy refresh. Raw script-block content remains private.
 
-The complete audit contains unrelated failures, errors and warnings; see the [residual findings and evidence](../../docs/windows-stig-validation.md#residual-findings-and-evidence). This individual pass does not establish whole-system compliance or external acceptance.
+The remaining audit findings are listed in [residual findings and evidence](../../docs/windows-stig-validation.md#residual-findings-and-evidence). External acceptance is recorded separately.
