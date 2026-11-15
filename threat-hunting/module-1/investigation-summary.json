@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "title": "Windows endpoint investigation",
+  "data": "Authorized historical training telemetry",
+  "analysis_date_utc": "2026-11-14",
+  "focus_minutes": 90,
+  "timeline_records": 233,
+  "sources": [
+    {
+      "table": "DeviceEvents",
+      "label": "General device events",
+      "records": 100
+    },
+    {
+      "table": "DeviceFileEvents",
+      "label": "File events",
+      "records": 27
+    },
+    {
+      "table": "DeviceNetworkEvents",
+      "label": "Network events",
+      "records": 6
+    },
+    {
+      "table": "DeviceProcessEvents",
+      "label": "Process events",
+      "records": 43
+    },
+    {
+      "table": "DeviceRegistryEvents",
+      "label": "Registry events",
+      "records": 57
+    }
+  ],
+  "timeline_bins": [
+    {
+      "start_minute": 0,
+      "end_minute": 15,
+      "records": 57
+    },
+    {
+      "start_minute": 15,
+      "end_minute": 30,
+      "records": 93
+    },
+    {
+      "start_minute": 30,
+      "end_minute": 45,
+      "records": 83
+    },
+    {
+      "start_minute": 45,
+      "end_minute": 60,
+      "records": 0
+    },
+    {
+      "start_minute": 60,
+      "end_minute": 75,
+      "records": 0
+    },
+    {
+      "start_minute": 75,
+      "end_minute": 90,
+      "records": 0
+    }
+  ],
+  "queries": [
+    {
+      "query": "00-coverage",
+      "returned_rows": 19,
+      "complete_response": true
+    },
+    {
+      "query": "01-authentication",
+      "returned_rows": 0,
+      "complete_response": true
+    },
+    {
+      "query": "02-processes",
+      "returned_rows": 19,
+      "complete_response": true
+    },
+    {
+      "query": "03-network",
+      "returned_rows": 6,
+      "complete_response": true
+    },
+    {
+      "query": "04-files",
+      "returned_rows": 27,
+      "complete_response": true
+    },
+    {
+      "query": "05-registry-persistence",
+      "returned_rows": 3,
+      "complete_response": true
+    },
+    {
+      "query": "06-tasks-services",
+      "returned_rows": 2,
+      "complete_response": true
+    },
+    {
+      "query": "07-accounts-privileges",
+      "returned_rows": 9,
+      "complete_response": true
+    },
+    {
+      "query": "08-lateral-movement",
+      "returned_rows": 0,
+      "complete_response": true
+    },
+    {
+      "query": "09-timeline",
+      "returned_rows": 233,
+      "complete_response": true
+    }
+  ],
+  "findings": [
+    "Account creation and a registry write had supporting event records.",
+    "Task and service commands were observed; the resulting installed state was not confirmed.",
+    "An alert linked another endpoint. The link did not establish lateral movement.",
+    "A containment plan and incident report were prepared. No response was performed on the investigated hosts."
+  ],
+  "reading_the_counts": "Records can overlap across queries. The timeline count is not a count of attacks or unique actions.",
+  "scope_note": "The focus window missed earlier authentication activity. A separate authorized wider query supplied that context.",
+  "evidence_alias": "EV-MODULE1-V17",
+  "refresh_alias": "EV-TRACKER-PROJECT-REFRESH-20261115"
+}

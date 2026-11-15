@@ -2,7 +2,9 @@
 
 [Portfolio](../README.md) · [Project status](project-progress.md) · [Validation](local-validation.md)
 
-This project validates the response path on an owned Windows 11 Pro 25H2 endpoint: onboard to Defender, observe central telemetry, preserve an investigation package, isolate the device, and verify recovery. The existing VM and networking were preserved. Exact device identities, onboarding material, action records and forensic contents remain in protected private storage under `EV-MDE-V17`.
+I onboarded the Windows 11 endpoint to Microsoft Defender for Endpoint, confirmed a test process appeared in central telemetry, collected an investigation package, and tested isolation and release. The collection completed all **70 operations** without reported errors. A connection test showed the endpoint losing access during isolation and recovering after release.
+
+This was a controlled exercise on the existing VM. The detailed action records and forensic files remain private under `EV-MDE-V17`.
 
 ![Evidence summary of owned-endpoint onboarding, collection, isolation and recovery](evidence/endpoint-response.png)
 

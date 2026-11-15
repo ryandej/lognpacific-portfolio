@@ -33,7 +33,7 @@ class VisualEvidenceTests(unittest.TestCase):
             self.assertTrue(Q.protected(Path(name)), name)
 
     def test_allowlist_is_exact_and_does_not_allow_path_variants(self):
-        self.assertEqual(len(Q.REVIEWED_IMAGE_PATHS), 7)
+        self.assertEqual(len(Q.REVIEWED_IMAGE_PATHS), 8)
         for name in Q.REVIEWED_IMAGE_PATHS:
             self.assertFalse(Q.protected(Path(name)))
             self.assertTrue(Q.protected(Path("unapproved") / name))

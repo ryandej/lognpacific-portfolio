@@ -2,7 +2,22 @@
 
 [Portfolio](../README.md) · [Sentinel workbook](workbooks/README.md) · [Investigation queries](../threat-hunting/module-1/README.md)
 
-This detection-engineering project tests a specific hypothesis: repeated failed remote logons followed by a successful logon for the same device, domain, account, source and logon type deserve investigation. It combines original KQL, an independent Python reference model, synthetic regression cases, and an investigation workbook. Eight synthetic cases passed in Log Analytics; the results establish tested correlation behavior, not a deployed detection or an observed compromise.
+I built a KQL detector for repeated failed logons followed by a successful logon. It looks for at least five failures in the preceding ten minutes, tied to the same device, account, domain, source IP and logon type.
+
+The project includes the KQL query, a Python reference model, eight synthetic test cases and a Sentinel workbook for reviewing matches. **All eight cases passed in Azure Log Analytics.** The detector has been tested with synthetic events. It has not been deployed as an alert rule or validated against a live attack.
+
+## Work completed
+
+| Component | Result |
+|---|---|
+| KQL detector | Preserves the account, source and time context for each candidate sequence. |
+| Python model | Checks the expected behavior independently of the KQL implementation. |
+| Service tests | Eight cases passed, including the threshold, time boundaries, duplicates and source mismatches. |
+| Investigation workbook | Displays event coverage, authentication trends, source counts, candidate sequences and the underlying events. |
+
+![Deployed Sentinel workbook used to review synthetic authentication sequences](workbooks/evidence/workbook-overview.png)
+
+*The deployed workbook displays synthetic test events. Its charts and candidate table use the detector developed here. [Workbook report](workbooks/README.md).*
 
 ## Implemented logic
 
@@ -50,3 +65,9 @@ Any later study involving an exposed service requires separate scope, exposure, 
 ## Investigation workbook
 
 The [Sentinel workbook](workbooks/README.md) adds five operational panels around this detector: coverage, trends, sources, candidate sequences and event context. All five generated synthetic queries passed service execution and expected-result checks. Its default artifact contains no live workspace or device identifiers. One approved synthetic workbook is deployed and visually validated, including full-range and empty-window behavior. No live detector or automated response is claimed.
+
+## Related work
+
+- [Windows endpoint investigation](../threat-hunting/module-1/README.md): ten queries applied to historical telemetry, with a timeline and incident report.
+- [Defender endpoint response](../docs/endpoint-validation.md): onboarding, investigation collection, isolation and recovery on the owned Windows VM.
+- [Hartwell Breach investigation](../threat-hunting/README.md): the completed web-server hunt, with findings and screenshots.

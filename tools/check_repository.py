@@ -22,6 +22,7 @@ REVIEWED_IMAGE_PATHS = frozenset({
     "threat-hunting/evidence/hunt-completion.png",
     "threat-hunting/evidence/hartwell-source-coverage.png",
     "threat-hunting/evidence/hartwell-analysis-checks.png",
+    "threat-hunting/module-1/evidence/endpoint-investigation.png",
     "docs/evidence/endpoint-response.png",
 })
 MAX_IMAGE_BYTES = 256 * 1024

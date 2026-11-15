@@ -2,9 +2,9 @@
 
 [Portfolio](../../README.md) · [Detector and tests](../README.md) · [Workbook source](authentication-investigation.workbook.json)
 
-An original Azure Monitor workbook for Sentinel investigation: establish telemetry coverage, inspect authentication trends, identify failure-to-success sequences and retain event context for triage. The [workbook JSON](authentication-investigation.workbook.json) is a complete source artifact with five KQL panels, two charts, three grids, a time picker and analyst guidance. One approved workbook has been deployed in the assigned resource group and visually verified in Azure. Its private workspace binding and resource identity remain outside Git.
+I built and deployed a five-panel Azure Monitor workbook for Sentinel investigations. It helps an analyst check whether useful data is present, review failed and successful logons, and inspect the events behind a suspicious sequence. It includes two charts, three tables and a time picker. The [workbook source](authentication-investigation.workbook.json) is available in this repository.
 
-The default artifact contains **synthetic fixtures only**. All five panel queries executed successfully in an authorized Log Analytics service on November 14, 2026 UTC. [Validation results](validation-results.json) record query hashes and observed counts. These are real query-execution results on invented test events, not production findings.
+The deployed demonstration uses **synthetic test events**. All five queries ran successfully in Azure Log Analytics on November 14, 2026 UTC. I checked the rendered charts, candidate table, time controls and behavior when no events were present. [Validation results](validation-results.json) record the query hashes and returned counts.
 
 ![Deployed Azure authentication workbook with synthetic coverage, authentication charts and candidate sequences](evidence/workbook-overview.png)
 
@@ -14,7 +14,7 @@ The default artifact contains **synthetic fixtures only**. All five panel querie
 
 | Panel | Operational use |
 |---|---|
-| Coverage and data quality | Shows 41 raw / 37 distinct / 37 eligible fixture rows, four duplicates, zero missing-key rows and two candidates. Separates unknown action types, missing telemetry and exclusions from detection results. |
+| Coverage and data quality | Shows 41 input records, 37 distinct records, four duplicates and two candidates. All 37 distinct records have the fields needed for the check. |
 | Authentication timeline | Displays eligible failures and successes per minute. Use timing to identify investigation windows; volume does not establish intent. |
 | Source breakdown | Compares failures and successes by source and logon type. Source rotation can split an attack below the detector threshold. |
 | Candidate sequences | Reuses the actual reviewed detector body: five failures in the ten minutes before a success for the same device, domain, account, source and logon type. Shows clipped fixed-scope lookbacks. |

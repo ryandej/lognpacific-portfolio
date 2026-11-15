@@ -4,6 +4,10 @@
 
 **Status:** Authenticated Tenable V2R11 baseline **FAILED**, authorized remediation applied, native Windows verification **RegistryMatch**, and equivalent authenticated follow-up **PASSED** on November 13, 2026 UTC. Actual preview, repeatability, rollback and reapply checks passed. See [consolidated validation](../../docs/windows-stig-validation.md) for the comparison method, residual findings and review status.
 
+![Authenticated Tenable before-and-after results including WN11-CC-000100](../evidence/control-results.png)
+
+*The row for WN11-CC-000100 shows its failed baseline, passing follow-up and Windows checks. This screenshot comes from the local evidence report built from the saved scan results.*
+
 ## Authoritative definition
 
 - DISA Windows 11 **V2R11**, September 30, 2026; retrieved November 12, 2026.

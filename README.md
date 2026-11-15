@@ -13,8 +13,8 @@ Start with the [Windows hardening results](docs/windows-stig-validation.md), the
 | [Windows 11 STIG automation](stig-remediations/README.md) | Ten PowerShell remediations for DISA Security Technical Implementation Guide controls, with separate verification, previews, snapshots, and guarded rollback. | **10 authenticated Tenable findings changed from FAILED to PASSED** against Windows 11 V2R11. Actual repeat application, rollback, and reapply checks passed for every control. |
 | [Vulnerability management program](vulnerability-management/README.md) | A complete assessment cycle for one endpoint: asset scope, prioritization, remediation, equivalent reassessment, reporting, and a residual-work queue. | Reconciled **258 compliance items** before and after the changes. All ten selected failures closed; remaining failures, errors, and warnings stay visible. Governance exercises are labeled as simulations. |
 | [Detection engineering and Sentinel workbook](cyber-defense/README.md) | Authentication-sequence KQL, a Python reference model, reproducible fixtures, and a five-panel investigation workbook. | Eight synthetic detector cases passed in Log Analytics. The deployed workbook's charts, event context, time controls, and empty-data behavior were verified using explicitly synthetic events. |
-| [Threat hunting and incident reconstruction](threat-hunting/README.md) | The Hartwell Breach case report: web-to-host correlation, command analysis, monitoring checks, screenshots, and a proposed response. A separate Windows investigation includes ten scoped Defender queries. | **18/18 flags and 1,750/1,750 points**, completed on time. The report explains findings from seven log sources and the limits of the evidence. Private indicators and exact challenge answers are withheld. |
-| [Endpoint telemetry and response](docs/endpoint-validation.md) | Defender onboarding, telemetry checks, investigation-package collection, and controlled isolation/recovery on the owned endpoint. | Central process telemetry observed; **70/70 collection operations succeeded**; isolation and release succeeded with observed connectivity loss and recovery. |
+| [Threat hunting and incident reconstruction](threat-hunting/README.md) | The Hartwell Breach case report: web-to-host correlation, command analysis, monitoring checks, screenshots, and a proposed response. A separate Windows investigation includes ten scoped Defender queries. | Solved **all 18 flags**, earned **all 1,750 points** and finished on time. The report explains findings from seven log sources. Private indicators and exact challenge answers are withheld. |
+| [Endpoint telemetry and response](docs/endpoint-validation.md) | Defender onboarding, telemetry checks, investigation-package collection, and controlled isolation and recovery on the owned endpoint. | Central process telemetry observed; **all 70 collection operations succeeded**. A connection test confirmed loss of access during isolation and recovery after release. |
 
 All operational results come from authorized Cyber Range work. Synthetic detection tests, historical investigations, and actual Windows configuration changes are identified separately.
 
@@ -27,7 +27,7 @@ All operational results come from authorized Cyber Range work. Synthetic detecti
 </tr>
 </table>
 
-Each project includes its relevant images. See the [visual evidence index](docs/visual-evidence.md) for the assessment overview, Hartwell investigation, hunt completion and endpoint response, with provenance and limitations. The seven-image set is about 0.69 MiB.
+Each project includes its relevant images. The [visual evidence index](docs/visual-evidence.md) covers the assessment results, workbook, Hartwell hunt, Windows investigation and endpoint response. The eight images total about 0.79 MiB.
 
 ## Explore the implementation
 

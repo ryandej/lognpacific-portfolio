@@ -10,7 +10,7 @@ I investigated a compromised Linux web server running WordPress, following the a
 
 The strongest evidence came from connecting HTTP requests to host activity. A suspicious request became much more meaningful when a filesystem event, a new web endpoint, and a web-server child process supported the same explanation. I also checked whether the attacker's attempts to stop monitoring worked and whether the available records supported lateral movement.
 
-**Result:** 18/18 flags, 1,750/1,750 points, completed within the competition window. The technical findings and their limits are documented below.
+**Result:** Solved all 18 flags, earned all 1,750 points and finished within the competition window. The findings are documented below.
 
 ![Actual Hartwell hunt page showing the title, 1750 of 1750 points, 18 of 18 flags solved, and Completed on time](evidence/hunt-completion.png)
 
@@ -103,7 +103,7 @@ HartwellSysmon_CL
 
 Standard access logs did not provide the full command context. Enriched HTTP records exposed the additional request metadata needed to understand how the webshell was operated.
 
-I checked four raw/decoded command pairs as data. Reapplying the candidate transformations reproduced all four observed encoded values exactly; alternative transformation orders did not match. I then compared the decoded activity with host-process evidence. No decoded command was executed during the analysis.
+I compared four encoded command samples with their decoded equivalents. Reapplying the candidate transformations reproduced all four encoded values exactly; changing the order did not match. I then compared the decoded activity with host-process evidence. No decoded command was executed during the analysis.
 
 This established the tested encoding order for those samples. It did not prove that every encoded request in the dataset used the same scheme. The custom header name, payload names, and exact flag values remain private.
 

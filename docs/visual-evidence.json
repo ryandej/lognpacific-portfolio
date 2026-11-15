@@ -2,8 +2,8 @@
   "schema": 1,
   "prepared_at_utc": "2026-11-14T04:37:25.131797+00:00",
   "evidence_alias": "EV-PORTFOLIO-VISUALS-V22",
-  "image_count": 7,
-  "total_bytes": 723990,
+  "image_count": 8,
+  "total_bytes": 830440,
   "limits": "Screenshots supplement the linked technical records. Hash checks establish byte identity, not pixel confidentiality or evidence authenticity. No AI-generated pixels or invented results.",
   "images": [
     {
@@ -111,10 +111,27 @@
       "framing": "Original local analysis view rendered from hash-verified saved results; not an Azure console capture. The seven forwarder-related events are explicitly included in the Sysmon count.",
       "visual_review": "Actual pixels inspected for readable claims and exclusion of credentials, account/resource identifiers, private addresses, raw telemetry, exact flag values and other participants. No AI-generated pixels; publication still requires operator approval.",
       "evidence_alias": "EV-HARTWELL-REPORT-REFRESH"
+    },
+    {
+      "path": "threat-hunting/module-1/evidence/endpoint-investigation.png",
+      "sha256": "a755032c9cff0adc242f1f53318ed831894696507c406b8cf12269eaed60fa72",
+      "bytes": 106450,
+      "width": 1280,
+      "height": 850,
+      "kind": "rendered_evidence_summary",
+      "source_documents": [
+        "threat-hunting/module-1/README.md",
+        "threat-hunting/module-1/investigation-summary.json"
+      ],
+      "meaning": "Ten executed queries and 233 timeline records from five source tables. Relative event timing and confirmed findings are shown.",
+      "framing": "Native screenshot of an original local report built from hash-checked saved query responses. No live portal capture, private identifiers, commands or answer values.",
+      "visual_review": "Reviewed for readable claims, accurate counts and absence of private data. Source time window and incomplete findings are explained in plain language.",
+      "evidence_alias": "EV-TRACKER-PROJECT-REFRESH-20261115"
     }
   ],
-  "updated_at_utc": "2026-11-15T01:06:02.845775+00:00",
+  "updated_at_utc": "2026-11-15T03:15:33.634978+00:00",
   "additional_evidence_aliases": [
-    "EV-HARTWELL-REPORT-REFRESH"
+    "EV-HARTWELL-REPORT-REFRESH",
+    "EV-TRACKER-PROJECT-REFRESH-20261115"
   ]
 }

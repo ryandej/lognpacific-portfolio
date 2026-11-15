@@ -4,6 +4,10 @@
 
 Ten original remediation implementations produced authenticated **FAILED → PASSED** results against the same DISA Windows 11 V2R11 rules on the same authorized Windows 11 Pro 25H2 VM, build 26200. Each change also passed actual preview, repeat-application, rollback and reapply checks. This report describes those ten observed results and the residual findings; it does not claim whole-system compliance. Review provenance is recorded with the evidence below.
 
+![Ten STIG controls with failed baselines, passing follow-ups and successful Windows checks](../stig-remediations/evidence/control-results.png)
+
+*Screenshot of the local evidence report built from saved Tenable results and Windows execution records. Each control is listed below. [Image source and verification](visual-evidence.md).*
+
 ## Results
 
 All values below are `REG_DWORD` in the 64-bit registry view. Each was absent before the change. Unlike that earlier registry observation, the baseline below is an actual authenticated Tenable finding.

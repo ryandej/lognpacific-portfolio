@@ -2,7 +2,25 @@
 
 [Portfolio](../../README.md) · [Investigations](../README.md) · [Query index](#query-index) · [Execution results](#observed-execution-and-limits)
 
-Ten original Defender KQL queries support scoped investigation and incident reconstruction. All ten executed successfully against an authorized historical Cyber Range dataset. The work produced an evidence-linked timeline, incident analysis and containment proposal. Restricted findings, event identities, captured values and detailed reports are retained privately; this repository provides the queries, method and sanitized execution record.
+I used ten original KQL queries to investigate a Windows endpoint in a historical Cyber Range dataset. The work covered authentication, processes, network connections, file changes, persistence and possible movement to other devices. It produced a timeline, an incident report and a proposed containment plan.
+
+All ten queries ran successfully. The main timeline contained **233 records** from five Defender event tables. Account creation and a registry change had supporting event records. Task and service commands were also present, but the resulting installed state was not confirmed. No response actions were performed on the investigated hosts.
+
+![Windows investigation showing query results, source counts and event timing](evidence/endpoint-investigation.png)
+
+*Screenshot of a local report built from saved query results. It shows the 90-minute focus window. Names, addresses, commands and private answers are omitted. [Summary data](investigation-summary.json) · [Image provenance](../../docs/visual-evidence.md).*
+
+## Work completed
+
+| Work | Result |
+|---|---|
+| Query development | Ten reusable queries with explicit device and time limits. |
+| Investigation | All ten queries executed against the assigned historical data. Saved queries and responses were checked against their recorded hashes. |
+| Timeline | 233 records: 100 general device events, 57 registry events, 43 process events, 27 file events and six network events. Several records can relate to one action. |
+| Incident report | Findings connected to their source events, with attempted actions separated from confirmed changes. |
+| Containment plan | Proposed steps to preserve evidence, contain the affected endpoint and recover safely. The plan was not executed on course hosts. |
+
+The narrow window missed earlier authentication activity. A separate query within the authorized wider window supplied that context. A shared alert also linked another endpoint; that association alone did not establish lateral movement.
 
 ## Scope and execution
 

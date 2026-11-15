@@ -66,7 +66,7 @@ The Windows integration evidence already establishes PowerShell 5.1 parser and m
 
 ## Quality-check limitations
 
-[check_repository.py](../tools/check_repository.py) obtains candidates from read-only Git listing, refuses protected paths before opening them, checks local Markdown/HTML links, selected disclosure hazards, KQL empty defaults/scope, and hypothetical ignore paths. The only image exceptions are seven exact paths with matching [reviewed hashes and provenance](visual-evidence.json); unknown images, replaced bytes, metadata chunks and excess size fail validation. All seven images have been visually inspected; the automated checker does not read pixel meaning. It does not inspect ignored private directories or print matched secret values. It is not a complete secret detector or data-loss-prevention system; free-form sensitive details, new credential formats and misleading claims still require human review. It does not scan Git history or the contents of staged blobs; independently inspect the exact staged revision only after staging is authorized.
+[check_repository.py](../tools/check_repository.py) obtains candidates from read-only Git listing, refuses protected paths before opening them, checks local Markdown/HTML links, selected disclosure hazards, KQL empty defaults/scope, and hypothetical ignore paths. The only image exceptions are eight exact paths with matching [reviewed hashes and provenance](visual-evidence.json); unknown images, replaced bytes, metadata chunks and excess size fail validation. All eight images have been visually inspected; the automated checker does not read pixel meaning. It does not inspect ignored private directories or print matched secret values. It is not a complete secret detector or data-loss-prevention system; free-form sensitive details, new credential formats and misleading claims still require human review. It does not scan Git history or the contents of staged blobs; independently inspect the exact staged revision only after staging is authorized.
 
 Public claims must distinguish authored source, static checks, Python runtime tests, PowerShell runtime tests, Windows observation, Tenable results and independent review. External acceptance is a separate decision with private administrative records; no local test or generated report awards it. There is no implemented or evaluated AI system in this package.
 
@@ -77,3 +77,13 @@ The [endpoint validation](endpoint-validation.md) records actual onboarding, cen
 ## Hartwell case-report refresh
 
 The [Hartwell report](../threat-hunting/README.md) now occupies the existing tracker-linked GitHub path. Preparing it rechecked 34 private hunt-evidence hashes and preserved the original results. A fresh capture of the owned completion indicator was taken through the existing browser connection; the page was restored afterward. Two additional screenshots show clearly labeled local analysis views of saved query results. The three hunt images are unchanged native PNG captures, totaling 236,413 bytes. No new telemetry queries, scans, host changes, or investigation-response actions were performed. The shortened KQL excerpts are documented adaptations, not newly executed service queries.
+
+## Project report update — November 15, 2026 UTC
+
+The Windows investigation report now includes a screenshot and a small summary of its saved results. All ten query files and their twenty saved query and response hashes matched the original execution records. The timeline contains 233 records across five tables. Its six time-bin counts sum to the same total.
+
+The image is a native screenshot of a local report. It contains aggregate counts and findings; private identifiers, commands and answers are omitted. The portfolio now has eight reviewed images totaling 830,440 bytes. The existing image size and metadata checks remain in place.
+
+After these changes, all 213 shared Python tests and eight DISA static checks passed. The reviewed PowerShell scripts, shared module and KQL queries were unchanged. No Windows actions, new assessments or telemetry queries were needed for this update.
+
+The ten individual STIG reports and the consolidated results page display the existing control-results screenshot directly. Every project page linked from the activity and supporting-work records now includes a relevant reviewed image. The pages reuse the same eight image files, so this change adds no image storage.

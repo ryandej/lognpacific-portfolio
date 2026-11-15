@@ -154,6 +154,7 @@ source-screenshots/
 !/threat-hunting/evidence/hunt-completion.png
 !/threat-hunting/evidence/hartwell-source-coverage.png
 !/threat-hunting/evidence/hartwell-analysis-checks.png
+!/threat-hunting/module-1/evidence/endpoint-investigation.png
 !/docs/evidence/endpoint-response.png
 
 # Temporary output and local editor/system artifacts
