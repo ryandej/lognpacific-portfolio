@@ -1,6 +1,10 @@
 # Internal planning documents
 /Planning/
 
+# Local agent instructions
+/AGENTS.md
+/CLAUDE.md
+
 # Bracketed extensions cover uppercase/mixed-case exports on Linux too.
 
 # Local credentials, authentication state, and configuration
